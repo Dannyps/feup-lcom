@@ -1,7 +1,10 @@
 #include <minix/syslib.h>
 #include <minix/drivers.h>
+#include "i8254.h"
 
 int timer_set_frequency(unsigned char timer, unsigned long freq) {
+
+
 
 	return 1;
 }
@@ -21,7 +24,14 @@ void timer_int_handler() {
 }
 
 int timer_get_conf(unsigned char timer, unsigned char *st) {
+	unsigned long freq;
 	
+	sys_inb(TIMER_0, (unsigned long*) &timer);
+
+	timer = timer | TIMER_SQR_WAVE;
+
+	timer_set_frequency(timer, freq);
+
 	return 1;
 }
 
@@ -41,6 +51,12 @@ int timer_test_int(unsigned long time) {
 }
 
 int timer_test_config(unsigned char timer) {
+	unsigned char st;
+	// timer = bit 7,6 do control word
+
+	timer_get_conf(timer, &st);
+
+	timer_display_conf(st);
 	
 	return 1;
 }
