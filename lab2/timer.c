@@ -4,6 +4,8 @@
 
 int timer_set_frequency(unsigned char timer, unsigned long freq) {
 
+	sys_outb(TIMER_CTRL,timer);
+
 
 
 	return 1;
@@ -24,13 +26,14 @@ void timer_int_handler() {
 }
 
 int timer_get_conf(unsigned char timer, unsigned char *st) {
-	unsigned long freq;
 	
+	sys_outb(TIMER_CTRL, TIMER_RB_CMD|timer);
+
 	sys_inb(TIMER_0, (unsigned long*) &timer);
 
-	timer = timer | TIMER_SQR_WAVE;
+	timer = timer | TIMER_SQR_WAVE | TIMER_BCD;
 
-	timer_set_frequency(timer, freq);
+	timer_set_frequency(timer, TIMER_FREQ);
 
 	return 1;
 }
