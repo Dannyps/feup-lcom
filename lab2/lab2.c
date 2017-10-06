@@ -4,6 +4,7 @@
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
+#include <unistd.h>
 
 
 static int proc_args(int argc, char **argv);
@@ -13,8 +14,8 @@ static void print_usage(char **argv);
 int main(int argc, char **argv)
 {
 	/* DO NOT FORGET TO initialize service */
-
-
+	printf("started\n");
+	sef_startup();
 	printf("started\n");
 	fflush(stdout);
 
