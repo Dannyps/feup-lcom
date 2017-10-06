@@ -63,8 +63,8 @@ int timer_get_conf(unsigned char timer, unsigned char *st) {
 }
 
 int timer_display_conf(unsigned char conf) {
-	printf("We read: %s\n", byte_to_binary(conf));
-  unsigned char mask;
+	//printf("We read: %s\n", byte_to_binary(conf));
+  unsigned char mask, amask;
 
     /* Bit 7 ** Output */
     mask=0|BIT(7);
@@ -100,32 +100,27 @@ int timer_display_conf(unsigned char conf) {
 
     /* Bits 3, 2 & 1 ** timer mode */
     int mode;
+	conf=(conf | BIT(7)|BIT(6)|BIT(5)|BIT(4))^(BIT(7)|BIT(6)|BIT(5)|BIT(4));
 
+	if(conf==0)
+		mode=0;
 
-    mask=0;
-    if(conf & mask)
-      mode=0;
+	if(conf==(BIT(1)))
+		mode=1;
 
-    mask=0|BIT(1);
-    if(conf & mask)
-      mode=1;
+	if(conf==(BIT(2)))
+		mode=2;
 
-    mask=0|BIT(2);
-    if(conf & mask)
-      mode=2;
+	if(conf==(BIT(1)|BIT(2)))
+		mode=3;
 
-    mask=0|BIT(2)|BIT(1);
-    if(conf & mask)
-      mode=3;
+	if(conf==(BIT(3)))
+		mode=4;
 
-    mask=0|BIT(3);
-    if(conf & mask)
-      mode=4;
+	if(conf==(BIT(3)|BIT(1)))
+		mode=5;
 
-    mask=0|BIT(3)|BIT(1);
-    if(conf & mask)
-      mode=5;
-    printf("Mode set is: %d.\n", mode);
+    printf("Mode set is: %x.\n", mode);
 
 	return 1;
 }
