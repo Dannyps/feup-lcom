@@ -125,13 +125,18 @@ int timer_display_conf(unsigned char conf) {
 	return 1;
 }
 
-int timer_set_frequency(unsigned char timer, unsigned long freq) {
+int timer_set_frequency(unsigned char timer_conf, unsigned long freq) {
 
-	sys_outb(TIMER_CTRL, timer);
+	sys_outb(TIMER_CTRL, timer_conf);
 
-	//unsigned long clock = 1193181 / freq;
+	unsigned long clock = TIMER_FREQ / freq;
 
-	sys_outb(TIMER_0, freq);
+	printf("freq: %d\nclock: %d\n", freq, clock);
+
+	long a=255;
+	printf("%x\n%x\n%x\n", clock, clock/255, (clock & a));
+	sys_outb(TIMER_0, clock/255);
+	sys_outb(TIMER_0, clock%255);
 
 	return 1;
 }
