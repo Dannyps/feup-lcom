@@ -14,9 +14,10 @@ static void print_usage(char **argv);
 int main(int argc, char **argv)
 {
 	/* DO NOT FORGET TO initialize service */
-	printf("started\n");
 	sef_startup();
-	printf("started\n");
+
+	printf("\nSTARTED\n");
+
 	fflush(stdout);
 
 
