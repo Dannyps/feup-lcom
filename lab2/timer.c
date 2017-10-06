@@ -2,6 +2,24 @@
 #include <minix/drivers.h>
 #include "i8254.h"
 
+
+const char *byte_to_binary(int x)
+{
+    static char b[9];
+    b[0] = '\0';
+
+    int z;
+    for (z = 128; z > 0; z >>= 1)
+    {
+        strcat(b, ((x & z) == z) ? "1" : "0");
+    }
+
+    return b;
+}
+
+
+/***************   Functions   *****************/
+
 int timer_set_frequency(unsigned char timer, unsigned long freq) {
 
 	sys_outb(TIMER_CTRL,timer);
@@ -29,7 +47,7 @@ int timer_get_conf(unsigned char timer, unsigned char *st) {
 	
 	unsigned long oByte;
 
-	oByte = 0 | BIT(7) | BIT(6);
+	oByte = 0 | BIT(7) | BIT(6) | BIT(5);
 
 	switch (timer){
 		case 0:
@@ -49,18 +67,12 @@ int timer_get_conf(unsigned char timer, unsigned char *st) {
 	sys_outb(TIMER_CTRL, oByte);
 
 	sys_inb(TIMER_0, (unsigned long*) &timer);
-
-	printf("We read: %x\n", timer);
-
-	//timer = timer | TIMER_SQR_WAVE | TIMER_BCD;
-
-	//timer_set_frequency(timer, TIMER_FREQ);
-
+	*st=timer;
 	return 1;
 }
 
 int timer_display_conf(unsigned char conf) {
-	
+	printf("We read: %s\n", byte_to_binary(conf));
 	return 1;
 }
 
