@@ -131,10 +131,8 @@ int timer_set_frequency(unsigned char timer_conf, unsigned long freq) {
 
 	unsigned long clock = TIMER_FREQ / freq;
 
-	printf("freq: %d\nclock: %d\n", freq, clock);
-
 	long a=255;
-	printf("%x\n%x\n%x\n", clock, clock/255, (clock & a));
+
 	sys_outb(TIMER_0, clock%255);
 	sys_outb(TIMER_0, clock/255);
 
