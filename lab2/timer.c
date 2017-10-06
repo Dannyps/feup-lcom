@@ -27,13 +27,34 @@ void timer_int_handler() {
 
 int timer_get_conf(unsigned char timer, unsigned char *st) {
 	
-	sys_outb(TIMER_CTRL, TIMER_RB_CMD|timer);
+	unsigned long oByte;
+
+	oByte = 0 | BIT(7) | BIT(6);
+
+	switch (timer){
+		case 0:
+			oByte|=BIT(1);
+		break;
+		case 1:
+			oByte|=BIT(2);
+		break;
+		case 2:
+			oByte|=BIT(3);
+		break;
+
+	}
+
+	// oByte is set
+
+	sys_outb(TIMER_CTRL, oByte);
 
 	sys_inb(TIMER_0, (unsigned long*) &timer);
 
-	timer = timer | TIMER_SQR_WAVE | TIMER_BCD;
+	printf("We read: %x\n", timer);
 
-	timer_set_frequency(timer, TIMER_FREQ);
+	//timer = timer | TIMER_SQR_WAVE | TIMER_BCD;
+
+	//timer_set_frequency(timer, TIMER_FREQ);
 
 	return 1;
 }
