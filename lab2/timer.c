@@ -67,11 +67,11 @@ int timer_get_conf(unsigned char timer, unsigned char *st) {
 
 	// oByte is set
 
-	sys_outb(TIMER_CTRL, oByte);
+	int ret1=sys_outb(TIMER_CTRL, oByte);
 
-	sys_inb(TIMER_0, (unsigned long*) &timer);
+	int ret2=sys_inb(TIMER_0, (unsigned long*) &timer);
 	*st=timer;
-	return 1;
+	return ret1|ret2;
 }
 
 int timer_display_conf(unsigned char conf) {
@@ -134,42 +134,60 @@ int timer_display_conf(unsigned char conf) {
 
     printf("Mode set is: %x.\n", mode);
 
-	return 1;
+	return 0;
 }
 
 int timer_set_frequency(unsigned char timer_conf, unsigned long freq) {
 
-	sys_outb(TIMER_CTRL, timer_conf);
+	int ret=sys_outb(TIMER_CTRL, timer_conf);
+	if(ret!=0){
+		fprintf(stderr, "Could not write to TIMER_CTRL!\n");exit(-3);
+	}
 
 	unsigned long clock = TIMER_FREQ / freq;
 
 	long a=255;
 
-	sys_outb(TIMER_0, clock%255);
-	sys_outb(TIMER_0, clock/255);
+	int retv[2];
 
-	return 1;
+	retv[0] = sys_outb(TIMER_0, clock%255);
+	retv[1] = sys_outb(TIMER_0, clock/255);
+
+	return retv[0]|retv[1];
 }
 
 int timer_test_time_base(unsigned long freq) {
 	
 	unsigned char conf;
-
+	int ret;
 	// reads configuration of Timer 0
-	timer_get_conf(0, &conf);
+
+	ret = timer_get_conf(0, &conf);
+	if(ret!=0){
+		fprintf(stderr, "Could not get Timer 0 config!\n");exit(-4);
+	}
 
 	conf = conf | BIT(4) | BIT(5);
 
 	//test
-	timer_display_conf(conf);
+	ret = timer_display_conf(conf);
+	if(ret!=0){
+		fprintf(stderr, "Could not display config!\n");exit(-5);
+	}
 
-	timer_set_frequency(conf, freq);
+	ret = timer_set_frequency(conf, freq);
+	if(ret!=0){
+		fprintf(stderr, "Could not set Timer 0's frequency!\n");exit(-6);
+	}
 
-	return 1;
+	return 0;
 }
 
 int timer_test_int(unsigned long time) {
-	timer_subscribe_int();
+	int ret = timer_subscribe_int();
+	if(ret!=0){
+		fprintf(stderr, "Could subscribe to IRQ_0!\n");exit(-8);
+	}
 
 	int ipc_status;
 	int r;
@@ -200,14 +218,15 @@ int timer_test_int(unsigned long time) {
 	}
 
 	if(timer_unsubscribe_int()!=0){
-		printf("Could not unsubscribe from IRQ_0.\n");
-		exit(-2);
+		fprintf(stderr, "Could not unsubscribe from IRQ_0.\n");
+		exit(-9);
 	}
 
-	return 1;
+	return 0;
 }
 
 int timer_test_config(unsigned char timer) {
+	int ret;
 	if(timer <0 || timer >2){
 		printf("Timer %d does not exist!\n", timer);
 		exit(-1);
@@ -215,9 +234,14 @@ int timer_test_config(unsigned char timer) {
 	unsigned char st;
 	// timer = bit 7,6 do control word
 
-	timer_get_conf(timer, &st);
-
-	timer_display_conf(st);
+	ret = timer_get_conf(timer, &st);
+	if(ret!=0){
+		fprintf(stderr, "Could not get Timer 0 config!\n");exit(-4);
+	}
 	
-	return 1;
+	ret = timer_display_conf(st);
+	if(ret!=0){
+		fprintf(stderr, "Could not display Timer 0 config!\n");exit(-5);
+	}
+	return 0;
 }
