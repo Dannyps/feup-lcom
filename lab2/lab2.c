@@ -11,12 +11,18 @@ static int proc_args(int argc, char **argv);
 static unsigned long parse_ulong(char *str, int base);
 static void print_usage(char **argv);
 
+
+void exit_handler(){
+	printf("--- FINISHED\n");
+	return;
+}
+
 int main(int argc, char **argv)
 {
 	/* DO NOT FORGET TO initialize service */
 	sef_startup();
-
-	printf("\nSTARTED\n");
+	atexit(exit_handler);
+	printf("\n--- STARTED\n");
 
 	fflush(stdout);
 
@@ -36,6 +42,7 @@ static void print_usage(char **argv)
 			"\t service run %s -args \"int <decimal no. - time>\"\n",
 			argv[0], argv[0], argv[0]);
 }
+
 
 static int proc_args(int argc, char **argv)
 {

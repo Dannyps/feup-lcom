@@ -5,6 +5,7 @@
 
 int time_elapsed=0;
 int tick_elapsed=0;
+int lhid, khid;
 
 const char *byte_to_binary(int x)
 {
@@ -22,8 +23,6 @@ const char *byte_to_binary(int x)
 
 
 /***************   Functions   *****************/
-
-int lhid, khid;
 
 int timer_subscribe_int(void ) {
 	lhid=0;
@@ -170,10 +169,7 @@ int timer_test_time_base(unsigned long freq) {
 }
 
 int timer_test_int(unsigned long time) {
-	printf("Got %d.\n", time);
 	timer_subscribe_int();
-
-
 
 	int ipc_status;
 	int r;
@@ -186,7 +182,6 @@ int timer_test_int(unsigned long time) {
 	         continue;
 	     }
 	     if (is_ipc_notify(ipc_status)) {
-	    	 //printf("%x %d\n", msg.NOTIFY_ARG, msg.NOTIFY_ARG); exit(-1);
 	    	 int irq_set=0; irq_set |= BIT(0);
 	    	 switch (_ENDPOINT_P(msg.m_source)) {
 	    	 	 case HARDWARE:
@@ -204,8 +199,10 @@ int timer_test_int(unsigned long time) {
 	     if(time_elapsed>=time){break;}
 	}
 
-	timer_unsubscribe_int();
-
+	if(timer_unsubscribe_int()!=0){
+		printf("Could not unsubscribe from IRQ_0.\n");
+		exit(-2);
+	}
 
 	return 1;
 }
