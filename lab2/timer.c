@@ -1,7 +1,10 @@
 #include <minix/syslib.h>
 #include <minix/drivers.h>
+#include <minix/com.h>
 #include "i8254.h"
 
+int time_elapsed=0;
+int tick_elapsed=0;
 
 const char *byte_to_binary(int x)
 {
@@ -20,18 +23,28 @@ const char *byte_to_binary(int x)
 
 /***************   Functions   *****************/
 
-int timer_subscribe_int(void ) {
+int lhid, khid;
 
-	return 1;
+int timer_subscribe_int(void ) {
+	lhid=0;
+
+	int ret=sys_irqsetpolicy(TIMER0_IRQ, IRQ_REENABLE, &lhid);
+
+	khid=lhid;
+	lhid=0;
+	return ret;
 }
 
 int timer_unsubscribe_int() {
-
-	return 1;
+	return sys_irqrmpolicy(&khid);
 }
 
 void timer_int_handler() {
+	if((++tick_elapsed)%60==0){
+		printf("1 sec! %d\n", ++time_elapsed);
+	}
 
+	return;
 }
 
 int timer_get_conf(unsigned char timer, unsigned char *st) {
@@ -157,7 +170,43 @@ int timer_test_time_base(unsigned long freq) {
 }
 
 int timer_test_int(unsigned long time) {
-	
+	printf("Got %d.\n", time);
+	timer_subscribe_int();
+
+
+
+	int ipc_status;
+	int r;
+	message msg;
+
+	while( 1 ) { /*	You may want to use a different condition*/
+		/*Get a request message.*/
+	     if( (r = driver_receive(ANY, &msg, &ipc_status)) != 0 ) {
+	         printf("driver_receive failed with: %d", r);
+	         continue;
+	     }
+	     if (is_ipc_notify(ipc_status)) {
+	    	 //printf("%x %d\n", msg.NOTIFY_ARG, msg.NOTIFY_ARG); exit(-1);
+	    	 int irq_set=0; irq_set |= BIT(0);
+	    	 switch (_ENDPOINT_P(msg.m_source)) {
+	    	 	 case HARDWARE:
+	    	 		 if (msg.NOTIFY_ARG & irq_set) {
+	    	 			 timer_int_handler();
+	    	 		 }
+	             break;
+	         default:
+	             break;
+	             	 //no other notifications expected: do nothing
+	         }
+	     } else { /*received a standard message, not a notification*/
+	    	 /*no standard messages expected: do nothing*/
+	     }
+	     if(time_elapsed>=time){break;}
+	}
+
+	timer_unsubscribe_int();
+
+
 	return 1;
 }
 
