@@ -211,6 +211,10 @@ int timer_test_int(unsigned long time) {
 }
 
 int timer_test_config(unsigned char timer) {
+	if(timer <0 || timer >2){
+		printf("Timer %d does not exist!\n", timer);
+		exit(-1);
+	}
 	unsigned char st;
 	// timer = bit 7,6 do control word
 
