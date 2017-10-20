@@ -27,20 +27,21 @@ int kbd_unsubscribe_int() {
 }
 
 void kbd_int_handler() {
-	static unsigned char count=0;
+	//static unsigned char count=0;
 
-	if(count++>10)
-		stop=1;
-	printf("received an interrupt!");
+	//printf("received an interrupt!");
 
-	char rd;
+	unsigned char rd;
 	sys_inb(0x60, (long unsigned int*)&rd);
-	printf("got %x\n", rd);
-	if( (rd >>7) == 1){
-		printf("breakcode: %x", rd | 0x7F);
+
+	if( ((rd>>7)&1) == 1){
+		printf("breakcode: 0x%x\n", rd);
 	}else{
-		printf("makecode: %x", rd | 0x7F);
+		printf("makecode: 0x%x\n", rd);
 	}
+
+	if(rd==0x81)
+		stop=1;
 	return;
 }
 
@@ -67,7 +68,6 @@ int kbd_test_scan_c(){
 				 case HARDWARE:
 					 if (msg.NOTIFY_ARG & irq_set) {
 						 kbd_int_handler();
-						 printf("left hanfler!\n");
 					 }
 				 break;
 			 default:
@@ -84,7 +84,7 @@ int kbd_test_scan_c(){
 		fprintf(stderr, "Could not unsubscribe from IRQ_0.\n");
 		exit(-9);
 	}
-	printf("unsubscribed successfully.\n");
+	printf("\nunsubscribed successfully.\n");
 
 	return 0;
 
