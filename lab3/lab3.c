@@ -13,8 +13,10 @@ static int proc_args(int argc, char **argv);
 static unsigned long parse_ulong(char *str, int base);
 static void print_usage(char **argv);
 
+
 void exit_handler(){
 	printf("--- FINISHED\n");
+
 	return;
 }
 
@@ -66,7 +68,7 @@ static int proc_args(int argc, char **argv)
 			printf("kbd: too many arguments for kbd_test_poll()\n");
 			return 1;
 		}
-		printf("kbd::kbd_test_poll()\n");
+		printf("--- NOTE: remember to deactivate Minix's IH.\nkbd::kbd_test_poll()\n");
 		return kbd_test_poll();
 	}
 	else if (strncmp(argv[1], "tscan", strlen("tscan")) == 0) {

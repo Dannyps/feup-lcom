@@ -4,6 +4,15 @@
 #include <minix/com.h>
 #include "i8042.h"
 
+#ifdef LAB3
+unsigned int sysinbcount;
+int sys_inb_cnt(port_t port, unsigned long* byte){
+	return sys_inb(port, byte);
+}
+#else
+#define sys_inb_cnt(p,q) sys_inb(p,q)
+#endif
+
 /*  GLOBAL VARIABLES  */
 
 int lhid, khid;
@@ -23,6 +32,9 @@ int kbd_subscribe_int(void ) {
 }
 
 int kbd_unsubscribe_int() {
+	#ifdef LAB3
+		printf("sys_inb was called %d times.\n", sysinbcount);
+	#endif
 	return sys_irqrmpolicy(&khid);
 }
 
@@ -32,12 +44,12 @@ void kbd_int_handler() {
 	//printf("received an interrupt!");
 
 	unsigned char rd;
-	sys_inb(0x60, (long unsigned int*)&rd);
+	sys_inb_cnt(0x60, (long unsigned int*)&rd);
 
 	if( ((rd>>7)&1) == 1){
-		printf("breakcode: 0x%x\n", rd);
+		printf("breakcode: 0x%02x\n", rd);
 	}else{
-		printf("makecode: 0x%x\n", rd);
+		printf(" makecode: 0x%02x\n", rd);
 	}
 
 	if(rd==0x81)
