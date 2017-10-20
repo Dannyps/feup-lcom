@@ -1,4 +1,5 @@
 #include <minix/syslib.h>
+#include <minix/driver.h>
 #include <minix/drivers.h>
 #include <minix/com.h>
 #include "i8254.h"
@@ -76,7 +77,7 @@ int timer_get_conf(unsigned char timer, unsigned char *st) {
 
 int timer_display_conf(unsigned char conf) {
 	//printf("We read: %s\n", byte_to_binary(conf));
-  unsigned char mask, amask;
+  unsigned char mask;
 
     /* Bit 7 ** Output */
     mask=0|BIT(7);
@@ -145,8 +146,6 @@ int timer_set_frequency(unsigned char timer_conf, unsigned long freq) {
 	}
 
 	unsigned long clock = TIMER_FREQ / freq;
-
-	long a=255;
 
 	int retv[2];
 

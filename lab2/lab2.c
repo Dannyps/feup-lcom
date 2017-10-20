@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <minix/sef.h>
+#include <minix/drivers.h>
 
 static int proc_args(int argc, char **argv);
 static unsigned long parse_ulong(char *str, int base);
