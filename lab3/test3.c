@@ -3,10 +3,15 @@
 #include <minix/drivers.h>
 #include <minix/com.h>
 #include "i8042.h"
+#include <minix/sysutil.h>
+
+#define DELAY_US    20000
+
 
 #ifdef LAB3
-unsigned int sysinbcount;
+unsigned int sysinbcount=0;
 int sys_inb_cnt(port_t port, unsigned long* byte){
+	sysinbcount++;
 	return sys_inb(port, byte);
 }
 #else
@@ -109,7 +114,32 @@ int kbd_test_scan(unsigned short assembly) {
 	return 0;
 }
 int kbd_test_poll() {
-    /* To be completed */
+    unsigned char status;
+	char stop=0;
+    while(!stop){
+    	sys_inb_cnt(STATUS_REG, (long unsigned int*)&status);
+		if((status&0x01)==0){ // the output buffer is full. We should wait a little bit
+			tickdelay(micros_to_ticks(DELAY_US));
+			continue;
+		}else{ // we can read!
+			unsigned char rd;
+			sys_inb_cnt(0x60, (long unsigned int*)&rd);
+
+			if( ((rd>>7)&1) == 1){
+				printf("breakcode: 0x%02x\n", rd);
+			}else{
+				printf(" makecode: 0x%02x\n", rd);
+			}
+
+			if(rd==0x81)
+				stop=1;
+		}
+	}
+
+	#ifdef LAB3
+		printf("sys_inb was called %d times.\n", sysinbcount);
+	#endif
+
 	return 0;
 }
 int kbd_test_timed_scan(unsigned short n) {
