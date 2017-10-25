@@ -3,6 +3,7 @@
 #include <minix/drivers.h>
 #include <minix/com.h>
 #include "i8042.h"
+#include "i8254.h"
 #include <minix/sysutil.h>
 
 #define DELAY_US    20000
@@ -20,27 +21,56 @@ int sys_inb_cnt(port_t port, unsigned long* byte){
 
 /*  GLOBAL VARIABLES  */
 
-int lhid, khid;
+/*
+ *  Hook IDs structure
+ *
+ * int[2];
+ *  _____________________________________________
+ * |		  0			  |			  1          |
+ * |----------------------|----------------------|
+ * | lhid (local hook id) |	khid (kernel hook id)|
+ * |______________________|______________________|
+ *
+ * */
+
+int timer0_hookIDs[2];
+int kbc_hookIDs[2];
+
 char stop;
 
 
 /*     FUNCTIONS      */
 
 int kbd_subscribe_int(void ) {
-	lhid=0; // we'll be using id 0 for the kbc.
+	kbc_hookIDs[0]=0; // we'll be using id 0 for the kbc.
 
-	int ret=sys_irqsetpolicy(KBC_IRQ, IRQ_EXCLUSIVE|IRQ_REENABLE, &lhid);
+	int temp=kbc_hookIDs[0];  // use the temp variable for input/output from sys_irqsetpolicy
 
-	khid=lhid;
-	lhid=0;
+	int ret=sys_irqsetpolicy(KBC_IRQ, IRQ_EXCLUSIVE|IRQ_REENABLE, &temp);
+
+	kbc_hookIDs[1]=temp;
+
 	return ret;
 }
+
+int timer0_subscribe_int(void ) {
+	timer0_hookIDs[0]=1; // we'll be using id 1 for the timer_0.
+
+	int temp=timer0_hookIDs[0];  // use the temp variable for input/output from sys_irqsetpolicy
+
+	int ret=sys_irqsetpolicy(TIMER0_IRQ, IRQ_EXCLUSIVE|IRQ_REENABLE, &temp);
+
+	timer0_hookIDs[1]=temp;
+
+	return ret;
+}
+
 
 int kbd_unsubscribe_int() {
 	#ifdef LAB3
 		printf("sys_inb was called %d times.\n", sysinbcount);
 	#endif
-	return sys_irqrmpolicy(&khid);
+	return sys_irqrmpolicy(&kbc_hookIDs[1]);
 }
 
 void kbd_int_handler() {
@@ -80,7 +110,7 @@ int kbd_test_scan_c(){
 			 continue;
 		 }
 		 if (is_ipc_notify(ipc_status)) {
-			 int irq_set=0; irq_set |= BIT(0); // 0 as in the lhid.
+			 int irq_set=0; irq_set |= BIT(0); // 0 as in the kbc_hookIDs[0].
 			 switch (_ENDPOINT_P(msg.m_source)) {
 				 case HARDWARE:
 					 if (msg.NOTIFY_ARG & irq_set) {
@@ -118,7 +148,7 @@ int kbd_test_poll() {
 	char stop=0;
     while(!stop){
     	sys_inb_cnt(STATUS_REG, (long unsigned int*)&status);
-		if((status&0x01)==0){ // the output buffer is full. We should wait a little bit
+		if((status&0x01)==0){ // the output buffer is empty. We should wait a little bit
 			tickdelay(micros_to_ticks(DELAY_US));
 			continue;
 		}else{ // we can read!
@@ -142,7 +172,12 @@ int kbd_test_poll() {
 
 	return 0;
 }
+
+
+
 int kbd_test_timed_scan(unsigned short n) {
     /* To be completed */
 	return 0;
 }
+
+
