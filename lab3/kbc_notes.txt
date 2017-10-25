@@ -1,0 +1,22 @@
+STATUS REGISTER
+The status register is an 8-bit read-only register at I/O address hex 64
+that holds information about the state of the keyboard controller and interface.
+It may be read at any time.
+
+
+OUTPUT BUFFER
+The output buffer is an 8-bit read-only register at I/O address hex 60. 
+The keyboard controller uses the output buffer to send the scan code received 
+from the keyboard and data bytes required by command to the system.
+The output buffer should be read only when the output buffer full bit in the register is 1.
+
+
+
+INPUT BUFFER
+The input buffer is an 8-bit write-only register at I/O address hex 60 or 64.
+Writing to address hex 60 sets a flag that indicates a data write;
+writing to address hex 64 sets a flag that indicates a command write.
+Data written to I/O address hex 60 are sent to the keyboard
+(unless the keyboard controller is expecting a data byte)
+following the controller's input buffer only if
+the input buffer full bit in the status register is set to 0.
