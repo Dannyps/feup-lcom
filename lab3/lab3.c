@@ -24,6 +24,9 @@ int main(int argc, char **argv)
 {
 	/* DO NOT FORGET TO initialize service */
 	sef_startup();
+    /* Enable IO-sensitive operations for ourselves */
+    sys_enable_iop(SELF);
+
 	atexit(exit_handler);
 	printf("\n--- STARTED\n");
 
@@ -40,9 +43,9 @@ int main(int argc, char **argv)
 static void print_usage(char **argv)
 {
 	printf("Usage: one of the following:\n"
-			"\t service run %s -args \"scan\"\n"
+			"\t service run %s -args \"scan <0|1>\"\n"
 			"\t service run %s -args \"poll\"\n"
-			"\t service run %s -args \"tscan\"\"\n",
+			"\t service run %s -args \"tscan <seconds>\"\n",
 			argv[0], argv[0], argv[0]);
 }
 
