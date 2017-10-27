@@ -60,6 +60,10 @@ static int proc_args(int argc, char **argv)
 		}
 		int c=atoi(argv[2]);
 		printf("kbd::kbd_test_scan(%d) ", c);
+		if(c!=0 && c!=1){
+			fprintf(stderr, "please insert 0 for C or 1 for assembly implementation\n");
+			exit(-20);
+		}
 		if(c==0)
 			printf("(using c implementation.)\n");
 		else
@@ -82,6 +86,10 @@ static int proc_args(int argc, char **argv)
 		time = parse_ulong(argv[2], 10);						/* Parses string to unsigned long */
 		if (time == ULONG_MAX)
 			return 1;
+		if(time <=0){
+			fprintf(stderr, "time must be positive");
+			exit(-19);
+		}
 		printf("kbd::kbd_test_timed_scan(%lu)\n", time);
 		return kbd_test_timed_scan(time);
 	}
