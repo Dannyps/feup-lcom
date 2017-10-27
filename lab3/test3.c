@@ -8,6 +8,7 @@
 
 #define DELAY_US    20000
 
+void kbd_int_handler_a();
 
 #ifdef LAB3
 unsigned int sysinbcount=0;
