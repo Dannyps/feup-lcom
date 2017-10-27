@@ -154,7 +154,7 @@ int kbd_test_scan(unsigned short assembly){
 			 switch (_ENDPOINT_P(msg.m_source)) {
 				 case HARDWARE:
 					 if (msg.NOTIFY_ARG & irq_set) {
-						 if(!assembly)
+						 if(assembly==0)
 							 kbd_int_handler();
 						 else
 							 kbd_int_handler_assembly_wrapper();
