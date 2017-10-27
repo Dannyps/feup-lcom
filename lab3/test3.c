@@ -77,8 +77,8 @@ int timer0_unsubscribe_int() {
 void timer0_int_handler() {
 
         if((++tick_elapsed)%60==0){
-
-                printf("1 sec! %d\n", ++time_elapsed);
+        	seconds_elapsed++;
+            //printf("1 sec! %d\n", seconds_elapsed);
 
         }
 
@@ -97,9 +97,8 @@ int kbd_unsubscribe_int() {
 
 void kbd_int_handler() {
 	//static unsigned char count=0;
-
+	seconds_elapsed=0;
 	//printf("received an interrupt!");
-
 	unsigned char rd;
 	sys_inb_cnt(0x60, (long unsigned int*)&rd);
 
@@ -114,8 +113,27 @@ void kbd_int_handler() {
 	return;
 }
 
+void kbd_int_handler_assembly_wrapper() {
+	extern unsigned char kbc_code;
+	kbd_int_handler_a();
+	//printf("received an interrupt!");
+	//sys_inb_cnt(0x60, (long unsigned int*)&rd);
 
-int kbd_test_scan_c(){
+	if( ((kbc_code>>7)&1) == 1){
+		printf("breakcode: 0x%02x\n", kbc_code);
+	}else{
+		printf(" makecode: 0x%02x\n", kbc_code);
+	}
+
+	if(kbc_code==0x81)
+		stop=1;
+	return;
+}
+
+
+
+
+int kbd_test_scan(unsigned short assembly){
 	int ret = kbd_subscribe_int();
 	if(ret!=0){
 		fprintf(stderr, "Could not subscribe interruptions for the kbc!\n");exit(-1);
@@ -136,7 +154,10 @@ int kbd_test_scan_c(){
 			 switch (_ENDPOINT_P(msg.m_source)) {
 				 case HARDWARE:
 					 if (msg.NOTIFY_ARG & irq_set) {
-						 kbd_int_handler();
+						 if(!assembly)
+							 kbd_int_handler();
+						 else
+							 kbd_int_handler_assembly_wrapper();
 					 }
 				 break;
 			 default:
@@ -159,12 +180,6 @@ int kbd_test_scan_c(){
 
 }
 
-int kbd_test_scan(unsigned short assembly) {
-	if(assembly==0)
-		return kbd_test_scan_c();
-	/* To be completed */
-	return 0;
-}
 int kbd_test_poll() {
     unsigned char status;
 	char stop=0;
@@ -224,6 +239,7 @@ int kbd_test_timed_scan(unsigned short n) {
 		 }
 		 if (is_ipc_notify(ipc_status)) {
 			 int irq_set=0; irq_set |= BIT(0); // 0 as in the kbc_hookIDs[0].
+			 int irq_timer0=0; irq_timer0 |= BIT(1); // 1 as in the timer0_hookIDs[0].
 			 switch (_ENDPOINT_P(msg.m_source)) {
 				 case HARDWARE:
 					if (msg.NOTIFY_ARG & irq_timer0) {
@@ -246,7 +262,7 @@ int kbd_test_timed_scan(unsigned short n) {
 			{break;}
 	}
 
-	if(timer_unsubscribe_int()!=0){
+	if(timer0_unsubscribe_int()!=0){
         fprintf(stderr, "Could not unsubscribe from IRQ_0.\n"); exit(-5);
     }
 

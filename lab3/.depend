@@ -51,6 +51,9 @@ lab3.o:	/usr/pkg/gcc44/lib/gcc/i686-pc-minix/4.4.3/include/stdarg.h
 lab3.o:	lab3.c
 lab3.o:	test3.h
 
+scan.o:	i8042.h
+scan.o:	scan.S
+
 test3.o:	/usr/include/errno.h
 test3.o:	/usr/include/limits.h
 test3.o:	/usr/include/machine/bios.h
