@@ -55,7 +55,7 @@ int mouse_test_remote(unsigned long period, unsigned short cnt);
 /** 
  * @brief To test state machine implementation
  * 
- *  Similar mouse_test_packet() except that it 
+ *  Similar to mouse_test_packet() except that it
  *  should terminate if user moves the mouse continuously 
  *    with a positive slope
  * 
@@ -69,4 +69,19 @@ int mouse_test_remote(unsigned long period, unsigned short cnt);
 
 
 int mouse_test_gesture(short length);
+
+/**
+ * @brief To send a command to the mouse
+ *
+ *  Sends a command to the mouse, passing by the kbc first.
+ *  Handles errors.
+ *
+ * @param command to be written to the mouse.
+ * @param if the command should be retransmitted upon failure.
+ *
+ * @return Return 0 upon success and non-zero otherwise.
+ */
+
+unsigned char wrt2Mouse(unsigned char cmd, char retransmit);
+
 #endif /* __TEST_4.H */
