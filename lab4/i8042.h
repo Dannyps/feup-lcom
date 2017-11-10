@@ -25,6 +25,8 @@ typedef unsigned char uchar;
 
 /* KBC COMMANDS */
 #define WRITE_BYTE		0xD4	/**< @brief kbc WRITE BYTE command, called b4 mouse commands */
+#define READ_CMD_BYTE	0x20
+#define WRITE_CMD_BYTE	0x60
 
 /* MOUSE COMMANDS */
 
