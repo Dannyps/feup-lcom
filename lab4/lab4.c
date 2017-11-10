@@ -73,7 +73,7 @@ static int proc_args(int argc, char **argv)
 		if (period == ULONG_MAX)
 			return 1;
 
-		unsigned long cnt = parse_ulong(argv[2], 10);						/* Parses string to unsigned long */
+		unsigned long cnt = parse_ulong(argv[3], 10);						/* Parses string to unsigned long */
 		if (cnt == ULONG_MAX)
 			return 1;
 		printf("kbd_m::mouse_test_packet(%lu, %lu)\n", period, cnt);

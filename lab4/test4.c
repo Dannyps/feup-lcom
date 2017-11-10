@@ -16,6 +16,127 @@ int lhid, khid;
 // TIMER 0
 int timer0_hookIDs[2];
 int seconds_elapsed = 0, ticks_elapsed = 0;
+int length_ctr = 0;
+
+char canIWrite(){
+	unsigned long ret;
+	sys_inb(STATUS_REG, &ret);
+
+	if( (ret & BIT(1)) !=0){
+		return 0;
+	}else{
+		return 1;
+	}
+}
+
+char disableMouseInterrupts(){
+	if(!canIWrite()){
+		printf("ERROR: KBC IN_BUF was full when attempting to request Command Byte.");
+		exit(-6);
+	}
+	sys_outb(STATUS_REG, READ_CMD_BYTE);
+	tickdelay(micros_to_ticks(DELAY_US)); // don't try to read right away
+	unsigned long ret;
+	sys_inb(OUT_BUF, &ret);
+	printf("read %x.\n", ret);
+
+	unsigned long mask= ~(1<<1);
+
+	ret&=mask;
+
+	sys_outb(CTRL_REG, WRITE_CMD_BYTE);
+	sys_outb(IN_BUF, ret);  // argument
+
+	printf("wrote %x.\n", ret);
+
+	return 0;
+}
+
+char enableMouseInterrupts(){
+	if(!canIWrite()){
+		printf("ERROR: KBC IN_BUF was full when attempting to request Command Byte.");
+		exit(-6);
+	}
+	sys_outb(STATUS_REG, READ_CMD_BYTE);
+	tickdelay(micros_to_ticks(DELAY_US)); // don't try to read right away
+	unsigned long ret;
+	sys_inb(OUT_BUF, &ret);
+	printf("read %x.\n", ret);
+
+	unsigned long mask= (1<<1);
+
+	ret&=mask;
+
+	sys_outb(CTRL_REG, WRITE_CMD_BYTE);
+	ret=0x47;
+	sys_outb(IN_BUF, ret);
+
+	printf("wrote %x.\n", ret);
+
+	return 0;
+}
+
+void stateMachine(unsigned char* arr) {
+
+
+	static int state=0;
+	//printf("state: %d\n", state);
+	int X=(unsigned int)arr[1];
+	int Y=(unsigned int)arr[2];
+
+	if((arr[0]&1<<4)!=0){
+		// X sign bit was set.
+		X|=0xffffff00;
+	}
+
+	if((arr[0]&1<<5)!=0){
+		// X sign bit was set.
+		Y|=0xffffff00;
+	}
+
+	unsigned char rmb=0;
+
+	// test for Right Mouse Button
+	if((arr[0]&1<<1)!=0){
+		rmb=1;
+	}
+
+	switch(state) {
+	case 0:
+		length_ctr=0;
+		if(rmb){
+			state=1;
+			return;
+		}
+		break;
+	case 1:
+		if(X<0){
+			length_ctr=0;
+			break;
+		}
+
+		if(Y<0){
+			length_ctr=0;
+			break;
+		}
+
+		if(!rmb){
+			state=0;
+			break;
+		}
+
+		length_ctr+=X;
+		printf("cnt: %d\n", length_ctr);
+
+		break;
+
+	}
+
+
+
+
+	return;
+}
 
 void printMouse(unsigned char* arr){
 	/* arr should be aligned! */
@@ -84,7 +205,7 @@ unsigned char wrt2Mouse(unsigned char cmd, char retransmit){
 		printf("done.\n");
 	}
 
-//	tickdelay(micros_to_ticks(DELAY_US));
+	//	tickdelay(micros_to_ticks(DELAY_US));
 
 	unsigned long ret;
 	sys_inb(OUT_BUF, &ret);
@@ -122,7 +243,7 @@ int kbd_unsubscribe_int() {
 	return sys_irqrmpolicy(&khid);
 }
 
-void kbd_mouse_int_handler() {
+void kbd_mouse_int_handler(int gesture) {
 	static unsigned char count=0;
 	static unsigned char arr[3];
 	static char synced=0;
@@ -143,31 +264,37 @@ void kbd_mouse_int_handler() {
 	count++;
 	if(!synced && c>3){
 		//try to sync
-			if( (arr[count-1] & (1<<3) ) == 0){ // we got a zero on bit 3. This byte wasn't the first, but the next one might be it.
-				count=0;
-			}else{
-				// we got a one.
-				if(count-1==0 &&
+		if( (arr[count-1] & (1<<3) ) == 0){ // we got a zero on bit 3. This byte wasn't the first, but the next one might be it.
+			count=0;
+		}else{
+			// we got a one.
+			if(count-1==0 &&
 					( (arr[1] & (1<<3)) == 0) &&
 					( (arr[2] & (1<<3)) == 0) ){
-					//that last byte was byte 0, and the following two bytes were good. We're synced.
-					synced=1;
-					//printf("SYNCED!\n");
-				}
+				//that last byte was byte 0, and the following two bytes were good. We're synced.
+				synced=1;
+				//printf("SYNCED!\n");
 			}
+		}
 	}
 
 
 	if(count>2){
 		count=0;
-		if(synced) printMouse(arr);
+		if(synced){
+			if(!gesture){
+				printMouse(arr);
+			}else{
+				stateMachine(arr);
+			}
+		}
 	}
 	c++;
 	return;
 }
 
 int mouse_test_packet(unsigned short cnt){
-   	printf("reading %lu packets before exiting...\n", cnt);
+	printf("reading %lu packets before exiting...\n", cnt);
 	cnt*=3; // each printed packet has 3 packets.
 	int ret = kbd_subscribe_int();
 	if(ret!=0){
@@ -179,27 +306,27 @@ int mouse_test_packet(unsigned short cnt){
 	message msg;
 	while(cnt>0) { /*	You may want to use a different condition*/
 		/*Get a request message.*/
-		 if( (r = driver_receive(ANY, &msg, &ipc_status)) != 0 ) {
-			 printf("driver_receive failed with: %d", r);
-			 continue;
-		 }
-		 if (is_ipc_notify(ipc_status)) {
-			 int irq_set=0; irq_set |= BIT(0); // 0 as in the lhid.
-			 switch (_ENDPOINT_P(msg.m_source)) {
-				 case HARDWARE:
-					 if (msg.NOTIFY_ARG & irq_set) {
-						 cnt--;
-						 kbd_mouse_int_handler();
-					 }
-				 break;
-			 default:
-				 break;
-					 //no other notifications expected: do nothing
-			 }
-		 } else { /*received a standard message, not a notification*/
-			 /*no standard messages expected: do nothing*/
-		 }
-		 //if(time_elapsed>=time){break;}
+		if( (r = driver_receive(ANY, &msg, &ipc_status)) != 0 ) {
+			printf("driver_receive failed with: %d", r);
+			continue;
+		}
+		if (is_ipc_notify(ipc_status)) {
+			int irq_set=0; irq_set |= BIT(0); // 0 as in the lhid.
+			switch (_ENDPOINT_P(msg.m_source)) {
+			case HARDWARE:
+				if (msg.NOTIFY_ARG & irq_set) {
+					cnt--;
+					kbd_mouse_int_handler(0);
+				}
+				break;
+			default:
+				break;
+				//no other notifications expected: do nothing
+			}
+		} else { /*received a standard message, not a notification*/
+			/*no standard messages expected: do nothing*/
+		}
+		//if(time_elapsed>=time){break;}
 	}
 
 	if(kbd_unsubscribe_int()!=0){
@@ -215,18 +342,11 @@ int mouse_test_packet(unsigned short cnt){
 }	
 
 int mouse_test_remote(unsigned long period, unsigned short cnt){
-   	printf("reading %lu packets before exiting...\n", cnt);
+	printf("reading %lu packets before exiting...\n", cnt);
 	//cnt*=3; // each printed packet has 3 packets.
 	period*=1000;
 
-	sys_outb(STATUS_REG, 0x20);
-
-	unsigned long ret;
-	sys_inb(OUT_BUF, &ret);
-
-	printf("%8x\n", ret);
-
-	exit(0);
+	disableMouseInterrupts();
 	//kbd_subscribe_int();
 
 	wrt2Mouse(DISABLE_STREAM_MODE, 1);
@@ -246,7 +366,7 @@ int mouse_test_remote(unsigned long period, unsigned short cnt){
 		tickdelay(micros_to_ticks(period));
 	}
 
-	//kbd_unsubscribe_int();
+	enableMouseInterrupts();
 	return 0;
 }	
 
@@ -264,7 +384,7 @@ int timer0_subscribe_int(void ) {
 
 int timer0_unsubscribe_int() {
 
-    return sys_irqrmpolicy(&timer0_hookIDs[1]);
+	return sys_irqrmpolicy(&timer0_hookIDs[1]);
 }
 
 void timer0_int_handler() {
@@ -284,7 +404,7 @@ int mouse_test_async(unsigned short idle_time){
 	}
 	printf("Subscribed to timer0\n");
 
-   	int ret = kbd_subscribe_int();
+	int ret = kbd_subscribe_int();
 	if(ret!=0){
 		fprintf(stderr, "Could not subscribe interruptions for the kbc!\n");exit(-1);
 	}
@@ -295,31 +415,31 @@ int mouse_test_async(unsigned short idle_time){
 	message msg;
 	while(1) { /*	You may want to use a different condition*/
 		/*Get a request message.*/
-		 if( (r = driver_receive(ANY, &msg, &ipc_status)) != 0 ) {
-			 printf("driver_receive failed with: %d", r);
-			 continue;
-		 }
-		 if (is_ipc_notify(ipc_status)) {
-			 int irq_set=0; irq_set |= BIT(0); // 0 as in the lhid.
-			 int irq_timer0=0; irq_timer0 |= BIT(1); // 1 as in the timer0_hookIDs[0].
-			 switch (_ENDPOINT_P(msg.m_source)) {
-				 case HARDWARE:
-					 if (msg.NOTIFY_ARG & irq_timer0) {
-					 	timer0_int_handler();
-					 }
-					 if (msg.NOTIFY_ARG & irq_set) {
-						 kbd_mouse_int_handler();
-					 }
-				 break;
-			 default:
-				 break;
-					 //no other notifications expected: do nothing
-			 }
-		 } else { /*received a standard message, not a notification*/
-			 /*no standard messages expected: do nothing*/
-		 }
+		if( (r = driver_receive(ANY, &msg, &ipc_status)) != 0 ) {
+			printf("driver_receive failed with: %d", r);
+			continue;
+		}
+		if (is_ipc_notify(ipc_status)) {
+			int irq_set=0; irq_set |= BIT(0); // 0 as in the lhid.
+			int irq_timer0=0; irq_timer0 |= BIT(1); // 1 as in the timer0_hookIDs[0].
+			switch (_ENDPOINT_P(msg.m_source)) {
+			case HARDWARE:
+				if (msg.NOTIFY_ARG & irq_timer0) {
+					timer0_int_handler();
+				}
+				if (msg.NOTIFY_ARG & irq_set) {
+					kbd_mouse_int_handler(0);
+				}
+				break;
+			default:
+				break;
+				//no other notifications expected: do nothing
+			}
+		} else { /*received a standard message, not a notification*/
+			/*no standard messages expected: do nothing*/
+		}
 
-		 if(seconds_elapsed >= idle_time){break;}
+		if(seconds_elapsed >= idle_time){break;}
 	}
 
 	if(timer0_unsubscribe_int()!=0){
@@ -341,5 +461,46 @@ int mouse_test_async(unsigned short idle_time){
 
 
 int mouse_test_gesture(short length){
+	int ret = kbd_subscribe_int();
+	if(ret!=0){
+		fprintf(stderr, "Could not subscribe interruptions for the kbc!\n");exit(-1);
+	}
+
+	int ipc_status;
+	int r;
+	message msg;
+	while(1) { /*	You may want to use a different condition*/
+		/*Get a request message.*/
+		if( (r = driver_receive(ANY, &msg, &ipc_status)) != 0 ) {
+			printf("driver_receive failed with: %d", r);
+			continue;
+		}
+		if (is_ipc_notify(ipc_status)) {
+			int irq_set=0; irq_set |= BIT(0); // 0 as in the lhid.
+			switch (_ENDPOINT_P(msg.m_source)) {
+			case HARDWARE:
+				if (msg.NOTIFY_ARG & irq_set) {
+					kbd_mouse_int_handler(1);
+				}
+				break;
+			default:
+				break;
+				//no other notifications expected: do nothing
+			}
+		} else { /*received a standard message, not a notification*/
+			/*no standard messages expected: do nothing*/
+		}
+		if(length_ctr > length){break;}
+	}
+
+	if(kbd_unsubscribe_int()!=0){
+		fprintf(stderr, "Could not unsubscribe from IRQ_0.\n");
+		exit(-9);
+	}
+	printf("\nunsubscribed successfully.\n");
+
+	sys_outb(0x64, 0x20);
+	sys_outb(0x60, 0x47);
+
 	return 0;
 }	
