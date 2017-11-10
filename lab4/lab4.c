@@ -40,10 +40,10 @@ int main(int argc, char **argv)
 static void print_usage(char **argv)
 {
 	printf("Usage: one of the following:\n"
-			"\t service run %s -args \"packet\"\n"
-			"\t service run %s -args \"remote\"\n"
-			"\t service run %s -args \"async\"\n"
-			"\t service run %s -args \"gesture\"\n",
+			"\t service run %s -args \"packet <cnt>\"\n"
+			"\t service run %s -args \"remote <period> <cnt>\"\n"
+			"\t service run %s -args \"async <idle_time>\"\n"
+			"\t service run %s -args \"gesture <length>\"\n",
 			argv[0], argv[0], argv[0], argv[0]);
 }
 
@@ -62,25 +62,50 @@ static int proc_args(int argc, char **argv)
 		printf("kbd_m::mouse_test_packet(%lu)\n", cnt);
 		return mouse_test_packet(cnt);
 	}
-//	else if (strncmp(argv[1], "poll", strlen("poll")) == 0) {
-//		if (argc != 2) {
-//			printf("kbd: too many arguments for kbd_test_poll()\n");
-//			return 1;
-//		}
-//		printf("--- NOTE: remember to deactivate Minix's IH.\nkbd::kbd_test_poll()\n");
-//		return kbd_test_poll();
-//	}
-//	else if (strncmp(argv[1], "tscan", strlen("tscan")) == 0) {
-//		if (argc != 3) {
-//			printf("kbd: wrong number of arguments for kbd_test_timed_scan()\n");
-//			return 1;
-//		}
-//		time = parse_ulong(argv[2], 10);						/* Parses string to unsigned long */
-//		if (time == ULONG_MAX)
-//			return 1;
-//		printf("kbd::kbd_test_timed_scan(%lu)\n", time);
-//		return kbd_test_timed_scan(time);
-//	}
+
+	else if (strncmp(argv[1], "remote", strlen("remote")) == 0) {
+		if (argc != 4) {
+			printf("kbd_m: wrong number of arguments for mouse_test_remote()\n");
+			return 1;
+		}
+
+		unsigned long period = parse_ulong(argv[2], 10);						/* Parses string to unsigned long */
+		if (period == ULONG_MAX)
+			return 1;
+
+		unsigned long cnt = parse_ulong(argv[2], 10);						/* Parses string to unsigned long */
+		if (cnt == ULONG_MAX)
+			return 1;
+		printf("kbd_m::mouse_test_packet(%lu, %lu)\n", period, cnt);
+		return mouse_test_remote(period, cnt);
+	}
+
+	else if (strncmp(argv[1], "async", strlen("async")) == 0) {
+			if (argc != 3) {
+				printf("kbd_m: wrong number of arguments for mouse_test_async()\n");
+				return 1;
+			}
+
+			unsigned long idltm = parse_ulong(argv[2], 10);						/* Parses string to unsigned long */
+			if (idltm == ULONG_MAX)
+				return 1;
+			printf("kbd_m::mouse_test_async(%lu)\n", idltm);
+			return mouse_test_async(idltm);
+	}
+
+	else if (strncmp(argv[1], "gesture", strlen("gesture")) == 0) {
+		if (argc != 3) {
+			printf("kbd_m: wrong number of arguments for mouse_test_gesture()\n");
+			return 1;
+		}
+
+		unsigned long len = parse_ulong(argv[2], 10);						/* Parses string to unsigned long */
+		if (len == ULONG_MAX)
+			return 1;
+		printf("kbd_m::mouse_test_gesture(%lu)\n", len);
+		return mouse_test_gesture(len);
+	}
+
 	else {
 		printf("kbd_m: %s - no valid function!\n", argv[1]);
 		return 1;

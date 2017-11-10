@@ -12,6 +12,54 @@
 int lhid, khid;
 //unsigned long packets2read=0;
 
+
+void printMouse(unsigned char* arr){
+	/* arr should be aligned! */
+
+	unsigned int X=(unsigned int)arr[1];
+	unsigned int Y=(unsigned int)arr[2];
+
+	if((arr[0]&1<<4)!=0){
+		// X sign bit was set.
+		X|=0xffffff00;
+	}
+
+	if((arr[0]&1<<5)!=0){
+		// Y sign bit was set.
+		Y|=0xffffff00;
+	}
+
+	unsigned char lmb=0, rmb=0, mmb=0, xov=0, yov=0;
+
+	// test for Middle Mouse Button
+	if((arr[0]&1<<2)!=0){
+		mmb=1;
+	}
+
+	// test for Right Mouse Button
+	if((arr[0]&1<<1)!=0){
+		rmb=1;
+	}
+
+	// test for Left Mouse Button
+	if((arr[0]&1<<0)!=0){
+		lmb=1;
+	}
+
+	// test for X overflow
+	if((arr[0]&1<<6)!=0){
+		xov=1;
+	}
+
+	// test for Y overflow
+	if((arr[0]&1<<7)!=0){
+		yov=1;
+	}
+
+
+	printf("B1=0x%x	B2=0x%x	B3=0x%x	LB=%d	MB=%d	RB=%d	XOV=%d	YOV=%d	X=%d	Y=%d\n", arr[0], arr[1], arr[2], lmb, mmb, rmb, xov, yov, X, Y);
+}
+
 unsigned char wrt2Mouse(unsigned char cmd, char retransmit){
 	uchar debug=1;
 
@@ -70,17 +118,50 @@ int kbd_unsubscribe_int() {
 }
 
 void kbd_mouse_int_handler() {
-	printf("entered!\n");
-	unsigned char rd;
-	sys_inb(0x60, (long unsigned int*)&rd);
+	static unsigned char count=0;
+	static unsigned char arr[3];
+	static char synced=0;
+	static char c=0;
 
-	printf("read %x\n", rd);
+
+	// keep this value
+	unsigned long rd;
+	sys_inb(0x60, &rd);
+	arr[count]=(unsigned char) rd;
+
+
+	//printf("read %x\n", rd);
+
+	// Update counter
+	count++;
+	if(!synced && c>3){
+		//try to sync
+			if( (arr[count-1] & (1<<3) ) == 0){ // we got a zero on bit 3. This byte wasn't the first, but the next one might be it.
+				count=0;
+			}else{
+				// we got a one.
+				if(count-1==0 &&
+					( (arr[1] & (1<<3)) == 0) &&
+					( (arr[2] & (1<<3)) == 0) ){
+					//that last byte was byte 0, and the following two bytes were good. We're synced.
+					synced=1;
+					//printf("SYNCED!\n");
+				}
+			}
+	}
+
+
+	if(count>2){
+		count=0;
+		if(synced) printMouse(arr);
+	}
+	c++;
 	return;
 }
 
 int mouse_test_packet(unsigned short cnt){
    	printf("reading %lu packets before exiting...\n", cnt);
-   	//packets2read=cnt;
+	cnt*=3; // each printed packet has 3 packets.
 	int ret = kbd_subscribe_int();
 	if(ret!=0){
 		fprintf(stderr, "Could not subscribe interruptions for the kbc!\n");exit(-1);
