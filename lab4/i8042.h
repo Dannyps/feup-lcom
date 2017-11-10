@@ -31,6 +31,13 @@ typedef unsigned char uchar;
 #define ENABLE_STREAM_MODE	0xF4	/**< @brief mouse: enable stream mode */
 #define DISABLE_STREAM_MODE	0xF5	/**< @brief mouse: disable stream mode */
 
+#define SET_STREAM_MODE		0xEA	/**< @brief mouse: set stream mode */
+#define SET_REMOTE_MODE		0xF0	/**< @brief mouse: set remote mode */
+
+#define READ_DATA			0xEB	/**< @brief mouse: read data from remote mode */
+
+
+
 /* Mouse controller -- Acknowledgment bytes */
 
 #define MOUSE_ACK		0xFA	/**< @brief mouse response: everything is ok */

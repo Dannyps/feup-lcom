@@ -126,7 +126,7 @@ void kbd_mouse_int_handler() {
 
 	// keep this value
 	unsigned long rd;
-	sys_inb(0x60, &rd);
+	sys_inb(OUT_BUF, &rd);
 	arr[count]=(unsigned char) rd;
 
 
@@ -204,13 +204,46 @@ int mouse_test_packet(unsigned short cnt){
 	return 0;
 }	
 
+int mouse_test_remote(unsigned long period, unsigned short cnt){
+   	printf("reading %lu packets before exiting...\n", cnt);
+	//cnt*=3; // each printed packet has 3 packets.
+	period*=1000;
+
+	sys_outb(STATUS_REG, 0x20);
+
+	unsigned long ret;
+	sys_inb(OUT_BUF, &ret);
+
+	printf("%8x\n", ret);
+
+	exit(0);
+	//kbd_subscribe_int();
+
+	wrt2Mouse(DISABLE_STREAM_MODE, 1);
+	wrt2Mouse(SET_REMOTE_MODE, 1);
+
+	int i, j;
+	for(i=0;i<cnt;i++){
+		wrt2Mouse(READ_DATA, 1);
+		unsigned char arr[3];
+		for(j=0;j<3;j++){
+			//tickdelay(micros_to_ticks(DELAY_US)); // don't try to read right away
+			unsigned long rd;
+			sys_inb(OUT_BUF, &rd);
+			arr[j]=(unsigned char) rd;
+		}
+		printMouse(arr);
+		tickdelay(micros_to_ticks(period));
+	}
+
+	//kbd_unsubscribe_int();
+	return 0;
+}	
+
 int mouse_test_async(unsigned short idle_time){
 	return 0;
 }	
 
-int mouse_test_remote(unsigned long period, unsigned short cnt){
-	return 0;
-}	
 
 int mouse_test_gesture(short length){
 	return 0;
