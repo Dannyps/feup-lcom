@@ -1,10 +1,25 @@
 #include <stdio.h>
 #include "vbe.h"
-#include "video_gr.h"
+#include "video_gr.c"
 
 void *video_test_init(unsigned short mode, unsigned short delay) {
-	printf("entered!\n");
-	/* To be completed */
+	printf("Initing mode 0x%x!\n", mode);
+	sleep(1);
+	void* ret=vg_init(mode);
+	printf("vg_init returns 0x%x.\n", ret);
+
+
+	/*int k, i, j;
+	for(k=0;k<64;j++){
+		for(i=0;i<1024*768;i++){
+			*((char*)ret+i)=j;
+		}
+		usleep(80000);
+	}
+
+*/
+	sleep(delay);
+	vg_exit();
 	return 0;
 }
 

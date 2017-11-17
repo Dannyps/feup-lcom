@@ -1,6 +1,7 @@
 #ifndef __VIDEO_GR_H
 #define __VIDEO_GR_H
 
+
 /** @defgroup video_gr video_gr
  * @{
  *

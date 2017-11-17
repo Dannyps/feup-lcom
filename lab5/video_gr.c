@@ -42,3 +42,35 @@ int vg_exit() {
   } else
       return 0;
 }
+
+void* vg_init(unsigned short mode) {
+  struct reg86u reg86;
+
+  reg86.u.b.intno = 0x10; /* BIOS video services */
+
+  reg86.u.w.ax = 0x4F02; // VBE call, function 02 -- set VBE mode
+  reg86.u.w.bx = 1<<14|mode;
+
+  if( sys_int86(&reg86) != OK ) {
+      printf("\tvg_exit(): sys_int86() failed \n");
+      return NULL;
+  }
+	int r;
+	struct mem_range mr;
+	unsigned int vram_base=VRAM_PHYS_ADDR; /* VRAM’s physical addresss */
+	unsigned int vram_size=H_RES*V_RES*BITS_PER_PIXEL; /* VRAM’s size, but you can use the frame-buffer size, instead */
+
+
+	/* Allow memory mapping */
+	mr.mr_base = (phys_bytes) vram_base;
+	mr.mr_limit = mr.mr_base + vram_size;
+	if( OK != (r = sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mr)))
+		panic("sys_privctl (ADD_MEM) failed: %d\n", r);
+
+	/* Map memory */
+	video_mem = vm_map_phys(SELF, (void *)mr.mr_base, vram_size);
+	if(video_mem == MAP_FAILED)
+		panic("couldn’t map video memory");
+
+	return video_mem;
+}
