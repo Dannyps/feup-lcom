@@ -57,8 +57,8 @@ void* vg_init(unsigned short mode) {
   }
 	int r;
 	struct mem_range mr;
-	unsigned int vram_base=VRAM_PHYS_ADDR; /* VRAM’s physical addresss */
-	unsigned int vram_size=H_RES*V_RES*BITS_PER_PIXEL; /* VRAM’s size, but you can use the frame-buffer size, instead */
+	unsigned int vram_base=VRAM_PHYS_ADDR; /* VRAMï¿½s physical addresss */
+	unsigned int vram_size=H_RES*V_RES*BITS_PER_PIXEL; /* VRAMï¿½s size, but you can use the frame-buffer size, instead */
 
 
 	/* Allow memory mapping */
@@ -70,7 +70,7 @@ void* vg_init(unsigned short mode) {
 	/* Map memory */
 	video_mem = vm_map_phys(SELF, (void *)mr.mr_base, vram_size);
 	if(video_mem == MAP_FAILED)
-		panic("couldn’t map video memory");
+		panic("couldn't map video memory");
 
 	return video_mem;
 }
