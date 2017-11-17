@@ -94,9 +94,8 @@ static int proc_args(int argc, char **argv)
 		if (size == ULONG_MAX)
 			return 1;
 
-		int ret=sscanf(argv[5], "0x%x", &color);
+		int ret=sscanf(argv[5], "%ul", &color);
 		if(ret != 1){
-			printf("GCP: color must be specified in the following format: 0x105\n");
 			return 1;
 		}
 
