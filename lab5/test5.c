@@ -13,7 +13,7 @@
 int kbc_hookIDs[2];
 char stop;
 
-#ifdef LAB5
+#ifdef LAB3
 unsigned int sysinbcount=0;
 int sys_inb_cnt(port_t port, unsigned long* byte){
 	sysinbcount++;
@@ -22,6 +22,7 @@ int sys_inb_cnt(port_t port, unsigned long* byte){
 #else
 #define sys_inb_cnt(p,q) sys_inb(p,q)
 #endif
+
 
 int kbd_subscribe_int(void ) {
 	kbc_hookIDs[0]=0; // we'll be using id 0 for the kbc.
@@ -104,10 +105,27 @@ int kbd_test_scan(){
 
 char* video_m;
 
-void setP(unsigned long x, unsigned long y, unsigned char color){
-	video_m[(y*H_RES+x) + (H_RES*V_RES/2 + H_RES/2)]=color;
+
+int fill_screen(unsigned short color){
+	if(color>63){
+		return -1;
+	}
+	int i;
+	for(i=0;i<V_RES*H_RES;i++){
+		video_m[i]=color;
+	}
+	return 0;
 }
 
+void setP(unsigned long x, unsigned long y, unsigned char color){
+	if(video_m==0){
+		printf("Can't write pixel if the screen is not in video mode! Exiting...\n");
+		exit(-7);
+	}else
+		video_m[y*H_RES+x]=color;
+
+	return;
+}
 
 void video_start(){
 	video_m=vg_init(0x105);
@@ -127,14 +145,20 @@ void *video_test_init(unsigned short mode, unsigned short delay) {
 
 
 int video_test_square(unsigned short x, unsigned short y, unsigned short size, unsigned long color) {
-	
+	int xi, yi, xf, yf;
+	xi = x - size/2 + 1;
+	xf = x + size/2;
+	yf = y + size/2;
+
 	video_start();
 
-	int i, j;
-
-	for(i=0; i < size; i++) {
-		for(j=0; j < size; j++)
-			setP(x+i-size/2, y+j-size/2, color);
+	while(xi < xf) {
+		yi = y - size/2 + 1;
+		while(yi < yf) {
+			setP(H_RES/2+xi, V_RES/2+yi, color);
+			yi++;
+		}
+		xi++;
 	}
 
 	kbd_test_scan();
@@ -144,10 +168,89 @@ int video_test_square(unsigned short x, unsigned short y, unsigned short size, u
 	return 0;
 }
 
-int video_test_line(unsigned short xi, unsigned short yi, 
-		           unsigned short xf, unsigned short yf, unsigned long color) {
+int video_test_line(unsigned short xi, unsigned short yi, unsigned short xf, unsigned short yf, unsigned long color) {
 	
-	/* To be completed */
+	if (color > 63){
+			color=1;
+	}
+
+	/* Coordinates arguments are checked further below */
+
+	video_start();
+	//color start pixel
+	setP(xi, yi, 5);
+
+	//color end pixel
+	setP(xf, yf, 5);
+
+	// now the intermediate pixels...
+	float xDir=(xf-xi)/2;
+	float yDir=(yf-yi)/2;
+
+	unsigned int dx=abs(xf-xi);
+	unsigned int dy=abs(yf-yi);
+
+	if(xi==0 && xf==0 || yi==0 && yf==0){
+		printf("Refusing to draw on the near null edge of screen.");
+		vg_exit();
+	}
+
+
+	/* Calculate drawing directions */
+	if(dy<dx){
+		yDir/=xDir;
+		if(xf>xi){
+			xDir=1;
+		}else{
+			xDir=-1;
+			yDir*=-1;
+		}
+	}else{
+		xDir/=yDir;
+		if(yf>yi){
+			yDir=1;
+		}else{
+			yDir=-1;
+			xDir*=-1;
+		}
+	}
+
+
+	/* Begin drawing */
+	double tx=(double) xi, ty = (double) yi;
+	while(1){
+		tx+=xDir;
+		ty+=yDir;
+
+		//before writing, we check if we're inside our boundaries.
+		if( (unsigned long) tx <0 ||  (unsigned long) tx > H_RES || (unsigned long) ty <0 || (unsigned long) ty > V_RES){
+			printf("refusing to write out of memory!\n");
+			break; // out of boundaries means we're done painting.
+		}
+		setP( (unsigned long) tx, (unsigned long) ty, color);
+
+		if(dy<dx){ // use x as step variable because it changes more, thus giving us more resolution.
+			if(xDir>0){ // if x is growing, we stop after we pass the target.
+				if((unsigned long) tx > xf)
+					break;
+			}else{		// if x is shrinking, we stop after we pass the target. Notice the target is lower (i.e., xf<xi)
+				if((unsigned long) tx < xf)
+					break;
+			}
+		}else{ // use y as step variable because it changes more, thus giving us more resolution.
+			if(yDir>0){ // if y is growing, we stop after we pass the target.
+				if((unsigned long) ty > yf)
+					break;
+			}else{		// if y is shrinking, we stop after we pass the target. Notice the target is lower (i.e., yf<yi)
+				if((unsigned long) ty < yf)
+					break;
+			}
+		}
+	}
+
+	kbd_test_scan();
+	vg_exit();
+
 	return 0;
 }
 	
