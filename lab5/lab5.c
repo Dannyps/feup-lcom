@@ -99,7 +99,7 @@ static int proc_args(int argc, char **argv)
 		if(ret != 1){
 			return 1;
 		}
-		if(color < 0 || color > 63) {
+		if(color > 63) {
 			printf("Color must be between 0 and 63\n");
 			return 1;
 		}
@@ -134,12 +134,6 @@ static int proc_args(int argc, char **argv)
 		color = parse_ulong(argv[6], 10);					/* Parses string to unsigned long */
 		if (color == ULONG_MAX)
 			return 1;
-
-		int ret=sscanf(argv[5], "0x%x", &color);
-		if(ret != 1){
-			printf("GCP: color must be specified in the following format: 0x105\n");
-			return 1;
-		}
 
 		printf("GCP::video_test_line(%lu, %lu, %lu, %lu, 0x%x)\n", xi, yi, xf, yf, color);
 		return video_test_line(xi, yi, xf, yf, color);
