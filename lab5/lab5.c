@@ -16,6 +16,7 @@ static void print_usage(char **argv);
 
 void exit_handler(){
 	printf("--- FINISHED\n");
+
 	return;
 }
 
@@ -98,6 +99,11 @@ static int proc_args(int argc, char **argv)
 		if(ret != 1){
 			return 1;
 		}
+		if(color < 0 || color > 63) {
+			printf("Color must be between 0 and 63\n");
+			return 1;
+		}
+
 
 		printf("GCP::video_test_square(%lu, %lu, %lu, 0x%x)\n", x, y, size, color);
 		return video_test_square(x, y, size, color);
