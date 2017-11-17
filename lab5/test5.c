@@ -27,7 +27,18 @@ void *video_test_init(unsigned short mode, unsigned short delay) {
 
 int video_test_square(unsigned short x, unsigned short y, unsigned short size, unsigned long color) {
 	
+	video_start();
 
+	int i, j;
+	for(i=0; i < size; i++) {
+		for(j=0; j < size; j++)
+			setP(x+i, y+j, color);
+	}
+
+	/* sleep for visibility */
+	sleep(5);
+
+	vg_exit();
 
 	return 0;
 }
