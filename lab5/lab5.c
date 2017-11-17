@@ -54,7 +54,8 @@ static void print_usage(char **argv)
 static int proc_args(int argc, char **argv)
 {
 	if (strncmp(argv[1], "init", strlen("init")) == 0) {
-		unsigned long mode, delay;
+		unsigned long delay;
+		unsigned mode;
 		if (argc != 2+2) {
 			printf("GCP: wrong no. of arguments for video_test_init()\n");
 			return 1;
@@ -70,7 +71,7 @@ static int proc_args(int argc, char **argv)
 			return 1;
 		}
 
-		printf("GCP::video_test_init(0x%x, %lu)\n", mode, delay);
+		printf("GCP::video_test_init(0x%x, %u)\n", mode, delay);
 		video_test_init(mode, delay);
 		return 0;
 	}
