@@ -183,6 +183,7 @@ int video_test_square(unsigned short x, unsigned short y, unsigned short size, u
 		xi++;
 	}
 
+	video_dump_fb();
 	kbd_test_scan();
 
 	vg_exit();
@@ -276,6 +277,7 @@ int video_test_line(unsigned short xi, unsigned short yi, unsigned short xf, uns
 		}
 	}
 
+	video_dump_fb();
 	kbd_test_scan();
 	vg_exit();
 
@@ -363,6 +365,7 @@ int test_move(char *xpm[], unsigned short xi, unsigned short yi, unsigned short 
 					setP(xi, yi, pix[xpm_counter]);
 					xi++;
 					xpm_counter++;
+					video_dump_fb();
 				}
 				yi++;
 			}
@@ -388,6 +391,7 @@ int test_move(char *xpm[], unsigned short xi, unsigned short yi, unsigned short 
 					setP(xi, yi, pix[xpm_counter]);
 					xi++;
 					xpm_counter++;
+					video_dump_fb();
 				}
 				yi++;
 			}
@@ -413,6 +417,7 @@ int test_move(char *xpm[], unsigned short xi, unsigned short yi, unsigned short 
 					setP(xi, yi, pix[xpm_counter]);
 					xi++;
 					xpm_counter++;
+					video_dump_fb();
 				}
 				yi++;
 			}
@@ -438,6 +443,7 @@ int test_move(char *xpm[], unsigned short xi, unsigned short yi, unsigned short 
 					setP(xi, yi, pix[xpm_counter]);
 					xi++;
 					xpm_counter++;
+					video_dump_fb();
 				}
 				yi++;
 			}
