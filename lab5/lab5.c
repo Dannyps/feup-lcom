@@ -219,15 +219,25 @@ static int proc_args(int argc, char **argv)
 		speed = parse_ulong(argv[7], 10);					/* Parses string to unsigned long */
 		if (speed == ULONG_MAX)
 			return 1;
-		if (speed == 0) {
-			printf("Speed cannot be 0\n");
-			return 1;
-		}
 
 		fr = parse_ulong(argv[8], 10);						/* Parses string to unsigned long */
 		if (fr == ULONG_MAX)
 			return 1;
 
+		if(xi<0 || yi<0 || xf<0 || yf<0) {
+			printf("Can't place images off the screen.\n");
+			return 1;
+		}
+
+		if (speed == 0) {
+			printf("Speed cannot be 0\n");
+			return 1;
+		}
+
+		if (fr <= 0) {
+			printf("Framerate needs to be positive\n");
+			return 1;
+		}
 
 		printf("GCP::test_move(%s, %lu, %lu, %lu, %lu, %lu, %lu)\n", xpm, xi, yi, xf, yf, speed, fr);
 		return test_move(xpm, xi, yi, xf, yf, speed, fr);
