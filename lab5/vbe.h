@@ -37,7 +37,7 @@ typedef struct {
   uint8_t BitsPerPixel; 		/**< @brief bits per pixel */
   uint8_t NumberOfBanks;		/**< @brief number of banks */
   uint8_t MemoryModel;		/**< @brief memory model type */
-  uint8_t BankSize;		/**< @brief bank size in KB */
+  uint8_t BankSize;			/**< @brief bank size in KB */
   uint8_t NumberOfImagePages;	/**< @brief number of images */
   uint8_t Reserved1;		/**< @brief reserved for page function */
 
@@ -75,6 +75,34 @@ typedef struct {
 } __attribute__((packed)) vbe_mode_info_t;
 
 /** @} end of vbe_mode_info_t*/
+
+
+
+/** @name VBE Controller Info Block */
+/**@{
+ *
+ * Packed VBE Controller Info Block
+ */
+
+typedef struct {
+  /*  Mandatory information for all VBE revisions */
+	uint8_t VbeSignature[4]; 			/**< @brief  */
+	uint16_t VbeVersion; 				/**< @brief  */
+	phys_bytes OemStringPtr;			/**< @brief  */
+	phys_bytes Capabilities;			/**< @brief  */
+	phys_bytes VideoModePtr;			/**< @brief  */
+	uint16_t TotalMemory;				/**< @brief  */
+	uint16_t OemSoftwareRev;			/**< @brief  */
+	phys_bytes OemVendorNamePtr;		/**< @brief  */
+	phys_bytes OemProductNamePtr;		/**< @brief  */
+	phys_bytes OemProductRevPtr;		/**< @brief  */
+
+} __attribute__((packed)) vbe_ctrl_info_t;
+
+/** @} end of vbe_mode_info_t*/
+
+
+
 
 /**
  * @brief Returns information on the input VBE mode, including screen dimensions, color depth and VRAM physical address

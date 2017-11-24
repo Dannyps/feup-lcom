@@ -3,7 +3,7 @@
 #include <minix/driver.h>
 #include <minix/drivers.h>
 #include <minix/com.h>
-
+#include <machine/int86.h>
 #include <sys/time.h>
 #include <time.h>
 
@@ -14,6 +14,10 @@
 #include "read_xpm.c"
 #include "pixmap.h"
 #include "video_test.h"
+#include "lmlib.h"
+
+#define PB2BASE(x) (((x) >> 4) & 0x0F000)
+#define PB2OFF(x) ((x) & 0x0FFFF)
 
 // KEYBOARD FUNCTIONS //
 
@@ -513,7 +517,7 @@ int test_controller() {
 		printf("%x:", *( (uint16_t*) videoModes+i));
 
 	}
-	printf("\n%d", ci->TotalMemory);
+	printf("\n%d\n", ci->TotalMemory);
 	lm_free(&map);
 	exit(1);
 
