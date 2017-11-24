@@ -8,6 +8,7 @@
 #include <minix/drivers.h>
 
 #include "test5.h"
+#include "pixmap.h"
 
 static int proc_args(int argc, char **argv);
 static unsigned long parse_ulong(char *str, int base);
@@ -139,15 +140,29 @@ static int proc_args(int argc, char **argv)
 		return video_test_line(xi, yi, xf, yf, color);
 	}
 	else if (strncmp(argv[1], "xpm", strlen("xpm")) == 0) {
-		unsigned long xi, yi, xpm;
-		if (argc != 2+5) {
+		unsigned long xi, yi;
+		char** xpm;
+		if (argc != 2+3) {
 			printf("GCP: wrong no. of arguments for test_xpm()\n");
 			return 1;
 		}
 
-		xpm = parse_ulong(argv[2], 10);						/* Parses string to unsigned long */
-		if (xpm == ULONG_MAX)
-			return 1;
+		if(strcmp(argv[2], "pic1") == 0){
+			xpm=pic1;
+		}
+		else if(strcmp(argv[2], "pic2")== 0){
+			xpm=pic2;
+		}
+		else if(strcmp(argv[2], "cross")== 0){
+			xpm=cross;
+		}
+		else if(strcmp(argv[2], "pic3")== 0){
+			xpm=pic3;
+		}
+		else if(strcmp(argv[2], "penguin")== 0){
+			xpm=penguin;
+		}
+		else return 1;
 
 		xi = parse_ulong(argv[3], 10);						/* Parses string to unsigned long */
 		if (xi == ULONG_MAX)
@@ -157,19 +172,33 @@ static int proc_args(int argc, char **argv)
 		if (yi == ULONG_MAX)
 			return 1;
 
-		printf("GCP::test_xpm(%lu, %lu, %lu)\n", xpm, xi, yi);
-		return test_xpm(0, xi, yi); //TODO take care of that zero
+		printf("GCP::test_xpm(%s, %lu, %lu)\n", xpm, xi, yi);
+		return test_xpm(xpm, xi, yi);
 	}
 	else if (strncmp(argv[1], "move", strlen("move")) == 0) {
-		unsigned long xi, xf, yf, fr, yi, xpm, speed;
-		if (argc != 2+5) {
+		unsigned long xi, xf, yf, fr, yi, speed;
+		char** xpm;
+		if (argc != 2+7) {
 			printf("GCP: wrong no. of arguments for test_move()\n");
 			return 1;
 		}
 
-		xpm = parse_ulong(argv[2], 10);						/* Parses string to unsigned long */
-		if (xpm == ULONG_MAX)
-			return 1;
+		if(strcmp(argv[2], "pic1") == 0){
+			xpm=pic1;
+		}
+		else if(strcmp(argv[2], "pic2")== 0){
+			xpm=pic2;
+		}
+		else if(strcmp(argv[2], "cross")== 0){
+			xpm=cross;
+		}
+		else if(strcmp(argv[2], "pic3")== 0){
+			xpm=pic3;
+		}
+		else if(strcmp(argv[2], "penguin")== 0){
+			xpm=penguin;
+		}
+		else return 1;
 
 		xi = parse_ulong(argv[3], 10);						/* Parses string to unsigned long */
 		if (xi == ULONG_MAX)
@@ -190,14 +219,18 @@ static int proc_args(int argc, char **argv)
 		speed = parse_ulong(argv[7], 10);					/* Parses string to unsigned long */
 		if (speed == ULONG_MAX)
 			return 1;
+		if (speed == 0) {
+			printf("Speed cannot be 0\n");
+			return 1;
+		}
 
 		fr = parse_ulong(argv[8], 10);						/* Parses string to unsigned long */
 		if (fr == ULONG_MAX)
 			return 1;
 
 
-		printf("GCP::test_move(%lu, %lu, %lu, %lu, %lu, %lu, %lu)\n", xpm, xi, yi, xf, yf, speed, fr);
-		return test_move(0, xi, yi, xf, yf, speed, fr); //TODO take care of that zero
+		printf("GCP::test_move(%s, %lu, %lu, %lu, %lu, %lu, %lu)\n", xpm, xi, yi, xf, yf, speed, fr);
+		return test_move(xpm, xi, yi, xf, yf, speed, fr);
 	}
 //	else if (strncmp(argv[1], "int", strlen("int")) == 0) {
 //		if (argc != 3) {

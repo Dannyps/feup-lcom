@@ -7,11 +7,13 @@
 #include <sys/time.h>
 #include <time.h>
 
-
 #include "vbe.h"
 #include "video_gr.h"
 #include "i8042.h"
 #include <minix/sysutil.h>
+#include "read_xpm.c"
+#include "pixmap.h"
+#include "video_test.h"
 
 // KEYBOARD FUNCTIONS //
 
@@ -42,9 +44,9 @@ int kbd_subscribe_int(void ) {
 }
 
 int kbd_unsubscribe_int() {
-	#ifdef LAB3
-		printf("sys_inb was called %d times.\n", sysinbcount);
-	#endif
+#ifdef LAB3
+	printf("sys_inb was called %d times.\n", sysinbcount);
+#endif
 	return sys_irqrmpolicy(&kbc_hookIDs[1]);
 }
 
@@ -75,25 +77,25 @@ int kbd_test_scan(){
 	stop=0;
 	while(!stop) { /*	You may want to use a different condition*/
 		/*Get a request message.*/
-		 if( (r = driver_receive(ANY, &msg, &ipc_status)) != 0 ) {
-			 printf("driver_receive failed with: %d", r);
-			 continue;
-		 }
-		 if (is_ipc_notify(ipc_status)) {
-			 int irq_set=0; irq_set |= BIT(0); // 0 as in the kbc_hookIDs[0].
-			 switch (_ENDPOINT_P(msg.m_source)) {
-				 case HARDWARE:
-					 if (msg.NOTIFY_ARG & irq_set) {
-							 kbd_int_handler();
-						 }
-				 break;
-			 default:
-				 break;
-					 //no other notifications expected: do nothing
-			 }
-		 } else { /*received a standard message, not a notification*/
-			 /*no standard messages expected: do nothing*/
-		 }
+		if( (r = driver_receive(ANY, &msg, &ipc_status)) != 0 ) {
+			printf("driver_receive failed with: %d", r);
+			continue;
+		}
+		if (is_ipc_notify(ipc_status)) {
+			int irq_set=0; irq_set |= BIT(0); // 0 as in the kbc_hookIDs[0].
+			switch (_ENDPOINT_P(msg.m_source)) {
+			case HARDWARE:
+				if (msg.NOTIFY_ARG & irq_set) {
+					kbd_int_handler();
+				}
+				break;
+			default:
+				break;
+				//no other notifications expected: do nothing
+			}
+		} else { /*received a standard message, not a notification*/
+			/*no standard messages expected: do nothing*/
+		}
 	}
 
 	if(kbd_unsubscribe_int()!=0){
@@ -137,7 +139,7 @@ void setP(unsigned long x, unsigned long y, unsigned char color){
 		printf("setP refusing to write outside of the screen!\n");
 		exit(-8);
 	}
-		video_m[y*vi.x+x]=color;
+	video_m[y*vi.x+x]=color;
 
 	return;
 }
@@ -189,11 +191,11 @@ int video_test_square(unsigned short x, unsigned short y, unsigned short size, u
 }
 
 int video_test_line(unsigned short xi, unsigned short yi, unsigned short xf, unsigned short yf, unsigned long color) {
-	
+
 	struct timeval  tv1, tv2;
 
 	if (color > 63){
-			color=1;
+		color=1;
 	}
 
 	/* Coordinates arguments are checked further below */
@@ -216,7 +218,7 @@ int video_test_line(unsigned short xi, unsigned short yi, unsigned short xf, uns
 	unsigned int dy=abs(yf-yi);
 
 	if( (xi==0 && xf==0)
-	|| (yi==0 && yf==0)){
+			|| (yi==0 && yf==0)){
 		printf("Refusing to draw on the near null edge of screen.");
 		vg_exit();
 	}
@@ -279,16 +281,187 @@ int video_test_line(unsigned short xi, unsigned short yi, unsigned short xf, uns
 
 	return 0;
 }
-	
+
 int test_xpm(char *xpm[], unsigned short xi, unsigned short yi) {
-	
-	/* To be completed */
+	// change video mode to 0x105
+	video_start();
+
+	// print xpm here
+	int width, height;
+
+	char* pix = read_xpm(xpm, &width, &height);
+	width += xi;
+	height += yi;
+	int initial_x = xi;
+	int xpm_counter = 0;
+
+	// printing
+	while(yi < height) {
+		xi = initial_x;
+		while(xi < width) {
+			setP(xi, yi, pix[xpm_counter]);
+			xi++;
+			xpm_counter++;
+		}
+		yi++;
+	}
+
+	video_dump_fb();
+
+	// ESC key scan
+	kbd_test_scan();
+
+	free(pix);
+	// exit video mode
+	vg_exit();
+
 	return 0;
-}	
+}
 
 int test_move(char *xpm[], unsigned short xi, unsigned short yi, unsigned short xf, unsigned short yf, short s, unsigned short f) {
+	// change video mode to 0x105
+	video_start();
 
-	/* To be completed */
+	// fetch the sprite
+	int width, height;
+	char* pix = read_xpm(xpm, &width, &height);
+
+	width += xi;
+	height += yi;
+	int initial_x = xi;
+	int initial_y = yi;
+	int xpm_counter = 0;
+
+	// movement setup
+	int movement = 0;
+
+	if(yf > yi && xf == xi)
+		movement = 0;
+	else if(yf < yi && xf == xi)
+		movement = 1;
+	else if(yf == yi && xf > xi)
+		movement = 2;
+	else if(yf == yi && xf < xi)
+		movement = 3;
+	else {
+		printf("Invalid Coordinates\n");
+		return -9;
+	}
+
+	float framerate_delay = 1000000 / f;
+
+	// printing
+	switch(movement) {
+
+	// move down
+	case 0:
+		while(initial_y <= yf) {
+			fill_screen(0);
+			while(yi < height) {
+				xi = initial_x;
+				while(xi < width) {
+					setP(xi, yi, pix[xpm_counter]);
+					xi++;
+					xpm_counter++;
+				}
+				yi++;
+			}
+
+			initial_y++;
+			yi = initial_y;
+			height++;
+			xpm_counter = 0;
+			video_dump_fb();
+			if(s>0) usleep(framerate_delay / s);
+			else usleep(framerate_delay * s * (-1));
+		}
+
+		break;
+
+		// move up
+	case 1:
+		while(initial_y >= yf) {
+			fill_screen(0);
+			while(yi < height) {
+				xi = initial_x;
+				while(xi < width) {
+					setP(xi, yi, pix[xpm_counter]);
+					xi++;
+					xpm_counter++;
+				}
+				yi++;
+			}
+
+			initial_y--;
+			yi = initial_y;
+			height--;
+			xpm_counter = 0;
+			video_dump_fb();
+			if(s>0) usleep(framerate_delay / s);
+			else usleep(framerate_delay * s * (-1));
+		}
+
+		break;
+
+		// move right
+	case 2:
+		while(initial_x <= xf) {
+			fill_screen(0);
+			while(yi < height) {
+				xi = initial_x;
+				while(xi < width) {
+					setP(xi, yi, pix[xpm_counter]);
+					xi++;
+					xpm_counter++;
+				}
+				yi++;
+			}
+
+			initial_x++;
+			yi = initial_y;
+			width++;
+			xpm_counter = 0;
+			video_dump_fb();
+			if(s>0) usleep(framerate_delay / s);
+			else usleep(framerate_delay * s * (-1));
+		}
+
+		break;
+
+		// move left
+	case 3:
+		while(initial_x >= xf) {
+			fill_screen(0);
+			while(yi < height) {
+				xi = initial_x;
+				while(xi < width) {
+					setP(xi, yi, pix[xpm_counter]);
+					xi++;
+					xpm_counter++;
+				}
+				yi++;
+			}
+
+			initial_x--;
+			yi = initial_y;
+			width--;
+			xpm_counter = 0;
+			video_dump_fb();
+			if(s>0) usleep(framerate_delay / s);
+			else usleep(framerate_delay * s * (-1));
+		}
+
+		break;
+
+	}
+
+	// ESC key scan
+	kbd_test_scan();
+
+	free(pix);
+	// exit video mode
+	vg_exit();
+
 	return 0;
 }	
 
@@ -297,4 +470,4 @@ int test_controller() {
 	/* To be completed */
 	return 0;
 }	
-	
+
