@@ -3,30 +3,15 @@
 #include <machine/int86.h>
 #include <sys/mman.h>
 #include <sys/types.h>
-
+#include "video_gr.h"
 #include "vbe.h"
 
-/* Constants for VBE 0x105 mode */
-
-/* The physical address may vary from VM to VM.
- * At one time it was 0xD0000000
- *  #define VRAM_PHYS_ADDR    0xD0000000 
- * Currently on lab B107 is 0xF0000000
- * Better run my version of lab5 as follows:
- *     service run `pwd`/lab5 -args "mode 0x105"
- */
-#define VRAM_PHYS_ADDR	0xE0000000
-#define H_RES             1024
-#define V_RES		  768
-#define BITS_PER_PIXEL	  8
 
 /* Private global variables */
 
 static char *video_mem;		/* Process (virtual) address to which VRAM is mapped */
 
-static unsigned h_res;		/* Horizontal screen resolution in pixels */
-static unsigned v_res;		/* Vertical screen resolution in pixels */
-static unsigned bits_per_pixel; /* Number of VRAM bits per pixel */
+static video_info_t vi;		/* Horizontal screen resolution in pixels */
 
 int vg_exit() {
   struct reg86u reg86;
@@ -44,21 +29,36 @@ int vg_exit() {
 }
 
 void* vg_init(unsigned short mode) {
-  struct reg86u reg86;
 
-  reg86.u.b.intno = 0x10; /* BIOS video services */
+	vbe_mode_info_t vmi;
+	if(vbe_get_mode_info(0x105, &vmi)!=0){
+		printf("Couldn't execute vbe function 01h. Exiting.\n");
+		exit(4);
+	}
 
-  reg86.u.w.ax = 0x4F02; // VBE call, function 02 -- set VBE mode
-  reg86.u.w.bx = 1<<14|mode;
 
-  if( sys_int86(&reg86) != OK ) {
-      printf("\tvg_exit(): sys_int86() failed \n");
-      return NULL;
-  }
+	/* Store retrieved info for later usage */
+	vi.y=vmi.YResolution;
+	vi.x=vmi.XResolution;
+	vi.bpp=vmi.BitsPerPixel;
+
+
+	// effectively start graphics mode.
+	struct reg86u reg86;
+
+	reg86.u.b.intno = 0x10; /* BIOS video services */
+
+	reg86.u.w.ax = 0x4F02; // VBE call, function 02 -- set VBE mode
+	reg86.u.w.bx = 1<<14|mode;
+
+	if( sys_int86(&reg86) != OK ) {
+	  printf("\tvg_exit(): sys_int86() failed \n");
+	  return NULL;
+	}
 	int r;
 	struct mem_range mr;
-	unsigned int vram_base=VRAM_PHYS_ADDR; /* VRAM�s physical addresss */
-	unsigned int vram_size=H_RES*V_RES*BITS_PER_PIXEL; /* VRAM�s size, but you can use the frame-buffer size, instead */
+	unsigned int vram_base=vmi.PhysBasePtr; /* VRAM physical address */
+	unsigned int vram_size=vmi.XResolution*vmi.YResolution*vmi.BitsPerPixel; /* VRAM size */
 
 
 	/* Allow memory mapping */
@@ -74,3 +74,9 @@ void* vg_init(unsigned short mode) {
 
 	return video_mem;
 }
+
+video_info_t get_vi(){
+	printf("get vi here: %d\n", vi.x);
+	return vi;
+}
+
