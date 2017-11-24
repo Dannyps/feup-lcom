@@ -3,8 +3,13 @@
 #include <minix/driver.h>
 #include <minix/drivers.h>
 #include <minix/com.h>
+
+#include <sys/time.h>
+#include <time.h>
+
+
 #include "vbe.h"
-#include "video_gr.c"
+#include "video_gr.h"
 #include "i8042.h"
 #include <minix/sysutil.h>
 
@@ -107,22 +112,32 @@ char* video_m;
 
 
 int fill_screen(unsigned short color){
+	static video_info_t vi;
+	vi = get_vi();
+
+
 	if(color>63){
 		return -1;
 	}
 	int i;
-	for(i=0;i<V_RES*H_RES;i++){
+	for(i=0;i<vi.x*vi.y;i++){
 		video_m[i]=color;
 	}
 	return 0;
 }
 
 void setP(unsigned long x, unsigned long y, unsigned char color){
+	static video_info_t vi;
+	vi = get_vi();
+
 	if(video_m==0){
 		printf("Can't write pixel if the screen is not in video mode! Exiting...\n");
 		exit(-7);
-	}else
-		video_m[y*H_RES+x]=color;
+	}else if(x > vi.x || y > vi.y){
+		printf("setP refusing to write outside of the screen!\n");
+		exit(-8);
+	}
+		video_m[y*vi.x+x]=color;
 
 	return;
 }
@@ -152,10 +167,15 @@ int video_test_square(unsigned short x, unsigned short y, unsigned short size, u
 
 	video_start();
 
+
+	static video_info_t vi;
+	vi = get_vi();
+
+
 	while(xi < xf) {
 		yi = y - size/2 + 1;
 		while(yi < yf) {
-			setP(H_RES/2+xi, V_RES/2+yi, color);
+			setP(vi.x/2+xi, vi.y/2+yi, color);
 			yi++;
 		}
 		xi++;
@@ -170,6 +190,8 @@ int video_test_square(unsigned short x, unsigned short y, unsigned short size, u
 
 int video_test_line(unsigned short xi, unsigned short yi, unsigned short xf, unsigned short yf, unsigned long color) {
 	
+	struct timeval  tv1, tv2;
+
 	if (color > 63){
 			color=1;
 	}
@@ -177,11 +199,14 @@ int video_test_line(unsigned short xi, unsigned short yi, unsigned short xf, uns
 	/* Coordinates arguments are checked further below */
 
 	video_start();
+	static video_info_t vi;
+	vi = get_vi();
+
 	//color start pixel
-	setP(xi, yi, 5);
+	setP(xi, yi, color);
 
 	//color end pixel
-	setP(xf, yf, 5);
+	setP(xf, yf, color);
 
 	// now the intermediate pixels...
 	float xDir=(xf-xi)/2;
@@ -190,7 +215,8 @@ int video_test_line(unsigned short xi, unsigned short yi, unsigned short xf, uns
 	unsigned int dx=abs(xf-xi);
 	unsigned int dy=abs(yf-yi);
 
-	if(xi==0 && xf==0 || yi==0 && yf==0){
+	if( (xi==0 && xf==0)
+	|| (yi==0 && yf==0)){
 		printf("Refusing to draw on the near null edge of screen.");
 		vg_exit();
 	}
@@ -223,7 +249,7 @@ int video_test_line(unsigned short xi, unsigned short yi, unsigned short xf, uns
 		ty+=yDir;
 
 		//before writing, we check if we're inside our boundaries.
-		if( (unsigned long) tx <0 ||  (unsigned long) tx > H_RES || (unsigned long) ty <0 || (unsigned long) ty > V_RES){
+		if( (unsigned long) tx > vi.x || (unsigned long) ty > vi.y){
 			printf("refusing to write out of memory!\n");
 			break; // out of boundaries means we're done painting.
 		}

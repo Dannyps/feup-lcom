@@ -2,10 +2,24 @@
 #define __VIDEO_GR_H
 
 
+/** @name VBE Video Info */
+/**@{
+ *
+ * A simplified version of the Packed VBE Mode Info Block
+ */
+ typedef struct {
+	  uint16_t x;      	/**< @brief horizontal resolution in pixels/characters */
+	  uint16_t y;      	/**< @brief vertical resolution in pixels/characters */
+	  uint8_t bpp; 		/**< @brief bits per pixel */
+} video_info_t;
+
+/** @} end of video_info*/
+
+
 /** @defgroup video_gr video_gr
  * @{
  *
- * Functions for outputing data to screen in graphics mode
+ * Functions for outputting data to screen in graphics mode
  */
 
 /**
@@ -21,13 +35,25 @@
  */
 void *vg_init(unsigned short mode);
 
- /**
- * @brief Returns to default Minix 3 text mode (0x03: 25 x 80, 16 colors)
- * 
- * @return 0 upon success, non-zero upon failure
- */
+/**
+* @brief Returns to default Minix 3 text mode (0x03: 25 x 80, 16 colors)
+*
+* @return 0 upon success, non-zero upon failure
+*/
 int vg_exit(void);
 
- /** @} end of video_gr */
- 
+/** @} end of video_gr */
+
+/**
+* @brief Returns video_info_t, a simplified version of vbe_mode_info_t.
+*
+* @return video_info_t
+*/
+video_info_t get_vi();
+
+/** @} end of get_vi */
+
+
+
+
 #endif /* __VIDEO_GR_H */
