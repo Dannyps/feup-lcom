@@ -467,7 +467,49 @@ int test_move(char *xpm[], unsigned short xi, unsigned short yi, unsigned short 
 
 int test_controller() {
 
-	/* To be completed */
+	static char inited=0;
+
+	void* lm_begin;
+
+	if(!inited){
+		lm_begin = lm_init();
+		inited=1;
+	}
+
+	mmap_t map; // a variable that maps the physical addr, the virtual addr, and the size of the alloc'ed memory.
+
+	lm_alloc(512, &map);
+
+	phys_bytes buf=map.phys;
+	struct reg86u r;
+	int i;
+
+	r.u.w.ax = 0x4F00; /* VBE get mode info */
+	/* translate the buffer linear address to a far pointer */
+	r.u.w.es = PB2BASE(buf); /* set a segment base */
+	r.u.w.di = PB2OFF(buf); /* set the offset accordingly */
+	r.u.b.intno = 0x10;
+	if( sys_int86(&r) != OK ) { /* call BIOS */
+		fprintf(stderr, "Couldn't call sys_int86!\n");
+		return -5;
+	}
+
+	vbe_ctrl_info_t* ci = (vbe_ctrl_info_t*)map.virtual;
+	printf("%d.%d\n", (ci->VbeVersion&0xff00)>>8, ci->VbeVersion&0x00ff);
+
+
+	void* videoModes=lm_begin+((ci->VideoModePtr>>16) & 0xffff)*0x10+(ci->VideoModePtr&0xffff);
+
+
+	for(i=0;i<40;i++){
+		if(*( (uint16_t*) videoModes+i)==0xffff)
+			break;
+		printf("%x:", *( (uint16_t*) videoModes+i));
+
+	}
+	printf("\n%d", ci->TotalMemory);
+	lm_free(&map);
+	exit(1);
+
 	return 0;
 }	
-
