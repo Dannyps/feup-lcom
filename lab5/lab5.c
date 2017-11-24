@@ -241,6 +241,15 @@ static int proc_args(int argc, char **argv)
 
 		printf("GCP::test_move(%s, %lu, %lu, %lu, %lu, %lu, %lu)\n", xpm, xi, yi, xf, yf, speed, fr);
 		return test_move(xpm, xi, yi, xf, yf, speed, fr);
+		}
+	else if (strncmp(argv[1], "controller", strlen("controller")) == 0) {
+		if (argc != 2) {
+			printf("GCP: too many arguments for test_controller()\n");
+			return 1;
+		}
+
+		printf("GCP::test_controller()\n");
+		return test_controller();
 	}
 //	else if (strncmp(argv[1], "int", strlen("int")) == 0) {
 //		if (argc != 3) {
