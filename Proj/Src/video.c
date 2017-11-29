@@ -5,34 +5,35 @@
 #include <sys/types.h>
 #include "video.h"
 
-int fill_screen(unsigned short color){
+int fill_screen(pixel_t color){
+	printf("filling screen with color %2x%2x%2x.\n", color.r, color.g, color.b);
 	static video_info_t vi;
 	vi = get_vi();
-
-
-	if(color>63){
-		return -1;
-	}
+	//TODO add check if video mode is on
 	int i;
-	for(i=0;i<vi.x*vi.y;i++){
-		video_m[i]=color;
+	for(i=0; i<vi.x*vi.y*vi.bpp/8 ; i+=3){
+		vi.vm[i+0]=color.b;
+		vi.vm[i+1]=color.r;
+		vi.vm[i+2]=color.g;
 	}
+	printf("done\n");
 	return 0;
 }
 
-void setP(unsigned long x, unsigned long y, unsigned char color){
+void setP(unsigned long x, unsigned long y, pixel_t color){
 	static video_info_t vi;
 	vi = get_vi();
-
-	if(video_m==0){
+	if(vi.vm==0){
 		printf("Can't write pixel if the screen is not in video mode! Exiting...\n");
 		exit(-7);
 	}else if(x > vi.x || y > vi.y){
 		printf("setP refusing to write outside of the screen!\n");
 		exit(-8);
 	}
-	video_m[y*vi.x+x]=color;
-
+	unsigned pos=(y*vi.x+x)*vi.bpp/8;
+	vi.vm[pos+0]=color.g;
+	vi.vm[pos+1]=color.b;
+	vi.vm[pos+2]=color.r;
 	return;
 }
 
@@ -40,12 +41,25 @@ void video_start(){
 	video_m=vg_init(0x105);
 }
 
-void *video_test_init(unsigned short mode, unsigned short delay) {
-	printf("Initing mode 0x%x!\n", mode);
+void *video_test_init() {
+	printf("Initing mode 0x%x!\n", 0x118);
+	video_m=vg_init(0x118);
+	video_info_t vi;
+	vi = get_vi();
+	int i, j;
 
-	video_m=vg_init(mode);
+	pixel_t blue	=	{0x00, 0x00, 0xff};
+	pixel_t red		=	{0xff, 0x00, 0x00};
 
-	sleep(delay);
+	fill_screen(blue);
+
+	for(i = 0;i<50;i++){
+		for(j=0;j<50;j++){
+			setP(i,j,red);
+		}
+	}
+
+	sleep(5);
 
 	vg_exit();
 

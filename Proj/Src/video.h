@@ -3,6 +3,10 @@
 
 char* video_m;
 
+typedef struct{
+	unsigned char r,g,b;
+} pixel_t;
+
 int fill_screen(unsigned short color);
 void setP(unsigned long x, unsigned long y, unsigned char color);
 void video_start();
