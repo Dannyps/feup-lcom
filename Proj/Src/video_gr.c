@@ -31,7 +31,7 @@ int vg_exit() {
 void* vg_init(unsigned short mode) {
 
 	vbe_mode_info_t vmi;
-	if(vbe_get_mode_info(0x105, &vmi)!=0){
+	if(vbe_get_mode_info(mode, &vmi)!=0){
 		printf("Couldn't execute vbe function 01h. Exiting.\n");
 		exit(4);
 	}
@@ -68,15 +68,14 @@ void* vg_init(unsigned short mode) {
 		panic("sys_privctl (ADD_MEM) failed: %d\n", r);
 
 	/* Map memory */
+
 	video_mem = vm_map_phys(SELF, (void *)mr.mr_base, vram_size);
 	if(video_mem == MAP_FAILED)
 		panic("couldn't map video memory");
-
+	vi.vm=video_mem;
 	return video_mem;
 }
 
 video_info_t get_vi(){
-	printf("get vi here: %d\n", vi.x);
 	return vi;
 }
-
