@@ -10,7 +10,7 @@
 #include "e_cal.h"
 
 static int proc_args(int argc, char **argv);
-static unsigned long parse_ulong(char *str, int base);
+//static unsigned long parse_ulong(char *str, int base);
 static void print_usage(char **argv);
 
 
@@ -50,35 +50,38 @@ static void print_usage(char **argv)
 
 static int proc_args(int argc, char **argv)
 {
+	if(argc){
+		//compiler won't complain
+	}
 	if (strncmp(argv[1], "init", strlen("init")) == 0) {
-		printf("GCP::video_test_init()\n");
-		video_test_init();
+		printf("ECAL::init()\n");
+		init();
 		return 0;
 	}
 	else {
-		printf("GCP: %s - no valid function!\n", argv[1]);
+		printf("ECAL: %s - no valid function!\n", argv[1]);
 		return 1;
 	}
 }
-static unsigned long parse_ulong(char *str, int base)
-{
-	char *endptr;
-	unsigned long val;
 
-	/* Convert string to unsigned long */
-	val = strtoul(str, &endptr, base);
-
-	/* Check for conversion errors */
-	if ((errno == ERANGE && val == ULONG_MAX) || (errno != 0 && val == 0)) {
-		perror("strtoul");
-		return ULONG_MAX;
-	}
-
-	if (endptr == str) {
-		printf("timer: parse_ulong: no digits were found in %s\n", str);
-		return ULONG_MAX;
-	}
-
-	/* Successful conversion */
-	return val;
-}
+//static unsigned long parse_ulong(char *str, int base){
+//	char *endptr;
+//	unsigned long val;
+//
+//	/* Convert string to unsigned long */
+//	val = strtoul(str, &endptr, base);
+//
+//	/* Check for conversion errors */
+//	if ((errno == ERANGE && val == ULONG_MAX) || (errno != 0 && val == 0)) {
+//		perror("strtoul");
+//		return ULONG_MAX;
+//	}
+//
+//	if (endptr == str) {
+//		printf("timer: parse_ulong: no digits were found in %s\n", str);
+//		return ULONG_MAX;
+//	}
+//
+//	/* Successful conversion */
+//	return val;
+//}

@@ -9,7 +9,7 @@
 
 /* Private global variables */
 
-static char *video_mem;		/* Process (virtual) address to which VRAM is mapped */
+static unsigned char *video_mem;		/* Process (virtual) address to which VRAM is mapped */
 
 static video_info_t vi;		/* Horizontal screen resolution in pixels */
 
