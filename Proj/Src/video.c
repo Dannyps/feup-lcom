@@ -40,28 +40,3 @@ void setP(unsigned long x, unsigned long y, pixel_t color){
 void video_start(){
 	video_m=vg_init(0x105);
 }
-
-void *video_test_init() {
-	printf("Initing mode 0x%x!\n", 0x118);
-	video_m=vg_init(0x118);
-	video_info_t vi;
-	vi = get_vi();
-	int i, j;
-
-	pixel_t blue	=	{0x00, 0x00, 0xff};
-	pixel_t red		=	{0xff, 0x00, 0x00};
-
-	fill_screen(blue);
-
-	for(i = 0;i<50;i++){
-		for(j=0;j<50;j++){
-			setP(i,j,red);
-		}
-	}
-
-	sleep(5);
-
-	vg_exit();
-
-	return 0;
-}

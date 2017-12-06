@@ -11,6 +11,7 @@
 	  uint16_t x;      	/**< @brief horizontal resolution in pixels/characters */
 	  uint16_t y;      	/**< @brief vertical resolution in pixels/characters */
 	  uint8_t bpp; 		/**< @brief bits per pixel */
+	  unsigned char* vm;
 } video_info_t;
 
 /** @} end of video_info*/
@@ -52,8 +53,6 @@ int vg_exit(void);
 video_info_t get_vi();
 
 /** @} end of get_vi */
-
-
 
 
 #endif /* __VIDEO_GR_H */
