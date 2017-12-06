@@ -46,3 +46,59 @@ void setP(unsigned long x, unsigned long y, pixel_t color){
 void video_start(){
 	video_m=vg_init(0x105);
 }
+
+int test_xpm(char *xpm[], unsigned short xi, unsigned short yi) {
+
+        // change video mode to 0x105
+
+        video_start();
+
+        // print xpm here
+
+        int width, height;
+
+        char* pix = read_xpm(xpm, &width, &height);
+
+        width += xi;
+
+        height += yi;
+
+        int initial_x = xi;
+
+        int xpm_counter = 0;
+
+        // printing
+
+        while(yi < height) {
+
+                xi = initial_x;
+
+                while(xi < width) {
+
+                        setP(xi, yi, pix[xpm_counter]);
+
+                        xi++;
+
+                        xpm_counter++;
+
+                }
+
+                yi++;
+
+        }
+
+        video_dump_fb();
+
+        // ESC key scan
+
+        kbd_test_scan();
+
+        free(pix);
+
+        // exit video mode
+
+        vg_exit();
+
+        return 0;
+
+}

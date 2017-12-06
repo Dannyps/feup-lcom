@@ -27,13 +27,13 @@ typedef struct {
 
 	int (*getYear)();
 	void (*setYear)();
-	int (*getMonth)();
-	void (*setMonth)();
 	int (*getWeek)();
 	void (*setWeek)();
 
 	int year, month, week;
 } View;
+
+View View();
 
 static void setYear(View *this, int year) {
     this->year = year;
@@ -49,14 +49,6 @@ static void setWeek(View *this, int week) {
 
 static int getYear(View *this) {
     return this->year;
-}
-
-static int getMonth(View *this) {
-    return this->month;
-}
-
-static int getWeek(View *this) {
-    return this->week;
 }
 
 #endif

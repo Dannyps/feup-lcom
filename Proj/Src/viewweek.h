@@ -23,13 +23,13 @@
 #include "mouse.h"
 
 typedef struct {
-	View;
+	struct View;
 
 	void (*printView)();
 
 } ViewWeek;
 
-
+//ViewWeek ViewWeek();
 
 
 #endif
