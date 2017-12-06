@@ -5,6 +5,12 @@
 #include <sys/types.h>
 #include "video.h"
 
+pixel_t blue_c	=	{0x00, 0x00, 0xff};
+pixel_t red_c	=	{0xff, 0x00, 0x00};
+pixel_t green_c =	{0xff, 0xff, 0x00};
+pixel_t white_c	=	{0xff, 0xff, 0xff};
+pixel_t black_c	=	{0x00, 0x00, 0x00};
+
 int fill_screen(pixel_t color){
 	printf("filling screen with color %2x%2x%2x.\n", color.r, color.g, color.b);
 	static video_info_t vi;

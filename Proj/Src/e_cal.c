@@ -8,7 +8,6 @@
 #include <time.h>
 
 #include "vbe.h"
-#include "video_gr.h"
 #include "i8042.h"
 #include "i8254.h"
 #include <minix/sysutil.h>
@@ -28,14 +27,11 @@ void *init() {
 	vi = get_vi();
 	int i, j;
 
-	pixel_t blue	=	{0x00, 0x00, 0xff};
-	pixel_t red		=	{0xff, 0x00, 0x00};
-
-	fill_screen(blue);
+	fill_screen(white_c);
 
 	for(i = 0;i<50;i++){
 		for(j=0;j<50;j++){
-			setP(i,j,red);
+			setP(i,j,blue_c);
 		}
 	}
 
