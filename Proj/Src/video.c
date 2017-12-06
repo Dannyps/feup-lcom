@@ -37,9 +37,9 @@ void setP(unsigned long x, unsigned long y, pixel_t color){
 		exit(-8);
 	}
 	unsigned pos=(y*vi.x+x)*vi.bpp/8;
-	vi.vm[pos+0]=color.g;
-	vi.vm[pos+1]=color.b;
-	vi.vm[pos+2]=color.r;
+	vi.vm[pos+0]=color.r;
+	vi.vm[pos+1]=color.g;
+	vi.vm[pos+2]=color.b;
 	return;
 }
 
