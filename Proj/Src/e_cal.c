@@ -18,6 +18,11 @@
 #include "video.h"
 #include "mouse.h"
 
+//#include "view.h"
+#include "viewmonth.h"
+//#include "viewweek.h"
+#include "month_pixmap.h"
+
 #define PB2BASE(x) (((x) >> 4) & 0x0F000)
 #define PB2OFF(x) ((x) & 0x0FFFF)
 
@@ -35,7 +40,13 @@ void *init() {
 		}
 	}
 
-	sleep(5);
+	ViewMonth viewmonth;
+
+	viewmonth.month = 1;
+
+	test_xpm(viewmonth.getName(), 50, 50);
+
+	//sleep(5);
 
 	vg_exit();
 
