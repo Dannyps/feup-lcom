@@ -18,9 +18,7 @@
 #include "video.h"
 #include "mouse.h"
 
-//#include "view.h"
-#include "viewmonth.h"
-//#include "viewweek.h"
+#include "view.h"
 #include "month_pixmap.h"
 
 #define PB2BASE(x) (((x) >> 4) & 0x0F000)
@@ -40,11 +38,11 @@ void *init() {
 		}
 	}
 
-	ViewMonth viewmonth;
+	struct View cal;
 
-	viewmonth.month = 1;
+	cal.month = 1;
 
-	test_xpm(viewmonth.getName(), 50, 50);
+	cal.printMonth();
 
 	//sleep(5);
 
