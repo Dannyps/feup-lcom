@@ -23,32 +23,15 @@
 #include "mouse.h"
 
 typedef struct {
-	void (*printView)();
+	printMonth();
 
-	int (*getYear)();
-	void (*setYear)();
-	int (*getWeek)();
-	void (*setWeek)();
-
+	char* month_names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	
 	int year, month, week;
 } View;
 
-View View();
-
-static void setYear(View *this, int year) {
-    this->year = year;
-}
-
-static void setMonth(View *this, int month) {
-    this->month = month;
-}
-
-static void setWeek(View *this, int week) {
-    this->week = week;
-}
-
-static int getYear(View *this) {
-    return this->year;
+printMonth(x, y) {
+	test_xpm(month_names[month], x, y);
 }
 
 #endif
