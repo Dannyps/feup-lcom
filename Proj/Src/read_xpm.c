@@ -1,7 +1,3 @@
-/**
- *  @author Joao Cardoso (jcard@fe.up.pt) ????
- *  Added by pfs@fe.up.pt
- */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

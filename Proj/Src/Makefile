@@ -4,8 +4,8 @@ COMPILER_TYPE= gnu
 
 CC= gcc
 
-PROG= project
-SRCS= proj.c e_cal.c video_gr.c vbe.c video.c
+PROG= proj
+SRCS= proj.c e_cal.c video_gr.c vbe.c video.c keyboard.c timer.c
 
 CFLAGS= -Wall -Wextra
 
