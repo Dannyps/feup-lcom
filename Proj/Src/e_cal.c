@@ -38,11 +38,11 @@ void *init() {
 		}
 	}
 
-	struct View cal;
+	//View cal = {2017, 1, 2};
 
-	cal.month = 1;
+	char** xpm = January;
 
-	cal.printMonth();
+	test_xpm(xpm, 50, 150);
 
 	//sleep(5);
 

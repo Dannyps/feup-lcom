@@ -3,6 +3,8 @@
 #define __VIDEO_H
 
 #include "video_gr.h"
+#include "keyboard.h"
+#include "vbe.h"
 
 char* video_m;
 
@@ -19,4 +21,6 @@ extern pixel_t black_c;
 int fill_screen(pixel_t color);
 void setP(unsigned long x, unsigned long y, pixel_t color);
 void video_start();
+int test_xpm(char *xpm[], unsigned short xi, unsigned short yi);
+char *read_xpm(char *map[], int *wd, int *ht);
 #endif

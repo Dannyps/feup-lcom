@@ -72,9 +72,9 @@ static char *pic1[] = {
 
   "x 2",
 
-  "o 14",
+  "o 3",
 
-  "+ 4",
+  "+ 1",
 
   "................................",
 
@@ -104,8 +104,12 @@ static char *pic1[] = {
 
 };
 
+// SLIGHT CHANGE TO ACCOMODATE FOR ONLY 5 COLOURS
+// pixel_t colours[] = {black_c, red_c, green_c, blue_c, white_c};
+// defined in video.h
+
 static char *January[] = {
-	"4 28 2",
+	"4 28 4",
 	". 0",
 	"x 1",
 	". . x . . x . . x . . x . x . x . . x . . x x . . x . x",

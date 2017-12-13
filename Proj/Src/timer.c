@@ -4,6 +4,10 @@
 #include <sys/mman.h>
 #include <sys/types.h>
 #include "timer.h"
+#include "i8042.h"
+#include "i8254.h"
+
+int ticks_elapsed = 0, seconds_elapsed = 0;
 
 int timer0_subscribe_int(void ) {
 	timer0_hookIDs[0]=1; // we'll be using id 1 for the timer_0.

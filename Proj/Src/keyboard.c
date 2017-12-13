@@ -4,6 +4,8 @@
 #include <sys/mman.h>
 #include <sys/types.h>
 #include "keyboard.h"
+#include "i8042.h"
+#include "i8254.h"
 
 // KEYBOARD FUCNTIONS //
 

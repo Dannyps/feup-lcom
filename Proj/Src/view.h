@@ -1,12 +1,6 @@
 #ifndef __VIEW_H
 #define __VIEW_H
 
-#include <stdio.h>
-#include <minix/syslib.h>
-#include <minix/driver.h>
-#include <minix/drivers.h>
-#include <minix/com.h>
-#include <machine/int86.h>
 #include <sys/time.h>
 #include <time.h>
 
@@ -22,16 +16,17 @@
 #include "video.h"
 #include "mouse.h"
 
-typedef struct {
-	printMonth();
+char* month_names[] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
-	char* month_names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-	
-	int year, month, week;
+typedef struct {
+	int year;
+	int month;
+	int week;
 } View;
 
-printMonth(x, y) {
-	test_xpm(month_names[month], x, y);
-}
+/*
+void printMonth(View v, int x, int y) {
+	test_xpm(month_names[v.month], x, y);
+}*/
 
 #endif
