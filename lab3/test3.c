@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <minix/syslib.h>
 #include <minix/driver.h>
 #include <minix/drivers.h>
@@ -5,6 +7,11 @@
 #include "i8042.h"
 #include "i8254.h"
 #include <minix/sysutil.h>
+struct key_press_t{
+	unsigned char code;
+	unsigned char is2Byte;
+};
+
 
 #define DELAY_US    20000
 
@@ -79,12 +86,9 @@ void timer0_int_handler() {
 
         if((++tick_elapsed)%60==0){
         	seconds_elapsed++;
-            //printf("1 sec! %d\n", seconds_elapsed);
-
+            printf("1 sec! %d\n", seconds_elapsed);
         }
-
         return;
-
 }
 
 
@@ -96,22 +100,34 @@ int kbd_unsubscribe_int() {
 	return sys_irqrmpolicy(&kbc_hookIDs[1]);
 }
 
-void kbd_int_handler() {
-	//static unsigned char count=0;
+struct key_press_t* kbd_int_handler() {
 	seconds_elapsed=0;
-	//printf("received an interrupt!");
-	unsigned char rd;
-	sys_inb_cnt(0x60, (long unsigned int*)&rd);
+	struct key_press_t* kp = malloc(sizeof(struct key_press_t));
+	//printf("Alloc'ing %d bytes of memory.\n", sizeof(struct key_press_t));
+	if(kp==NULL){
+		printf("Could not allocate memory\n");
+		exit(-6);
+	}
+	long unsigned int rd;
+	static char flag=0;
 
-	if( ((rd>>7)&1) == 1){
+	sys_inb_cnt(0x60, &rd);
+
+	if(rd == 0xe0){
+		printf("0x0e... ");
+		flag=1;
+		return NULL;
+	}else if( ((rd>>7)&1) == 1){
 		printf("breakcode: 0x%02x\n", rd);
 	}else{
 		printf(" makecode: 0x%02x\n", rd);
 	}
 
-	if(rd==0x81)
+	kp->is2Byte = flag;
+	flag=0; // for next iter;
+	if(rd==0x81) // escape
 		stop=1;
-	return;
+	return kp;
 }
 
 void kbd_int_handler_assembly_wrapper() {
@@ -156,7 +172,7 @@ int kbd_test_scan(unsigned short assembly){
 				 case HARDWARE:
 					 if (msg.NOTIFY_ARG & irq_set) {
 						 if(assembly==0)
-							 kbd_int_handler();
+							 free(kbd_int_handler());
 						 else
 							 kbd_int_handler_assembly_wrapper();
 					 }

@@ -7,6 +7,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <minix/drivers.h>
+struct key_press_t{
+	unsigned char code;
+	unsigned char is2Byte;
+};
 
 
 static int proc_args(int argc, char **argv);
@@ -24,14 +28,8 @@ int main(int argc, char **argv)
 {
 	/* DO NOT FORGET TO initialize service */
 	sef_startup();
-    /* Enable IO-sensitive operations for ourselves */
-    sys_enable_iop(SELF);
-
 	atexit(exit_handler);
 	printf("\n--- STARTED\n");
-
-	fflush(stdout);
-
 
 	if (argc == 1) {					/* Prints usage of the program if no arguments are passed */
 		print_usage(argv);
@@ -43,9 +41,9 @@ int main(int argc, char **argv)
 static void print_usage(char **argv)
 {
 	printf("Usage: one of the following:\n"
-			"\t service run %s -args \"scan <0|1>\"\n"
+			"\t service run %s -args \"scan\"\n"
 			"\t service run %s -args \"poll\"\n"
-			"\t service run %s -args \"tscan <seconds>\"\n",
+			"\t service run %s -args \"tscan\"\"\n",
 			argv[0], argv[0], argv[0]);
 }
 
@@ -60,10 +58,6 @@ static int proc_args(int argc, char **argv)
 		}
 		int c=atoi(argv[2]);
 		printf("kbd::kbd_test_scan(%d) ", c);
-		if(c!=0 && c!=1){
-			fprintf(stderr, "please insert 0 for C or 1 for assembly implementation\n");
-			exit(-20);
-		}
 		if(c==0)
 			printf("(using c implementation.)\n");
 		else
@@ -86,10 +80,6 @@ static int proc_args(int argc, char **argv)
 		time = parse_ulong(argv[2], 10);						/* Parses string to unsigned long */
 		if (time == ULONG_MAX)
 			return 1;
-		if(time <=0){
-			fprintf(stderr, "time must be positive");
-			exit(-19);
-		}
 		printf("kbd::kbd_test_timed_scan(%lu)\n", time);
 		return kbd_test_timed_scan(time);
 	}
