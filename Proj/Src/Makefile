@@ -7,7 +7,7 @@ CC= gcc
 PROG= proj
 SRCS= proj.c e_cal.c video_gr.c vbe.c video.c keyboard.c timer.c read_xpm.c
 
-CFLAGS= -Wall -Wextra -D DEBUG
+CFLAGS= -Wall -Wextra
 
 DPADD+=  ${LIBDRIVER} ${LIBSYS}
 LDADD+= -llm -ldriver -lsys

@@ -5,28 +5,44 @@
 #include <sys/types.h>
 #include "video.h"
 #include "i8042.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 pixel_t blue_c	=	{0x00, 0x00, 0xff};
 pixel_t red_c	=	{0xff, 0x00, 0x00};
-pixel_t green_c =	{0xff, 0xff, 0x00};
+pixel_t green_c =	{0x00, 0xff, 0x00};
 pixel_t white_c	=	{0xff, 0xff, 0xff};
 pixel_t black_c	=	{0x00, 0x00, 0x00};
 
 pixel_t colours[] = {{0x00, 0x00, 0x00}, {0xff, 0x00, 0x00}, {0xff, 0xff, 0x00}, {0x00, 0x00, 0xff}, {0xff, 0xff, 0xff}};
 
 int fill_screen(pixel_t color){
+
 	//printf("filling screen with color %2x%2x%2x.\n", color.r, color.g, color.b);
 	static video_info_t vi;
 	vi = get_vi();
 	//TODO add check if video mode is on
 	int i;
 	for(i=0; i<vi.x*vi.y*vi.bpp/8 ; i+=3){
-		vi.vm[i+0]=color.b;
-		vi.vm[i+1]=color.r;
-		vi.vm[i+2]=color.g;
+		vi.vm[i+0]=color.r;
+		vi.vm[i+1]=color.g;
+		vi.vm[i+2]=color.b;
 	}
-	printf("done\n");
-	sleep(1);
+	printf("filled screen\n");
+	return 0;
+}
+
+int rfill_screen(){
+	static video_info_t vi;
+	vi = get_vi();
+	//TODO add check if video mode is on
+	int i;
+	for(i=0; i<vi.x*vi.y*vi.bpp/8 ; i+=3){
+		vi.vm[i+0]=rand()%50+100;
+		vi.vm[i+1]=rand()%50;
+		vi.vm[i+2]=rand()%50;
+	}
+	printf("filled screen\n");
 	return 0;
 }
 
@@ -52,7 +68,7 @@ void video_start(){
 	video_m=vg_init(0x118);
 }
 
-int test_xpm(char *xpm[], unsigned short xi, unsigned short yi) {
+int draw_xpm(char *xpm[], unsigned short xi, unsigned short yi) {
 
         // print xpm here
 
@@ -82,12 +98,7 @@ int test_xpm(char *xpm[], unsigned short xi, unsigned short yi) {
                 }
                 yi++;
         }
-        //video_dump_fb();
-        // ESC key scan
-        kbd_test_scan();
         free(pix);
-        // exit video mode
-        vg_exit();
         return 0;
 }
 

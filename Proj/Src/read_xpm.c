@@ -46,13 +46,13 @@ char *read_xpm(char *map[], int *wd, int *ht)
 		  printf("read_xpm: incorrect symbol, color at line %d: %s\n", i+1, map[i+1]);
 		  return NULL;
 	  }
-	  printf("symbol: %d - %c\n", symbol, symbol);
+	  //printf("symbol: %d - %c\n", symbol, symbol);
 
 	  colors[(int) symbol].r=R;
 	  colors[(int) symbol].g=G;
 	  colors[(int) symbol].b=B;
 
-	  printf("assigned to %d.\n", symbol);
+	  //printf("assigned to %d.\n", symbol);
 #ifdef DEBUG
 	  printf("-> %c %2x|%2x|%2x\n", symbol, colors[i].r, colors[i].g, colors[i].b);
 #endif
@@ -71,8 +71,8 @@ char *read_xpm(char *map[], int *wd, int *ht)
     printf("\nparsing %s\n", line);
 #endif
     for (j=0; j<width; j++) {
-    	printf("line[%d] is %c -> %2x%2x%2x\n", j, line[j], colors[(int) line[j]].r, colors[(int) line[j]].g, colors[(int) line[j]].b);
-      printf("found in pos %d\n", line[j]);
+	  //printf("line[%d] is %c -> %2x%2x%2x\n", j, line[j], colors[(int) line[j]].r, colors[(int) line[j]].g, colors[(int) line[j]].b);
+      //printf("found in pos %d\n", line[j]);
       *pixtmp = colors[(int) line[j]].r; pixtmp++;
       *pixtmp = colors[(int) line[j]].g; pixtmp++;
       *pixtmp = colors[(int) line[j]].b; pixtmp++;
@@ -81,9 +81,9 @@ char *read_xpm(char *map[], int *wd, int *ht)
 #endif
     }
   }
-  for(i=0;i<width*height*3;i+=3){
-	  printf("#%2x%2x%2x ", (unsigned char) pix[i], (unsigned char) pix[i+1], (unsigned char) pix[i+2]);
-  }
+//  for(i=0;i<width*height*3;i+=3){
+//	  printf("#%2x%2x%2x ", (unsigned char) pix[i], (unsigned char) pix[i+1], (unsigned char) pix[i+2]);
+//  }
   free(colors);
   return pix;
 }

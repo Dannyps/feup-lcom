@@ -30,23 +30,24 @@ void *init() {
 	vi = get_vi();
 	int i, j;
 
-	fill_screen(blue_c);
+	rfill_screen();
 	printf("%d %d %d\n", white_c.r, white_c.g, white_c.b);
 	printf("filled screen\n");;
-	for(i = 0;i<50;i++){
-		for(j=0;j<80;j++){
-			setP(i,j,red_c);
+	for(i = 0;i<vi.x;i++){
+		for(j=0;j<100;j++){
+			setP(i,j,white_c);
 		}
 	}
 
 	View cal = {2017, 1, 2};
 
-	char** xpm = January;
-
-	test_xpm(xpm, 50, 150);
+	draw_xpm(lcom_nome, 0, 0);
+	draw_xpm(lcom_tcti, 724, 0);
 
 	//sleep(5);
-
+    printf("waiting for esc");
+    // ESC key scan
+    kbd_test_scan();
 	vg_exit();
 
 	return 0;
