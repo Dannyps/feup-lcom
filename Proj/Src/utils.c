@@ -46,6 +46,8 @@ void start_listening(){
 					if (msg.NOTIFY_ARG & irq_set) {
 						KEY_PRESS* kp;
 						kp=kbd_int_handler();
+						if(kp==NULL)
+							continue;
 						if(kp->code==0x81){
 							stop=1;
 						}

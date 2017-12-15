@@ -30,8 +30,8 @@ int kbd_unsubscribe_int() {
 }
 
 struct key_press_t* kbd_int_handler() {
+
 	struct key_press_t* kp = malloc(sizeof(struct key_press_t));
-	//printf("Alloc'ing %d bytes of memory.\n", sizeof(struct key_press_t));
 	if(kp==NULL){
 		printf("Could not allocate memory\n");
 		exit(-6);
