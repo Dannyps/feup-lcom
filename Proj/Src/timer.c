@@ -32,6 +32,8 @@ void timer0_int_handler() {
 	static int tick_elapsed=0;
         if((++tick_elapsed)%1==0){
         	rfill_screen();
+
+
         	draw_main_page();
         	//printf("reprinting on %d\n", tick_elapsed);
         	vg_flush();

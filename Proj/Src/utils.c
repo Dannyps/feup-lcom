@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <minix/driver.h>
 #include <minix/drivers.h>
+#include "view.h"
 
 
 void start_listening(){
@@ -88,16 +89,12 @@ void draw_main_page(){
 		}
 	}
 
-	//View cal = {2017, 1, 2};
+	static View cal = {2017, 1, 2};
 
 	draw_xpm(lcom_nome, 0, 0);
 	draw_xpm(lcom_tcti, 724, 0);
 
 	drawMonth(cal, 400, 90);
 	int k=0;
-	for(k; k< 13; k++) {
-		sleep(1);
-		nextMonth(&cal);
-		drawMonth(cal, 400, 90);
-	}
+
 }
