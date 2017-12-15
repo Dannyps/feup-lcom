@@ -46,8 +46,6 @@ static void print_usage(char **argv)
 }
 
 
-/* GCP <= Graphics Card Program */
-
 static int proc_args(int argc, char **argv)
 {
 	if(argc){

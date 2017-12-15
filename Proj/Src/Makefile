@@ -5,9 +5,9 @@ COMPILER_TYPE= gnu
 CC= gcc
 
 PROG= proj
-SRCS= proj.c e_cal.c video_gr.c vbe.c video.c keyboard.c timer.c
+SRCS= proj.c e_cal.c video_gr.c vbe.c video.c keyboard.c timer.c read_xpm.c
 
-CFLAGS= -Wall -Wextra
+CFLAGS= -Wall -Wextra -D DEBUG
 
 DPADD+=  ${LIBDRIVER} ${LIBSYS}
 LDADD+= -llm -ldriver -lsys
