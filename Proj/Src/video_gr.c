@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include "video_gr.h"
 #include "vbe.h"
+#include <string.h>
 
 
 /* Private global variables */
@@ -20,7 +21,10 @@ int vg_exit() {
 
   reg86.u.b.ah = 0x00;    /* Set Video Mode function */
   reg86.u.b.al = 0x03;    /* 80x25 text mode*/
-
+#ifdef DOUBLEBUFF
+  video_info_t vi = get_vi();
+  free(vi.vm);
+#endif
   if( sys_int86(&reg86) != OK ) {
       printf("\tvg_exit(): sys_int86() failed \n");
       return 1;
@@ -72,8 +76,20 @@ void* vg_init(unsigned short mode) {
 	video_mem = vm_map_phys(SELF, (void *)mr.mr_base, vram_size);
 	if(video_mem == MAP_FAILED)
 		panic("couldn't map video memory");
+#ifdef DOUBLEBUFF
+	vi.vm=malloc(vmi.YResolution*vmi.XResolution*vmi.BitsPerPixel/8);
+	vi.rvm=video_mem;
+#else
 	vi.vm=video_mem;
+#endif
 	return video_mem;
+}
+
+void vg_flush(){
+#ifdef DOUBLEBUFF
+	video_info_t vi = get_vi();
+	memcpy(vi.rvm, vi.vm, vi.x*vi.y*vi.bpp/8);
+#endif
 }
 
 video_info_t get_vi(){

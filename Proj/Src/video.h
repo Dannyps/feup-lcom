@@ -1,4 +1,3 @@
-
 #ifndef __VIDEO_H
 #define __VIDEO_H
 
@@ -23,5 +22,4 @@ int rfill_screen();
 void setP(unsigned long x, unsigned long y, pixel_t color);
 void video_start();
 int draw_xpm(char *xpm[], unsigned short xi, unsigned short yi);
-char *read_xpm(char *map[], int *wd, int *ht);
 #endif

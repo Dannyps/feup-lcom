@@ -1,15 +1,17 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <minix/syslib.h>
 #include <minix/driver.h>
 #include <minix/drivers.h>
-#include <machine/int86.h>
-#include <sys/mman.h>
-#include <sys/types.h>
-#include "keyboard.h"
+#include <minix/com.h>
 #include "i8042.h"
 #include "i8254.h"
+#include <minix/sysutil.h>
+#include "keyboard.h"
 
 // KEYBOARD FUCNTIONS //
 
+extern int kbc_hookIDs[2];
 
 int kbd_subscribe_int(void ) {
 	kbc_hookIDs[0]=0; // we'll be using id 0 for the kbc.
@@ -24,67 +26,33 @@ int kbd_subscribe_int(void ) {
 }
 
 int kbd_unsubscribe_int() {
-#ifdef PROJ
-	printf("sys_inb was called %d times.\n", sysinbcount);
-#endif
 	return sys_irqrmpolicy(&kbc_hookIDs[1]);
 }
 
-void kbd_int_handler() {
-	unsigned char rd;
-	sys_inb_cnt(0x60, (long unsigned int*)&rd);
+struct key_press_t* kbd_int_handler() {
+	struct key_press_t* kp = malloc(sizeof(struct key_press_t));
+	//printf("Alloc'ing %d bytes of memory.\n", sizeof(struct key_press_t));
+	if(kp==NULL){
+		printf("Could not allocate memory\n");
+		exit(-6);
+	}
+	long unsigned int rd;
+	static char flag=0;
 
-	if( ((rd>>7)&1) == 1){
+	sys_inb(0x60, &rd);
+
+	if(rd == 0xe0){
+		printf("0x0e... ");
+		flag=1;
+		return NULL;
+	}else if( ((rd>>7)&1) == 1){
 		printf("breakcode: 0x%02x\n", rd);
 	}else{
 		printf(" makecode: 0x%02x\n", rd);
 	}
 
-	if(rd==0x81)
-		stop=1;
-	return;
+	kp->is2Byte = flag;
+	flag=0; // for next iter;
+	kp->code=(unsigned char) rd;
+	return kp;
 }
-
-int kbd_test_scan(){
-	int ret = kbd_subscribe_int();
-	if(ret!=0){
-		fprintf(stderr, "Could not subscribe interruptions for the kbc!\n");exit(-1);
-	}
-
-	int ipc_status;
-	int r;
-	message msg;
-	stop=0;
-	while(!stop) {
-		//Get a request message.
-		if( (r = driver_receive(ANY, &msg, &ipc_status)) != 0 ) {
-			printf("driver_receive failed with: %d", r);
-			continue;
-		}
-		if (is_ipc_notify(ipc_status)) {
-			int irq_set=0; irq_set |= BIT(0); // 0 as in the kbc_hookIDs[0].
-			switch (_ENDPOINT_P(msg.m_source)) {
-			case HARDWARE:
-				if (msg.NOTIFY_ARG & irq_set) {
-					kbd_int_handler();
-				}
-				break;
-			default:
-				break;
-				//no other notifications expected: do nothing
-			}
-		} else { // received a standard message, not a notification
-			// no standard messages expected: do nothing
-		}
-	}
-
-	if(kbd_unsubscribe_int()!=0){
-		fprintf(stderr, "Could not unsubscribe from IRQ_0.\n");
-		exit(-2);
-	}
-	printf("\nunsubscribed KBD successfully.\n");
-
-	return 0;
-
-}
-
