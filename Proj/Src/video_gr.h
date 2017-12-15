@@ -1,6 +1,6 @@
 #ifndef __VIDEO_GR_H
 #define __VIDEO_GR_H
-
+#include <stdint.h>
 
 /** @name VBE Video Info */
 /**@{
@@ -8,10 +8,11 @@
  * A simplified version of the Packed VBE Mode Info Block
  */
  typedef struct {
-	  uint16_t x;      	/**< @brief horizontal resolution in pixels/characters */
-	  uint16_t y;      	/**< @brief vertical resolution in pixels/characters */
-	  uint8_t bpp; 		/**< @brief bits per pixel */
-	  unsigned char* vm;
+	  uint16_t x;      		/**< @brief horizontal resolution in pixels/characters */
+	  uint16_t y;      		/**< @brief vertical resolution in pixels/characters */
+	  uint8_t bpp; 			/**< @brief bits per pixel */
+	  unsigned char* vm;	/**< @brief video memory(buffer actually) */
+	  unsigned char* rvm;	/**< @brief real video memory */
 } video_info_t;
 
 /** @} end of video_info*/
@@ -54,5 +55,12 @@ video_info_t get_vi();
 
 /** @} end of get_vi */
 
+/**
+* @brief copies buffer to real vm.
+*
+* @return void
+*/
+void vg_flush();
+/** @} end of vg_flush */
 
 #endif /* __VIDEO_GR_H */

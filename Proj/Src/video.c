@@ -7,6 +7,7 @@
 #include "i8042.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "read_xpm.h"
 
 pixel_t blue_c	=	{0x00, 0x00, 0xff};
 pixel_t red_c	=	{0xff, 0x00, 0x00};
@@ -38,11 +39,11 @@ int rfill_screen(){
 	//TODO add check if video mode is on
 	int i;
 	for(i=0; i<vi.x*vi.y*vi.bpp/8 ; i+=3){
-		vi.vm[i+0]=rand()%50+100;
-		vi.vm[i+1]=rand()%50;
+		vi.vm[i+0]=rand()%150+20;
+		vi.vm[i+1]=rand()%150;
 		vi.vm[i+2]=rand()%50;
 	}
-	printf("filled screen\n");
+	//printf("filled screen\n");
 	return 0;
 }
 
