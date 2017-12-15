@@ -30,11 +30,12 @@ void *init() {
 	vi = get_vi();
 	int i, j;
 
-	fill_screen(white_c);
-
+	fill_screen(blue_c);
+	printf("%d %d %d\n", white_c.r, white_c.g, white_c.b);
+	printf("filled screen\n");;
 	for(i = 0;i<50;i++){
-		for(j=0;j<50;j++){
-			setP(i,j,blue_c);
+		for(j=0;j<80;j++){
+			setP(i,j,red_c);
 		}
 	}
 
@@ -44,7 +45,7 @@ void *init() {
 
 	test_xpm(xpm, 50, 150);
 
-	//sleep(5);
+	sleep(5);
 
 	vg_exit();
 
