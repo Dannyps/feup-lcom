@@ -19,8 +19,9 @@ extern pixel_t white_c;
 extern pixel_t black_c;
 
 int fill_screen(pixel_t color);
+int rfill_screen();
 void setP(unsigned long x, unsigned long y, pixel_t color);
 void video_start();
-int test_xpm(char *xpm[], unsigned short xi, unsigned short yi);
+int draw_xpm(char *xpm[], unsigned short xi, unsigned short yi);
 char *read_xpm(char *map[], int *wd, int *ht);
 #endif
