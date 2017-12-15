@@ -11,12 +11,11 @@
 #include <minix/sysutil.h>
 #include "lmlib.h"
 
+#include "month_pixmap.h"
 #include "keyboard.h"
 #include "timer.h"
 #include "video.h"
 #include "mouse.h"
-
-char* month_names[] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
 typedef struct {
 	int year;
@@ -24,40 +23,38 @@ typedef struct {
 	int week;
 } View;
 
-void nextMonth(View v) {
-	if(v.month != 12) v.month += 1;
+void nextMonth(View *v) {
+	if(v->month != 12) v->month += 1;
 	else {
-		v.month = 1;
-		v.year += 1;
+		v->month = 1;
+		v->year += 1;
 	}
 }
 
-void prevMonth(View v) {
-	if(v.month != 1) v.month -= 1;
+void prevMonth(View *v) {
+	if(v->month != 1) v->month -= 1;
 	else {
-		v.month = 12;
-		v.year -= 1;
+		v->month = 12;
+		v->year -= 1;
 	}
 }
 
-/*
-char* getMonth(View v) {
-	char *ret;
+void drawMonth(View v, int x, int y) {
 	switch(v.month) {
-	case 1: return January;
-	case 2: return February;
-	case 3: return March;
-	case 4: return April;
-	case 5: return May;
-	case 6: return June;
-	case 7: return July;
-	case 8: return August;
-	case 9: return September;
-	case 10: return October;
-	case 11: return November;
-	case 12: return December;
-	case default: break;
+	case 1: draw_xpm(January, x, y); break;
+	case 2: draw_xpm(February, x, y); break;
+	case 3: draw_xpm(March, x, y); break;
+	case 4: draw_xpm(April, x, y); break;
+	case 5: draw_xpm(May, x, y); break;
+	case 6: draw_xpm(June, x, y); break;
+	case 7: draw_xpm(July, x, y); break;
+	case 8: draw_xpm(August, x, y); break;
+	case 9: draw_xpm(September, x, y); break;
+	case 10: draw_xpm(October, x, y); break;
+	case 11: draw_xpm(November, x, y); break;
+	case 12: draw_xpm(December, x, y); break;
 	}
-}*/
+}
 
 #endif
+
