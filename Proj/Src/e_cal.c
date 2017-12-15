@@ -39,13 +39,13 @@ void *init() {
 		}
 	}
 
-	//View cal = {2017, 1, 2};
+	View cal = {2017, 1, 2};
 
 	char** xpm = January;
 
 	test_xpm(xpm, 50, 150);
 
-	sleep(5);
+	//sleep(5);
 
 	vg_exit();
 
