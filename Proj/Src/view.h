@@ -24,9 +24,40 @@ typedef struct {
 	int week;
 } View;
 
+void nextMonth(View v) {
+	if(v.month != 12) v.month += 1;
+	else {
+		v.month = 1;
+		v.year += 1;
+	}
+}
+
+void prevMonth(View v) {
+	if(v.month != 1) v.month -= 1;
+	else {
+		v.month = 12;
+		v.year -= 1;
+	}
+}
+
 /*
-void printMonth(View v, int x, int y) {
-	test_xpm(month_names[v.month], x, y);
+char* getMonth(View v) {
+	char *ret;
+	switch(v.month) {
+	case 1: return January;
+	case 2: return February;
+	case 3: return March;
+	case 4: return April;
+	case 5: return May;
+	case 6: return June;
+	case 7: return July;
+	case 8: return August;
+	case 9: return September;
+	case 10: return October;
+	case 11: return November;
+	case 12: return December;
+	case default: break;
+	}
 }*/
 
 #endif
