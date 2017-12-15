@@ -92,4 +92,12 @@ void draw_main_page(){
 
 	draw_xpm(lcom_nome, 0, 0);
 	draw_xpm(lcom_tcti, 724, 0);
+
+	drawMonth(cal, 400, 90);
+	int k=0;
+	for(k; k< 13; k++) {
+		sleep(1);
+		nextMonth(&cal);
+		drawMonth(cal, 400, 90);
+	}
 }
