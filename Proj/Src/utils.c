@@ -10,6 +10,7 @@
 #include <minix/drivers.h>
 #include "view.h"
 
+static View cal = {2017, 1, 2};
 
 void start_listening(){
 
@@ -49,7 +50,19 @@ void start_listening(){
 						if(kp==NULL)
 							continue;
 						if(kp->code==0x81){
-							stop=1;
+							stop=1; continue;
+						}
+						if(kp->code==0x4d){ //right
+							nextMonth(&cal);
+							rfill_screen();
+							draw_main_page();
+							continue;
+						}
+						if(kp->code==0x4b){ //left
+							prevMonth(&cal);
+							rfill_screen();
+							draw_main_page();
+							continue;
 						}
 						free(kp);
 					}
@@ -90,8 +103,6 @@ void draw_main_page(){
 			setP(i,j,white_c);
 		}
 	}
-
-	static View cal = {2017, 1, 2};
 
 	draw_xpm(lcom_nome, 0, 0);
 	draw_xpm(lcom_tcti, 724, 0);
