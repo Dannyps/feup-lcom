@@ -107,7 +107,13 @@ void draw_main_page(){
 	draw_xpm(lcom_nome, 0, 0);
 	draw_xpm(lcom_tcti, 724, 0);
 
-	drawMonth(cal, 400, 90);
+	drawMonthName(cal, 300, 90);
+	draw_xpm(Weekdays, 300, 140);
+
+	//int weekday = calculateFirstWeekDay(cal);
+
+	//drawMonth(/*weekday*/ 1, 300, 290);
+
 	int k=0;
 
 }
