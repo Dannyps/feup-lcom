@@ -103,4 +103,11 @@ int draw_xpm(char *xpm[], unsigned short xi, unsigned short yi) {
         return 0;
 }
 
-
+void draw_cursor(unsigned x, unsigned y){
+	int i, j;
+	for(i=x;i<x+5;i++){
+		for(j=y;j<y+5;j++){
+			setP(i, j, red_c);
+		}
+	}
+}

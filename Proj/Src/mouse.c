@@ -6,6 +6,7 @@
 #include "i8042.h"
 #include "i8254.h"
 #include "mouse.h"
+#include "utils.h"
 
 char canIWrite(){
 	unsigned long ret;
@@ -65,39 +66,62 @@ char enableMouseInterrupts(){
 	return 0;
 }
 
-
 int kbd_mouse_subscribe_int(void ) {
-	lhid=2; // we'll be using id 2 for the kbc.
+	mouse_hookIDs[0]=2;
+	int temp=mouse_hookIDs[0];  // use the temp variable for input/output from sys_irqsetpolicy
 
-	int ret=sys_irqsetpolicy(MOUSE_IRQ, IRQ_EXCLUSIVE|IRQ_REENABLE, &lhid);
+	int ret=sys_irqsetpolicy(MOUSE_IRQ, IRQ_EXCLUSIVE|IRQ_REENABLE, &temp);
 
-	khid=lhid;
-	lhid=0;
+	mouse_hookIDs[1]=temp;
 
 	printf("Wrting 2 mouse\n");
 	wrt2Mouse(ENABLE_STREAM_MODE, 1);
+
+	// Activate mouse wheel
+	unsigned long mouseReturn;
+
+	wrt2Mouse(0xf3, 1); // Set sample rate...
+	wrt2Mouse(200, 	0); // to 200.
+	wrt2Mouse(0xf3, 1); // Set sample rate...
+	wrt2Mouse(100, 	0); // to 100.
+	wrt2Mouse(0xf3, 1); // Set sample rate...
+	wrt2Mouse(80, 	0); // to 80.
+
+	wrt2Mouse(0xf2, 0); // get device id
+
+	sys_inb(OUT_BUF, &mouseReturn);
+
+
+	if(mouseReturn==0x03){
+		// successs! we have a special scrolling wheel capable mouse atached to our PS/2 port,
+		// and we're gonna use it ;)
+	}else{
+		// :(  aka sad face
+		printf("The current mouse does not support the Microsoft Intellimouse scrolling wheel.\nPlease use another method.\n"); exit(3);
+	}
 	return ret;
 }
 
 int kbd_mouse_unsubscribe_int() {
 	wrt2Mouse(DISABLE_STREAM_MODE, 1);
-	return sys_irqrmpolicy(&khid);
+	return sys_irqrmpolicy(&mouse_hookIDs[1]);
 }
 
 void handleMouse(unsigned char* arr, struct mouse_action_t* ma){
 	/* arr should be aligned! */
-	ma->X=(unsigned int)arr[1];
-	ma->Y=(unsigned int)arr[2];
+	ma->x=(unsigned char)arr[1];
+	ma->y=(unsigned char)arr[2];
+	ma->z=(char) arr[3];
 	if((arr[0]&1<<4)!=0){
 		// X sign bit was set.
-		ma->X|=0xffffff00;
+		ma->x|=0xffffff00;
 	}
 	if((arr[0]&1<<5)!=0){
 		// Y sign bit was set.
-		ma->Y|=0xffffff00;
+		ma->y|=0xffffff00;
 	}
 
-	ma->lmb=0; ma->rmb=0; ma->mmb=0; ma->xov=0; ma->yov=0;
+	ma->lmb=0; ma->rmb=0; ma->mmb=0; //ma->xov=0; ma->yov=0;
 
 	// test for Middle Mouse Button
 	if((arr[0]&1<<2)!=0){
@@ -111,25 +135,24 @@ void handleMouse(unsigned char* arr, struct mouse_action_t* ma){
 	if((arr[0]&1<<0)!=0){
 		ma->lmb=1;
 	}
-	// test for X overflow
-	if((arr[0]&1<<6)!=0){
-		ma->xov=1;
-	}
-	// test for Y overflow
-	if((arr[0]&1<<7)!=0){
-		ma->yov=1;
-	}
+//	// test for X overflow
+//	if((arr[0]&1<<6)!=0){
+//		ma->xov=1;
+//	}
+//	// test for Y overflow
+//	if((arr[0]&1<<7)!=0){
+//		ma->yov=1;
+//	}
 }
 
 
-struct mouse_action_t* kbd_mouse_int_handler(int gesture) {
+struct mouse_action_t* kbd_mouse_int_handler() {
+	printf("mouse handler... ");
 	static unsigned char count=0;
-	static unsigned char arr[3];
+	static unsigned char arr[4];
 	static char synced=0;
 	static char c=0;
-
-	ticks_elapsed = 0;
-	seconds_elapsed = 0;
+	struct mouse_action_t* ma = NULL;
 
 	// keep this value
 	unsigned long rd;
@@ -138,40 +161,34 @@ struct mouse_action_t* kbd_mouse_int_handler(int gesture) {
 
 	// Update counter
 	count++;
-	if(!synced && c>3){
+	if(!synced && c>4){
 		//try to sync
-		if( (arr[count-1] & (1<<3) ) == 0){ // we got a zero on bit 3. This byte wasn't the first, but the next one might be it.
-			count=0;
-		}else{
-			// we got a one.
-			if(count-1==0 &&
+			if( (arr[count-1] & (1<<3) ) == 0){ // we got a zero on bit 3. This byte wasn't the first, but the next one might be it.
+				count=0;
+			}else{
+				// we got a one.
+				if(count-1==0 &&
 					( (arr[1] & (1<<3)) == 0) &&
-					( (arr[2] & (1<<3)) == 0) ){
-				//that last byte was byte 0, and the following two bytes were good. We're synced.
-				synced=1;
-				//printf("SYNCED!\n");
+					( (arr[2] & (1<<3)) == 0) &&
+					( (arr[3] & (1<<3)) == 0) ){
+					//that last byte was byte 0, and the following two bytes were good. We're synced.
+					synced=1;
+					printf("==> MOUSE SYNCED!\n");
+				}
 			}
-		}
 	}
-
-	struct mouse_action_t* ma = malloc(sizeof(struct mouse_action_t));
-	if(ma==NULL){
-		printf("Could not allocate memory\n");
-		exit(-6);
-	}
-
-	if(count>2){
+	if(count>3){
 		count=0;
 		if(synced){
-			if(!gesture){
-				handleMouse(arr, &(*ma));
-			} /*else{
-				stateMachine(arr);
-			}*/
+			ma = malloc(sizeof(struct mouse_action_t));
+			if(ma==NULL){
+				printf("Could not allocate memory\n");
+				exit(-6);
+			}
+			handleMouse(arr, &(*ma));
 		}
 	}
 	c++;
-
 	return ma;
 }
 
