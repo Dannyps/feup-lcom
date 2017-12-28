@@ -3,6 +3,8 @@
 #include <machine/int86.h>
 #include <sys/mman.h>
 #include <sys/types.h>
+#include "i8042.h"
+#include "i8254.h"
 #include "mouse.h"
 
 char canIWrite(){
@@ -65,7 +67,7 @@ char enableMouseInterrupts(){
 
 
 int kbd_mouse_subscribe_int(void ) {
-	lhid=0; // we'll be using id 0 for the kbc.
+	lhid=2; // we'll be using id 2 for the kbc.
 
 	int ret=sys_irqsetpolicy(MOUSE_IRQ, IRQ_EXCLUSIVE|IRQ_REENABLE, &lhid);
 
@@ -77,12 +79,50 @@ int kbd_mouse_subscribe_int(void ) {
 	return ret;
 }
 
-int kbd__mouse_unsubscribe_int() {
+int kbd_mouse_unsubscribe_int() {
 	wrt2Mouse(DISABLE_STREAM_MODE, 1);
 	return sys_irqrmpolicy(&khid);
 }
 
-void kbd_mouse_int_handler(int gesture) {
+void handleMouse(unsigned char* arr, struct mouse_action_t* ma){
+	/* arr should be aligned! */
+	ma->X=(unsigned int)arr[1];
+	ma->Y=(unsigned int)arr[2];
+	if((arr[0]&1<<4)!=0){
+		// X sign bit was set.
+		ma->X|=0xffffff00;
+	}
+	if((arr[0]&1<<5)!=0){
+		// Y sign bit was set.
+		ma->Y|=0xffffff00;
+	}
+
+	ma->lmb=0; ma->rmb=0; ma->mmb=0; ma->xov=0; ma->yov=0;
+
+	// test for Middle Mouse Button
+	if((arr[0]&1<<2)!=0){
+		ma->mmb=1;
+	}
+	// test for Right Mouse Button
+	if((arr[0]&1<<1)!=0){
+		ma->rmb=1;
+	}
+	// test for Left Mouse Button
+	if((arr[0]&1<<0)!=0){
+		ma->lmb=1;
+	}
+	// test for X overflow
+	if((arr[0]&1<<6)!=0){
+		ma->xov=1;
+	}
+	// test for Y overflow
+	if((arr[0]&1<<7)!=0){
+		ma->yov=1;
+	}
+}
+
+
+struct mouse_action_t* kbd_mouse_int_handler(int gesture) {
 	static unsigned char count=0;
 	static unsigned char arr[3];
 	static char synced=0;
@@ -114,23 +154,29 @@ void kbd_mouse_int_handler(int gesture) {
 		}
 	}
 
+	struct mouse_action_t* ma = malloc(sizeof(struct mouse_action_t));
+	if(ma==NULL){
+		printf("Could not allocate memory\n");
+		exit(-6);
+	}
 
 	if(count>2){
 		count=0;
 		if(synced){
 			if(!gesture){
-				printMouse(arr);
-			}else{
+				handleMouse(arr, &(*ma));
+			} /*else{
 				stateMachine(arr);
-			}
+			}*/
 		}
 	}
 	c++;
-	return;
+
+	return ma;
 }
 
 unsigned char wrt2Mouse(unsigned char cmd, char retransmit){
-	uchar debug=1;
+	unsigned char debug=1;
 
 	if(debug){
 		printf("Writing WRITE BYTE command to CTRL_REG... ");

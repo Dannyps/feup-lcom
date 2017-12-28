@@ -11,6 +11,7 @@
 #define BIT(n) (0x01<<(n))
 
 #define KBC_IRQ	        1    /**< @brief KBC IRQ line */
+#define MOUSE_IRQ       12   /**< @brief Mouse IRQ line */
 
 /* I/O port addresses */
 
@@ -18,38 +19,35 @@
 #define IN_BUF			0x60 /**< @brief kbc input buffer */
 
 #define STATUS_REG		0x64 /**< @brief kbc input buffer */
+#define CTRL_REG        0x64 /**< @brief kbc control register */
 
-/* Timer control */
+/* KBC COMMANDS */
 
-/* Timer selection: bits 7 and 6 */
+#define WRITE_BYTE                0xD4        /**< @brief kbc WRITE BYTE command, called b4 mouse commands */
 
-#define TIMER_SEL0		0x00     /**< @brief Control Word for Timer 0 */
-#define TIMER_SEL1		BIT(6)   /**< @brief Control Word for Timer 1 */
-#define TIMER_SEL2		BIT(7)   /**< @brief Control Word for Timer 2 */
-#define TIMER_RB_CMD		(BIT(7)|BIT(6))  /**< @brief Read Back Command */
+#define READ_CMD_BYTE        0x20
 
-/* Register selection: bits 5 and 4 */
+#define WRITE_CMD_BYTE        0x60
 
-#define TIMER_LSB		BIT(4)  /**< @brief Initialize Counter LSB only */
-#define TIMER_MSB		BIT(5)  /**< @brief Initialize Counter MSB only */
-#define TIMER_LSB_MSB		(TIMER_LSB | TIMER_MSB) /**< @brief Initialize LSB first and MSB afterwards */
+/* MOUSE COMMANDS */
 
-/* Operating mode: bits 3, 2 and 1 */
+#define ENABLE_STREAM_MODE        0xF4        /**< @brief mouse: enable stream mode */
 
-#define TIMER_SQR_WAVE		(BIT(2)|BIT(1)) /**< @brief Mode 3: square wave generator */
-#define TIMER_RATE_GEN		BIT(2)          /**< @brief Mode 2: rate generator */
+#define DISABLE_STREAM_MODE        0xF5        /**< @brief mouse: disable stream mode */
 
-/* Counting mode: bit 0 */
+#define SET_STREAM_MODE                0xEA        /**< @brief mouse: set stream mode */
 
-#define TIMER_BCD			0x01   /**< @brief Count in BCD */
-#define TIMER_BIN			0x00   /**< @brief Count in binary */
+#define SET_REMOTE_MODE                0xF0        /**< @brief mouse: set remote mode */
 
-/* READ-BACK COMMAND FORMAT */
+#define READ_DATA                        0xEB        /**< @brief mouse: read data from remote mode */
 
-#define TIMER_RB_COUNT_         BIT(5)
-#define TIMER_RB_STATUS_        BIT(4)
-#define TIMER_RB_SEL(n)         BIT((n)+1)
+/* Mouse controller -- Acknowledgment bytes */
 
+#define MOUSE_ACK                0xFA        /**< @brief mouse response: everything is ok */
+
+#define MOUSE_NACK                0xFE        /**< @brief mouse response: invalid byte */
+
+#define MOUSE_ERROR                0xFC        /**< @brief mouse response: second consecutive invalid byte */
 
 /**@}*/
 
