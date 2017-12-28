@@ -10,6 +10,8 @@ typedef struct mouse_action_t{
 	unsigned int x, y;
 } MOUSE_ACTION;
 
+extern unsigned cursorX, cursorY;
+
 char canIWrite();
 char disableMouseInterrupts();
 char enableMouseInterrupts();

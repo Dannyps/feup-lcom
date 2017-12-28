@@ -7,6 +7,23 @@
 #include "i8254.h"
 #include "mouse.h"
 #include "utils.h"
+#include "video_gr.h"
+
+void calc_new_mouse_coords(struct mouse_action_t* ma){
+	cursorX+=ma->x;
+	cursorY-=ma->y;
+
+	video_info_t vi=get_vi();
+
+	if(cursorX<0)
+		cursorX=0+1;
+	if(cursorY<0)
+		cursorY=0+1;
+	if(cursorX>vi.x)
+		cursorX=vi.x-1;
+	if(cursorY>vi.y)
+		cursorY=vi.y-1;
+}
 
 char canIWrite(){
 	unsigned long ret;
@@ -67,6 +84,11 @@ char enableMouseInterrupts(){
 }
 
 int kbd_mouse_subscribe_int(void ) {
+	//clear stuck byte
+	unsigned long rd;
+	sys_inb(OUT_BUF, &rd);
+
+
 	mouse_hookIDs[0]=2;
 	int temp=mouse_hookIDs[0];  // use the temp variable for input/output from sys_irqsetpolicy
 
@@ -143,6 +165,9 @@ void handleMouse(unsigned char* arr, struct mouse_action_t* ma){
 //	if((arr[0]&1<<7)!=0){
 //		ma->yov=1;
 //	}
+
+	//take care of the mouse on screen
+	calc_new_mouse_coords(ma);
 }
 
 
@@ -189,6 +214,7 @@ struct mouse_action_t* kbd_mouse_int_handler() {
 		}
 	}
 	c++;
+
 	return ma;
 }
 

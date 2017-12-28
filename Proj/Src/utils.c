@@ -12,6 +12,8 @@
 #include "view.h"
 
 static View cal = {2017, 1, 2};
+unsigned cursorX=50, cursorY=50;
+
 
 void start_listening(){
 
@@ -84,7 +86,7 @@ void start_listening(){
 					if(ma==NULL){ //device is not synced or this wasn't the final byte.
 						continue;
 					}
-					if(ma->lmb == 1) {
+					if(ma->lmb == 1 || ma->z > 0) {
 						nextMonth(&cal);
 						rfill_screen();
 						draw_main_page();
