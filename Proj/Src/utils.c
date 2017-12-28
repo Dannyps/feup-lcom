@@ -1,6 +1,7 @@
 #include "utils.h"
 #include "keyboard.h"
 #include "timer.h"
+#include "mouse.h"
 #include "month_pixmap.h"
 #include "read_xpm.h"
 #include "video.h"
@@ -16,14 +17,20 @@ void start_listening(){
 
 	/* Subscribes to timer */
 	int timer0_ret = timer0_subscribe_int();
-    if(timer0_ret!=0){
-        fprintf(stderr, "Couldn't subscribe to IRQ_0!\n");exit(-3);
-    }
+	if(timer0_ret!=0){
+		fprintf(stderr, "Couldn't subscribe to IRQ_0!\n");exit(-3);
+	}
 
 	/* Subscribes to kbd */
 	int kbd_ret = kbd_subscribe_int();
 	if(kbd_ret!=0){
 		fprintf(stderr, "Could not subscribe interruptions for the kbc!\n");exit(-4);
+	}
+
+	/* Subscribes to mouse */
+	int mouse_ret = kbd_mouse_subscribe_int();
+	if(mouse_ret!=0){
+		fprintf(stderr, "Could not subscribe interruptions for the kbc!\n");exit(-1);
 	}
 
 	int ipc_status;
@@ -32,58 +39,75 @@ void start_listening(){
 	int stop=0;
 	while(!stop) { /*	You may want to use a different condition*/
 		/*Get a request message.*/
-		 if( (r = driver_receive(ANY, &msg, &ipc_status)) != 0 ) {
-			 printf("driver_receive failed with: %d", r);
-			 continue;
-		 }
-		 if (is_ipc_notify(ipc_status)) {
-			 int irq_set=0; irq_set |= BIT(0); // 0 as in the kbc_hookIDs[0].
-			 int irq_timer0=0; irq_timer0 |= BIT(1); // 1 as in the timer0_hookIDs[0].
-			 switch (_ENDPOINT_P(msg.m_source)) {
-				 case HARDWARE:
-					if (msg.NOTIFY_ARG & irq_timer0) {
-						timer0_int_handler();
+		if( (r = driver_receive(ANY, &msg, &ipc_status)) != 0 ) {
+			printf("driver_receive failed with: %d", r);
+			continue;
+		}
+		if (is_ipc_notify(ipc_status)) {
+			int irq_kbdset=0; irq_kbdset |= BIT(0); // 0 as in the kbc_hookIDs[0].
+			int irq_timer0=0; irq_timer0 |= BIT(1); // 1 as in the timer0_hookIDs[0].
+			int irq_mouseset=0; irq_mouseset |= BIT(2); // 2 as in the lhid.
+			switch (_ENDPOINT_P(msg.m_source)) {
+			case HARDWARE:
+				if (msg.NOTIFY_ARG & irq_timer0) {
+					timer0_int_handler();
+				}
+				if (msg.NOTIFY_ARG & irq_kbdset) {
+					KEY_PRESS* kp;
+					kp=kbd_int_handler();
+					if(kp==NULL)
+						continue;
+					if(kp->code==0x81){
+						stop=1; continue;
 					}
-					if (msg.NOTIFY_ARG & irq_set) {
-						KEY_PRESS* kp;
-						kp=kbd_int_handler();
-						if(kp==NULL)
-							continue;
-						if(kp->code==0x81){
-							stop=1; continue;
-						}
-						if(kp->code==0x4d){ //right
-							nextMonth(&cal);
-							rfill_screen();
-							draw_main_page();
-							continue;
-						}
-						if(kp->code==0x4b){ //left
-							prevMonth(&cal);
-							rfill_screen();
-							draw_main_page();
-							continue;
-						}
-						free(kp);
+					if(kp->code==0x4d){ //right
+						nextMonth(&cal);
+						rfill_screen();
+						draw_main_page();
+						continue;
 					}
-				 break;
-			 default:
-				 break;
-					 //no other notifications expected: do nothing
-			 }
-		 } else { /*received a standard message, not a notification*/
-			 /*no standard messages expected: do nothing*/
-		 }
+					if(kp->code==0x4b){ //left
+						prevMonth(&cal);
+						rfill_screen();
+						draw_main_page();
+						continue;
+					}
+					free(kp);
+				}
+				if (msg.NOTIFY_ARG & irq_mouseset) {
+					MOUSE_ACTION* ma;
+					ma = kbd_mouse_int_handler(0);
+
+					if(ma->lmb == 1) {
+						nextMonth(&cal);
+						rfill_screen();
+						draw_main_page();
+						continue;
+					}
+				}
+				break;
+			default:
+				break;
+				//no other notifications expected: do nothing
+			}
+		} else { /*received a standard message, not a notification*/
+			/*no standard messages expected: do nothing*/
+		}
 	}
 
 	if(timer0_unsubscribe_int()!=0){
-        fprintf(stderr, "Could not unsubscribe from IRQ_0.\n"); exit(-5);
-    }
-
+		fprintf(stderr, "Could not unsubscribe from IRQ_0.\n"); exit(-5);
+	}
 
 	if(kbd_unsubscribe_int()!=0){
 		fprintf(stderr, "Could not unsubscribe from IRQ_0.\n");	exit(-6);
 	}
+
+	if(kbd_mouse_unsubscribe_int()!=0){
+		fprintf(stderr, "Could not unsubscribe from IRQ_0.\n");	exit(-6);
+	}
+	sys_outb(0x64, 0x20);
+	sys_outb(0x60, 0x47);
 
 	printf("\nunsubscribed successfully.\n");
 
@@ -108,11 +132,12 @@ void draw_main_page(){
 	draw_xpm(lcom_tcti, 724, 0);
 
 	drawMonthName(cal, 300, 90);
+
 	draw_xpm(Weekdays, 300, 140);
 
-	//int weekday = calculateFirstWeekDay(cal);
-
-	//drawMonth(/*weekday*/ 1, 300, 290);
+	// serves to see where the first day of the month falls on the week
+	int weekday = calculateFirstWeekDay(cal);
+	drawMonth(/*weekday*/ 1, 300, 190);
 
 	int k=0;
 

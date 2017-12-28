@@ -74,12 +74,14 @@ int calculateFirstWeekDay(View v) {
 
 void drawMonth(int weekday, int x, int y) {
 	switch(weekday) {
-	/*case 0: draw_xpm(Sunday, x, y); break;
+	//case 0: draw_xpm(Sunday, x, y); break;
 	case 1: draw_xpm(Monday, x, y); break;
-	case 2: draw_xpm(Tuesday, x, y); break;
+	/*case 2: draw_xpm(Tuesday, x, y); break;
 	case 3: draw_xpm(Wednesday, x, y); break;
 	case 4: draw_xpm(Thursday, x, y); break;
 	case 5: draw_xpm(Friday, x, y); break;
 	case 6: draw_xpm(Saturday, x, y); break;*/
 	}
 }
+
+
