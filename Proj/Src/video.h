@@ -22,4 +22,5 @@ int rfill_screen();
 void setP(unsigned long x, unsigned long y, pixel_t color);
 void video_start();
 int draw_xpm(char *xpm[], unsigned short xi, unsigned short yi);
+void draw_cursor(unsigned x, unsigned y);
 #endif

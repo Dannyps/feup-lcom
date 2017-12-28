@@ -104,6 +104,7 @@ int draw_xpm(char *xpm[], unsigned short xi, unsigned short yi) {
 }
 
 void draw_cursor(unsigned x, unsigned y){
+	printf("Drawing cursor on %dx%d.\n", x, y);
 	int i, j;
 	for(i=x;i<x+5;i++){
 		for(j=y;j<y+5;j++){

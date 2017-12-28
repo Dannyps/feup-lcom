@@ -8,6 +8,8 @@
 #include "video.h"
 #include "utils.h"
 
+
+extern unsigned cursorX, cursorY;
 extern int timer0_hookIDs[2];
 
 
@@ -30,10 +32,10 @@ int timer0_unsubscribe_int() {
 
 void timer0_int_handler() {
 	static int tick_elapsed=0;
-        if((++tick_elapsed)%1==0){
+        if((++tick_elapsed)%4==0){
         	rfill_screen();
         	draw_main_page();
-        	draw_cursor(50,50);
+        	draw_cursor(cursorX,cursorY);
         	//printf("reprinting on %d\n", tick_elapsed);
         	vg_flush();
         }
