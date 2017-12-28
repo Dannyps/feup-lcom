@@ -18,10 +18,12 @@
 
 int timer0_hookIDs[2];
 int kbc_hookIDs[2];
+int mouse_hookIDs[2];
 
 
 void start_listening();
 void draw_main_page();
 
+extern const unsigned char letters[95][13];
 
 #endif
