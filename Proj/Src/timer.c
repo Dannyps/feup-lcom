@@ -33,7 +33,7 @@ int timer0_unsubscribe_int() {
 void timer0_int_handler() {
 	static int tick_elapsed=0;
 	if((++tick_elapsed)%4==0){
-		rfill_screen();
+		fill_screen(blue_c);
 		draw_main_page();
 		draw_cursor(cursorX,cursorY);
 		//printf("reprinting on %d\n", tick_elapsed);

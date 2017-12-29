@@ -25,9 +25,9 @@ int fill_screen(pixel_t color){
 	//TODO add check if video mode is on
 	int i;
 	for(i=0; i<vi.x*vi.y*vi.bpp/8 ; i+=3){
-		vi.vm[i+0]=color.r;
-		vi.vm[i+1]=color.g;
-		vi.vm[i+2]=color.b;
+		vi.vm[i+0]=color.b;
+		vi.vm[i+1]=color.r;
+		vi.vm[i+2]=color.g;
 	}
 	printf("filled screen\n");
 	return 0;
@@ -105,7 +105,7 @@ int draw_xpm(char *xpm[], unsigned short xi, unsigned short yi) {
 
 void draw_cursor(unsigned x, unsigned y){
 	printf("Drawing cursor on %dx%d.\n", x, y);
-	int i, j;
+	unsigned i, j;
 	for(i=x;i<x+5;i++){
 		for(j=y;j<y+5;j++){
 			setP(i, j, red_c);
