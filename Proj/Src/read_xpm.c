@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include "i8042.h"
 #include "vbe.h"
 #include "video_gr.h"
 #include "video.h"
+#include <errno.h>
 
 char *read_xpm(char *map[], int *wd, int *ht)
 {
@@ -87,22 +89,61 @@ char *read_xpm(char *map[], int *wd, int *ht)
   return pix;
 }
 
-char* read_xpm_from_file(char* filename){
-	unsigned fsize;
-	char* ret=NULL;
+char* read_xpm_from_file(char* filename, int *wd, int *ht){
+	unsigned fsize=0;
 
 	if(filename==NULL){
 		return NULL; //could not parse *filename*.
 	}
 
+	// open file
+	printf("opening %s\n", filename);
 	FILE* fp = fopen(filename, "r");
+	if(fp==NULL){
+		printf("Error: %s\n", strerror(errno));
+		exit(9);
+	}
 
-	fseek(fp, SEEK_END, 0);
-	fsize=ftell(fp);
-	ret = malloc(sizeof(char)*fsize);
+	//count lines in file
+	unsigned short lines=0;
+	while(1){
+		char r=getc(fp);
+		//printf("got %c\n", r);
+		if(r==EOF)
+			break;
+		if(r=='\n')
+			lines++;
+	}
 	rewind(fp);
-	fread(ret, fsize, 1, fp);
 
-	return ret;
+	// create the classic array of pointers (one for each line).
+	char** fa; //file_array
+	fa=malloc(sizeof(char*)*lines);
+	unsigned short cc=0;
 
+	// start reading the lines
+	while(1){
+		unsigned short c=0;
+		char r;
+		char buf[2048]; // read to this buffer first.
+		memset(buf, 0, 2048);
+		while(1){
+			r=getc(fp);
+			if(r!='\n'){
+				buf[c++]=r;
+				printf("Storing char %c in pos %d.\n", r, c-1);
+			}else{
+				break;
+			}
+		}
+		printf("line read: %s\n", buf);
+		exit(5);
+		memcpy(fa[cc++], buf, c);
+		if(r==EOF)
+			break;
+	}
+	exit(5);
+	fread(NULL, fsize, 1, fp);
+	fclose(fp);
+	return read_xpm(NULL, wd, ht);
 }

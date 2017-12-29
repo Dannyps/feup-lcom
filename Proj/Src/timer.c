@@ -32,7 +32,8 @@ int timer0_unsubscribe_int() {
 
 void timer0_int_handler() {
 	static int tick_elapsed=0;
-	if((++tick_elapsed)%4==0){
+	if((++tick_elapsed)%1==0){
+		//draw_xpm();
 		fill_screen(blue_c);
 		draw_main_page();
 		draw_cursor(cursorX,cursorY);

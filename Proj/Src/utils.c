@@ -10,12 +10,17 @@
 #include <minix/driver.h>
 #include <minix/drivers.h>
 #include "view.h"
+#include <unistd.h>
+
 
 static View cal = {2017, 1, 2};
 unsigned cursorX=50, cursorY=50;
 
 
 void start_listening(){
+	read_xpm_from_file("/home/lcom/proj/Src/xpms/exit_cross.xpm");
+	exit(5);
+
 
 	/* Subscribes to timer */
 	int timer0_ret = timer0_subscribe_int();
