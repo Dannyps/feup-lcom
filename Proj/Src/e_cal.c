@@ -26,11 +26,11 @@
 #define PB2OFF(x) ((x) & 0x0FFFF)
 
 void *init() {
-	video_m=vg_init(0x118);
+	//video_m=vg_init(0x118);
 
-	rfill_screen();
+	//rfill_screen();
 
-	draw_main_page();
+	//draw_main_page();
 
 	start_listening();
 

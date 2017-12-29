@@ -15,10 +15,10 @@ void calc_new_mouse_coords(struct mouse_action_t* ma){
 
 	video_info_t vi=get_vi();
 
-	if(cursorX<0)
-		cursorX=0+1;
-	if(cursorY<0)
-		cursorY=0+1;
+//	if(cursorX<0)
+//		cursorX=0+1;
+//	if(cursorY<0)
+//		cursorY=0+1;
 	if(cursorX>vi.x)
 		cursorX=vi.x-1;
 	if(cursorY>vi.y)
