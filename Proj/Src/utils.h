@@ -19,6 +19,7 @@
 int timer0_hookIDs[2];
 int kbc_hookIDs[2];
 int mouse_hookIDs[2];
+int rtc_hookIDs[2];
 
 
 void start_listening();
