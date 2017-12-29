@@ -6,7 +6,6 @@
 #include "video_gr.h"
 #include "video.h"
 
-
 char *read_xpm(char *map[], int *wd, int *ht)
 {
   int width, height, ncolors;
@@ -86,4 +85,24 @@ char *read_xpm(char *map[], int *wd, int *ht)
 //  }
   free(colors);
   return pix;
+}
+
+char* read_xpm_from_file(char* filename){
+	unsigned fsize;
+	char* ret=NULL;
+
+	if(filename==NULL){
+		return NULL; //could not parse *filename*.
+	}
+
+	FILE* fp = fopen(filename, "r");
+
+	fseek(fp, SEEK_END, 0);
+	fsize=ftell(fp);
+	ret = malloc(sizeof(char)*fsize);
+	rewind(fp);
+	fread(ret, fsize, 1, fp);
+
+	return ret;
+
 }
