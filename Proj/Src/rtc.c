@@ -32,7 +32,7 @@ void wait_for_valid_rtc() {
 
 	do {
 		sys_outb(RTC_ADDR_REG, RTC_CTRL_REG_A);
-		sys_inb(RTC_DATA_REG, reg_a);
+		sys_inb(RTC_DATA_REG, &reg_a);
 	} while (reg_a & RTC_UIP);
 
 }
@@ -44,30 +44,31 @@ struct rtc_handler_t* rtc_int_handler() {
 
 	wait_for_valid_rtc();
 	sys_outb(RTC_ADDR_REG, RTC_ADDRESS_HOURS);
-	sys_inb(RTC_DATA_REG, hour);
+	sys_inb(RTC_DATA_REG, &hour);
 
 	wait_for_valid_rtc();
 	sys_outb(RTC_ADDR_REG, RTC_ADDRESS_MINUTES);
-	sys_inb(RTC_DATA_REG, min);
+	sys_inb(RTC_DATA_REG, &min);
 
 	wait_for_valid_rtc();
 	sys_outb(RTC_ADDR_REG, RTC_ADDRESS_SECONDS);
-	sys_inb(RTC_DATA_REG, sec);
+	sys_inb(RTC_DATA_REG, &sec);
 
 	sys_outb(RTC_ADDR_REG, RTC_ADDRESS_DAY_MONTH);
-	sys_inb(RTC_DATA_REG, day);
+	sys_inb(RTC_DATA_REG, &day);
 
 	sys_outb(RTC_ADDR_REG, RTC_ADDRESS_MONTH);
-	sys_inb(RTC_DATA_REG, month);
+	sys_inb(RTC_DATA_REG, &month);
 
 	sys_outb(RTC_ADDR_REG, RTC_ADDRESS_YEAR);
-	sys_inb(RTC_DATA_REG, year);
+	sys_inb(RTC_DATA_REG, &year);
 
 	// Set for 24hour day and BCD
 	unsigned long reg_b=0;
 	do {
-		sys_outb(RTC_ADDR_REG, RTC_CTRL_REB_B);
-		sys_inb(RTC_DATA_REG, reg_b);
+		sys_outb(RTC_ADDR_REG, RTC_CTRL_REG_B);
+		sys_inb(RTC_DATA_REG, &reg_b);
+
 	} while( !(reg_b & BIT(1)) && (reg_b & BIT(2)) );
 	// BIT1 must be 1 for 24hourday, BIT2 must be 0 for BCD
 
