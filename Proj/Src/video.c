@@ -87,17 +87,17 @@ int draw_xpm(char *xpm[], unsigned short xi, unsigned short yi) {
         int xpm_counter = 0;
         // printing
         while(yi < height) {
-                xi = initial_x;
-                while(xi < width) {
-					// colours[pix[xpm_counter]]
-                	pixel_t tempColor;
-                	memcpy(&tempColor, tPix, 3);
-					setP(xi, yi, tempColor);
-					xi++;
-					xpm_counter++;
-					tPix+=3;
-                }
-                yi++;
+			xi = initial_x;
+			while(xi < width) {
+				// colours[pix[xpm_counter]]
+				pixel_t tempColor;
+				memcpy(&tempColor, tPix, 3);
+				setP(xi, yi, tempColor);
+				xi++;
+				xpm_counter++;
+				tPix+=3;
+			}
+			yi++;
         }
         free(pix);
         return 0;
