@@ -18,10 +18,12 @@ static View cal = {2017, 1, 2};
 unsigned cursorX=50, cursorY=50;
 
 
-void start_listening(){
-//	read_xpm_from_file("/home/lcom/proj/Src/xpms/exit_cross.xpm");
-//	exit(5);
+void load_xpms(){
+	xpm_t exit_cross=read_xpm_from_file("/home/lcom/proj/Src/xpms/exit_cross.xpm");
+	exit(-5);
+}
 
+void start_listening(){
 
 	/* Subscribes to timer */
 	int timer0_ret = timer0_subscribe_int();
