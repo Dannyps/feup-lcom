@@ -12,6 +12,8 @@
 #include "video.h"
 #include "mouse.h"
 #include "view.h"
+#include "utils.h"
+#include "read_xpm.h"
 
 void nextMonth(View *v) {
 	if(v->month != 12) v->month += 1;
@@ -29,29 +31,43 @@ void prevMonth(View *v) {
 	}
 }
 
-void drawMonthName(View v, int x, int y) {
-	switch(v.month) {
-	case 1: draw_xpm(January, x, y); break;
-	case 2: draw_xpm(February, x, y); break;
-	case 3: draw_xpm(March, x, y); break;
-	/*case 4: draw_xpm(April, x, y); break;
-	case 5: draw_xpm(May, x, y); break;
-	case 6: draw_xpm(June, x, y); break;
-	case 7: draw_xpm(July, x, y); break;
-	case 8: draw_xpm(August, x, y); break;
-	case 9: draw_xpm(September, x, y); break;
-	case 10: draw_xpm(October, x, y); break;
-	case 11: draw_xpm(November, x, y); break;
-	case 12: draw_xpm(December, x, y); break;*/
-	}
+void drawMonthName(View *v, int x, int y) {
+	switch(v->month) {
+	case 1: v->daysInTheMonth = 31;
+		draw_xpm_from_memory(XPM_january, x, y); break;
+	case 2: v->daysInTheMonth = 28;
+		draw_xpm_from_memory(XPM_february, x, y); break;
+	case 3: v->daysInTheMonth = 31;
+		draw_xpm_from_memory(XPM_march, x, y); break;
+	/*	case 4: v->daysInTheMonth = 30;
+	 * draw_xpm_from_memory(XPM_april, x, y); break;
+		case 5: v->daysInTheMonth = 31;
+		draw_xpm_from_memory(XPM_may, x, y); break;
+		case 6: v->daysInTheMonth = 30;
+		draw_xpm_from_memory(XPM_june, x, y); break;
+		case 7: v->daysInTheMonth = 31;
+		draw_xpm_from_memory(XPM_july, x, y); break;
+		case 8: v->daysInTheMonth = 31;
+		draw_xpm_from_memory(XPM_august, x, y); break;
+		case 9: v->daysInTheMonth = 30;
+		draw_xpm_from_memory(XPM_september, x, y); break;
+		case 10: v->daysInTheMonth = 31;
+		draw_xpm_from_memory(XPM_october, x, y); break;
+		case 11: v->daysInTheMonth = 30;
+		draw_xpm_from_memory(XPM_november, x, y); break;
+		case 12: v->daysInTheMonth = 31;
+		draw_xpm_from_memory(XPM_december, x, y); break;
+	 */	}
+
+
 }
 
-int calculateFirstWeekDay(View v) {
+int calculateFirstWeekDay(View *v) {
 	// Formula: (year-2000 + day of the month + month code) mod 7
 
-	int w = v.year - 2000 + 1;
+	int w = v->year - 2000 + 1;
 
-	switch(v.month) {
+	switch(v->month) {
 	case 1: w += 6; break;
 	case 2: w += 2; break;
 	case 3: w += 2; break;
@@ -68,20 +84,23 @@ int calculateFirstWeekDay(View v) {
 
 	w = w % 7;
 
+	w=0;
 	return w;
-	// 0 - Sunday, 1 - Monday, 6 - Saturday
 }
 
-void drawMonth(int weekday, int x, int y) {
-	switch(weekday) {
-	//case 0: draw_xpm(Sunday, x, y); break;
-	case 1: draw_xpm(Monday, x, y); break;
-	/*case 2: draw_xpm(Tuesday, x, y); break;
-	case 3: draw_xpm(Wednesday, x, y); break;
-	case 4: draw_xpm(Thursday, x, y); break;
-	case 5: draw_xpm(Friday, x, y); break;
-	case 6: draw_xpm(Saturday, x, y); break;*/
-	}
+void drawMonth(View *v, int x, int y) {
+	int w=0;
+	w = calculateFirstWeekDay(v);
+
+	switch(w) {
+	case 0: draw_xpm_from_memory(XPM_monday, x, y);
+	/*	case 1: draw_xpm_from_memory(XPM_thursday, x, y);
+	case 2: draw_xpm_from_memory(XPM_wednesday, x, y);
+	case 3: draw_xpm_from_memory(XPM_thursday, x, y);
+	case 4: draw_xpm_from_memory(XPM_friday, x, y);
+	case 5: draw_xpm_from_memory(XPM_saturday, x, y);
+	case 6: draw_xpm_from_memory(XPM_sunday, x, y);
+	 */	}
 }
 
 
