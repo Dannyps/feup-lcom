@@ -19,8 +19,8 @@ unsigned cursorX=50, cursorY=50;
 
 
 void start_listening(){
-	read_xpm_from_file("/home/lcom/proj/Src/xpms/exit_cross.xpm");
-	exit(5);
+//	read_xpm_from_file("/home/lcom/proj/Src/xpms/exit_cross.xpm");
+//	exit(5);
 
 
 	/* Subscribes to timer */
@@ -41,11 +41,11 @@ void start_listening(){
 		fprintf(stderr, "Could not subscribe interruptions for the kbc!\n");exit(-1);
 	}
 
-	/* Subscribes to rtc */
-	int rtc_ret = rtc_subscribe_int();
-	if(rtc_ret!=0){
-		fprintf(stderr, "Could not subscribe interruptions for the kbc!\n");exit(-1);
-	}
+//	/* Subscribes to rtc */
+//	int rtc_ret = rtc_subscribe_int();
+//	if(rtc_ret!=0){
+//		fprintf(stderr, "Could not subscribe interruptions for the kbc!\n");exit(-1);
+//	}
 
 	int ipc_status;
 	int r;
@@ -62,7 +62,7 @@ void start_listening(){
 			int irq_kbdset=0; irq_kbdset |= BIT(0); // 0 as in the kbc_hookIDs[0].
 			int irq_timer0=0; irq_timer0 |= BIT(1); // 1 as in the timer0_hookIDs[0].
 			int irq_mouseset=0; irq_mouseset |= BIT(2); // 2 as in the mouse_hookIDs[0].
-			int irq_rtcset=0; irq_rtcset |= BIT(3) ; // 4 as in the rtc_hookIDs[0].
+			int irq_rtcset=0; irq_rtcset |= BIT(4) ; // 4 as in the rtc_hookIDs[0].
 
 			switch (_ENDPOINT_P(msg.m_source)) {
 			case HARDWARE:
@@ -143,10 +143,10 @@ void start_listening(){
 	sys_outb(0x64, 0x20);
 	sys_outb(0x60, 0x47);
 
-	if(rtc_unsubscribe_int()!=0){
-		fprintf(stderr, "Could not unsubscribe from IRQ_8.\n");	exit(-8);
-	}
-	sys_outb(RTC_ADDR_REG, RTC_CTRL_REG_B);
+//	if(rtc_unsubscribe_int()!=0){
+//		fprintf(stderr, "Could not unsubscribe from IRQ_8.\n");	exit(-8);
+//	}
+//	sys_outb(RTC_ADDR_REG, RTC_CTRL_REG_B);
 
 	printf("\nunsubscribed successfully.\n");
 
