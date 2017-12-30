@@ -6,22 +6,38 @@
 #include "month_pixmap.h"
 #include "read_xpm.h"
 #include "video.h"
+#include "view.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <minix/driver.h>
 #include <minix/drivers.h>
-#include "view.h"
 #include <unistd.h>
-
 
 static View cal = {2017, 1, 2};
 unsigned cursorX=50, cursorY=50;
-xpm_t XPM_exitCross; // camelCase please!
 
+xpm_t XPM_exitCross; // camelCase please!
 
 void load_xpms(){
 	printf("reading xpms.\n");
-	XPM_exitCross=read_xpm_from_file("/home/lcom/proj/Src/xpms/exit_cross.xpm"); printf("xpm at %x\n", XPM_exitCross.pointer);
+	XPM_exitCross=read_xpm_from_file("/home/lcom/Proj/Src/xpms/exit_cross.xpm"); printf("xpm at %x\n", XPM_exitCross.pointer);
+
+	XPM_january=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/january.xpm"); printf("xpm at %x\n", XPM_january.pointer);
+	XPM_february=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/february.xpm"); printf("xpm at %x\n", XPM_february.pointer);
+	XPM_march=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/march.xpm"); printf("xpm at %x\n", XPM_march.pointer);
+/*	XPM_april=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/apri.xpm"); printf("xpm at %x\n", XPM_april.pointer);
+	XPM_may=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/may.xpm"); printf("xpm at %x\n", XPM_may.pointer);
+	XPM_june=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/june.xpm"); printf("xpm at %x\n", XPM_june.pointer);
+	XPM_july=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/july.xpm"); printf("xpm at %x\n", XPM_july.pointer);
+	XPM_august=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/august.xpm"); printf("xpm at %x\n", XPM_august.pointer);
+	XPM_september=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/september.xpm"); printf("xpm at %x\n", XPM_september.pointer);
+	XPM_october=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/october.xpm"); printf("xpm at %x\n", XPM_october.pointer);
+	XPM_november=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/november.xpm"); printf("xpm at %x\n", XPM_november.pointer);
+	XPM_december=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/december.xpm"); printf("xpm at %x\n", XPM_december.pointer);
+*/
+	XPM_monday=read_xpm_from_file("/home/lcom/Proj/Src/xpms/monthviews/monday.xpm"); printf("xpm at %x\n", XPM_monday.pointer);
+
+
 	printf("xpms read.\n");
 }
 
@@ -174,13 +190,10 @@ void draw_main_page(){
 	draw_xpm(lcom_nome, 0, 0);
 	draw_xpm(lcom_tcti, 724, 0);
 	draw_xpm_from_memory(XPM_exitCross, 650, 20);
-	drawMonthName(cal, 300, 90);
 
+	drawMonthName(&cal, 300, 90);
 	draw_xpm(Weekdays, 300, 140);
-
-	// serves to see where the first day of the month falls on the week
-	int weekday = calculateFirstWeekDay(cal);
-	drawMonth(/*weekday*/ 1, 300, 190);
+	drawMonth(&cal, 300, 190);
 
 	int k=0;
 

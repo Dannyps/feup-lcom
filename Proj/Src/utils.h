@@ -21,7 +21,6 @@ int kbc_hookIDs[2];
 int mouse_hookIDs[2];
 int rtc_hookIDs[2];
 
-
 void start_listening();
 void draw_main_page();
 void load_xpms();
