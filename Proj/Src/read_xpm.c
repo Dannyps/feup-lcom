@@ -7,6 +7,7 @@
 #include "video_gr.h"
 #include "video.h"
 #include <errno.h>
+#include "read_xpm.h"
 
 char *read_xpm(char *map[], int *wd, int *ht)
 {
@@ -89,11 +90,12 @@ char *read_xpm(char *map[], int *wd, int *ht)
   return pix;
 }
 
-char* read_xpm_from_file(char* filename, int *wd, int *ht){
-	unsigned fsize=0;
-
+xpm_t read_xpm_from_file(char* filename){
+	int i;
+	xpm_t ret;
+	ret.success=0;
 	if(filename==NULL){
-		return NULL; //could not parse *filename*.
+		return ret; //could not parse *filename*.
 	}
 
 	// open file
@@ -120,6 +122,7 @@ char* read_xpm_from_file(char* filename, int *wd, int *ht){
 	char** fa; //file_array
 	fa=malloc(sizeof(char*)*lines);
 	unsigned short cc=0;
+	char firstline=1;
 
 	// start reading the lines
 	while(1){
@@ -129,21 +132,43 @@ char* read_xpm_from_file(char* filename, int *wd, int *ht){
 		memset(buf, 0, 2048);
 		while(1){
 			r=getc(fp);
-			if(r!='\n'){
+			if(r!='\n' && r!=EOF){
+				if(r=='"'){
+					continue;
+				}
 				buf[c++]=r;
-				printf("Storing char %c in pos %d.\n", r, c-1);
+				//printf("Storing char %d-%c in pos %d.\n", r, r, c-1);
 			}else{
 				break;
 			}
 		}
+		if(firstline){
+			firstline=0;
+			continue;
+		}
+		buf[strlen(buf)-2]='\0';
 		printf("line read: %s\n", buf);
-		exit(5);
+		fa[cc]=malloc(sizeof(char)*(strlen(buf)+1));
+		memset(fa[cc], 0, strlen(buf)+1);
 		memcpy(fa[cc++], buf, c);
+		//printf("stored in fa[%d]\n", cc-1);
 		if(r==EOF)
 			break;
 	}
-	exit(5);
-	fread(NULL, fsize, 1, fp);
 	fclose(fp);
-	return read_xpm(NULL, wd, ht);
+	printf("Requesting xpm conversion... ");
+	char* result=read_xpm(fa, &(ret.width), &(ret.height));
+	ret.pointer=result;
+
+	puts("done.\n");
+
+	for(i=0;i<cc;i++){
+		free(fa[i]);
+	}
+
+	free(fa);
+	printf("mem freed\n");
+	ret.success=1;
+	exit(-5);
+	return ret;
 }

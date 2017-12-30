@@ -24,6 +24,7 @@ int rtc_hookIDs[2];
 
 void start_listening();
 void draw_main_page();
+void load_xpms();
 
 extern const unsigned char letters[95][13];
 

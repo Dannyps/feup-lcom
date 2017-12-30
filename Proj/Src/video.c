@@ -103,8 +103,44 @@ int draw_xpm(char *xpm[], unsigned short xi, unsigned short yi) {
         return 0;
 }
 
+
+
+int draw_xpm_from_memory(xpm_t xpm, unsigned short xi, unsigned short yi) {
+        int width, height;
+        width=xpm.width;
+        height=xpm.height;
+        char* pix = xpm.pointer;
+        char* tPix=pix;
+        if(pix==NULL){
+        	//failed
+        	vg_exit();
+        	exit(-3);
+        }
+        width += xi;
+        height += yi;
+        int initial_x = xi;
+        int xpm_counter = 0;
+        // printing
+        while(yi < height) {
+			xi = initial_x;
+			while(xi < width) {
+				// colours[pix[xpm_counter]]
+				pixel_t tempColor;
+				memcpy(&tempColor, tPix, 3);
+				setP(xi, yi, tempColor);
+				xi++;
+				xpm_counter++;
+				tPix+=3;
+			}
+			yi++;
+        }
+        free(pix);
+        return 0;
+}
+
+
 void draw_cursor(unsigned x, unsigned y){
-	printf("Drawing cursor on %dx%d.\n", x, y);
+	//printf("Drawing cursor on %dx%d.\n", x, y);
 	unsigned i, j;
 	for(i=x;i<x+5;i++){
 		for(j=y;j<y+5;j++){
