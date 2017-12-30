@@ -72,7 +72,7 @@ void start_listening(){
 				}
 
 				if (msg.NOTIFY_ARG & irq_kbdset) {
-					printf("handling keyboard\n");
+					//printf("handling keyboard\n");
 					KEY_PRESS* kp;
 					kp=kbd_int_handler();
 					if(kp==NULL)

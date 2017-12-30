@@ -7,7 +7,7 @@ typedef struct mouse_action_t{
 	unsigned char rmb;
 	unsigned char mmb;
 	char z;
-	unsigned int x, y;
+	int x, y;
 } MOUSE_ACTION;
 
 extern unsigned cursorX, cursorY;

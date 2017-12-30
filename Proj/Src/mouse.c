@@ -10,19 +10,33 @@
 #include "video_gr.h"
 
 void calc_new_mouse_coords(struct mouse_action_t* ma){
-	cursorX+=ma->x;
-	cursorY-=ma->y;
 
 	video_info_t vi=get_vi();
+
+	if(cursorX+ma->x+5>vi.x){
+		return;
+	}
+	if(cursorY-ma->y+5>vi.y){
+		return;
+	}
+
+	if( (((int) cursorX) - (int) ma->x) < 0){
+		return;
+	}
+	if( (((int) cursorY) + (int) ma->y) < 0){
+		return;
+	}
+	cursorX+=ma->x;
+	cursorY-=ma->y;
 
 //	if(cursorX<0)
 //		cursorX=0+1;
 //	if(cursorY<0)
 //		cursorY=0+1;
-	if(cursorX>vi.x)
-		cursorX=vi.x-1;
-	if(cursorY>vi.y)
-		cursorY=vi.y-1;
+//	if(cursorX>vi.x)
+//		cursorX=vi.x-1;
+//	if(cursorY>vi.y)
+//		cursorY=vi.y-1;
 }
 
 char canIWrite(){
