@@ -29,8 +29,8 @@ void *init() {
 	video_m=vg_init(0x118);
 
 	rfill_screen();
-	draw_main_page();
 	load_xpms();
+	draw_main_page();
 	start_listening();
 
 	vg_exit();
