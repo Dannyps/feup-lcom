@@ -16,15 +16,17 @@
 
 static View cal = {2017, 1, 2};
 unsigned cursorX=50, cursorY=50;
+xpm_t XPM_exitCross; // camelCase please!
 
 
 void load_xpms(){
-	xpm_t exit_cross=read_xpm_from_file("/home/lcom/proj/Src/xpms/exit_cross.xpm");
-	exit(-5);
+	printf("reading xpms.\n");
+	XPM_exitCross=read_xpm_from_file("/home/lcom/proj/Src/xpms/exit_cross.xpm"); printf("xpm at %x\n", XPM_exitCross.pointer);
+	printf("xpms read.\n");
 }
 
 void start_listening(){
-
+	puts("sl\n");
 	/* Subscribes to timer */
 	int timer0_ret = timer0_subscribe_int();
 	if(timer0_ret!=0){
@@ -171,7 +173,7 @@ void draw_main_page(){
 
 	draw_xpm(lcom_nome, 0, 0);
 	draw_xpm(lcom_tcti, 724, 0);
-
+	draw_xpm_from_memory(XPM_exitCross, 650, 20);
 	drawMonthName(cal, 300, 90);
 
 	draw_xpm(Weekdays, 300, 140);

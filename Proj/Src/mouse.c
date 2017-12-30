@@ -9,14 +9,28 @@
 #include "utils.h"
 #include "video_gr.h"
 
-void calc_new_mouse_coords(struct mouse_action_t* ma){
+int mouseInBox(unsigned tlX, unsigned tlY, unsigned brX, unsigned brY){
+
+	return cursorX>tlX && cursorX<brX && cursorY>tlY && cursorY<brY;
+}
+
+void check_clicks(struct mouse_action_t* ma){
+	printf("checking box...\n");
+	if(mouseInBox(650, 20, 700, 70) && ma->lmb){
+		vg_exit();
+		exit(0);
+	}
+}
+
+void calc_new_mouse_coords(struct mouse_action_t* ma)
+{
 
 	video_info_t vi=get_vi();
 
 	if(cursorX+ma->x+5>vi.x){
 		return;
 	}
-	if(cursorY-ma->y+5>vi.y){
+	if(cursorY+ma->y+5>vi.y){
 		return;
 	}
 
@@ -182,6 +196,9 @@ void handleMouse(unsigned char* arr, struct mouse_action_t* ma){
 
 	//take care of the mouse on screen
 	calc_new_mouse_coords(ma);
+
+	//check if a box on screen has been clicked.
+	check_clicks(ma);
 }
 
 

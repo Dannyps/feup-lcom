@@ -64,7 +64,8 @@ char *read_xpm(char *map[], int *wd, int *ht)
 	//printf("%d:	#%2x%2x%2x\n", i, colors[i].r, colors[i].g, colors[i].b);
   }
   /* allocate pixmap memory */
-  pix = pixtmp = malloc(width*height*3);
+  pix = malloc(width*height*3);
+  pixtmp = pix;
 
   /* parse each pixmap symbol line */
   for (i=0; i<height; i++) {
@@ -146,29 +147,29 @@ xpm_t read_xpm_from_file(char* filename){
 			firstline=0;
 			continue;
 		}
-		buf[strlen(buf)-2]='\0';
+		buf[strlen(buf)-1]='\0';
 		printf("line read: %s\n", buf);
 		fa[cc]=malloc(sizeof(char)*(strlen(buf)+1));
 		memset(fa[cc], 0, strlen(buf)+1);
-		memcpy(fa[cc++], buf, c);
-		//printf("stored in fa[%d]\n", cc-1);
+		memcpy(fa[cc], buf, c);
+		cc++;
 		if(r==EOF)
 			break;
 	}
 	fclose(fp);
 	printf("Requesting xpm conversion... ");
 	char* result=read_xpm(fa, &(ret.width), &(ret.height));
-	ret.pointer=result;
+	printf("read_xpm returned 0x%x.\n", result);
 
 	puts("done.\n");
 
-	for(i=0;i<cc;i++){
+	for(i=0;i<cc-1;i++){
 		free(fa[i]);
 	}
 
 	free(fa);
 	printf("mem freed\n");
+	ret.pointer=result;
 	ret.success=1;
-	exit(-5);
 	return ret;
 }

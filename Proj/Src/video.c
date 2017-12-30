@@ -134,13 +134,12 @@ int draw_xpm_from_memory(xpm_t xpm, unsigned short xi, unsigned short yi) {
 			}
 			yi++;
         }
-        free(pix);
         return 0;
 }
 
 
 void draw_cursor(unsigned x, unsigned y){
-	//printf("Drawing cursor on %dx%d.\n", x, y);
+	printf("Drawing cursor on %dx%d.\n", x, y);
 	unsigned i, j;
 	for(i=x;i<x+5;i++){
 		for(j=y;j<y+5;j++){
