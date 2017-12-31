@@ -5,7 +5,7 @@ COMPILER_TYPE= gnu
 CC= gcc
 
 PROG= proj
-SRCS= proj.c e_cal.c video_gr.c vbe.c video.c keyboard.c timer.c read_xpm.c utils.c view.c mouse.c rtc.c
+SRCS= proj.c e_cal.c video_gr.c vbe.c video.c keyboard.c timer.c read_xpm.c view.c utils.c mouse.c rtc.c
 
 CFLAGS= -Wall -Wextra -D DOUBLEBUFF
 

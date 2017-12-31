@@ -6,12 +6,14 @@ typedef struct view{
 	int year;
 	int month;
 	int daysInTheMonth;
-	char* monthFilename;
-	int daysInTheMonth;
+	xpm_t* xpm;
 } View;
 
-xpm_t XPM_month;
-xpm_t XPM_weekday;
+
+extern xpm_t XPM_exitCross, XPM_january, XPM_february, XPM_march, XPM_april, XPM_may, XPM_june; // camelCase please!
+extern xpm_t XPM_july, XPM_august, XPM_september, XPM_october, XPM_november, XPM_december;
+extern xpm_t XPM_monday, XPM_tuesday, XPM_wednesday, XPM_thursday, XPM_friday, XPM_saturday, XPM_sunday;
+
 
 void nextMonth(View *v);
 

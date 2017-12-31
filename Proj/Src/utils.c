@@ -13,43 +13,54 @@
 #include <minix/drivers.h>
 #include <unistd.h>
 
-static View cal = {2017, 1, 0, "/home/lcom/Proj/Src/xpms/months/january.xpm", "/home/lcom/Proj/Src/xpms/monthviews/sunday.xpm"};
 unsigned cursorX=50, cursorY=50;
 
+View cal;
 
-xpm_t XPM_exitCross; // camelCase please!
+int stop=0;
+
+xpm_t XPM_exitCross, XPM_january, XPM_february, XPM_march, XPM_april, XPM_may, XPM_june; // camelCase please!
+xpm_t XPM_july, XPM_august, XPM_september, XPM_october, XPM_november, XPM_december;
+xpm_t XPM_monday, XPM_tuesday, XPM_wednesday, XPM_thursday, XPM_friday, XPM_saturday, XPM_sunday;
 
 void load_xpms(){
+
 	printf("reading xpms.\n");
-	XPM_exitCross=read_xpm_from_file("/home/lcom/Proj/Src/xpms/exit_cross.xpm"); printf("xpm at %x\n", XPM_exitCross.pointer);
+	int c=0;
+	printf("%d xpms read.\n", c);
+	XPM_exitCross=read_xpm_from_file("/pr/Src/xpms/exit_cross.xpm");			c++;
 
-/*
-	XPM_january=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/january.xpm"); printf("xpm is january\n");
-	XPM_february=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/february.xpm"); printf("xpm is february\n");
-	XPM_march=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/march.xpm"); printf("xpm is march\n");
-	XPM_april=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/april.xpm"); printf("xpm at %x\n", XPM_april.pointer);
-	XPM_may=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/may.xpm"); printf("xpm at %x\n", XPM_may.pointer);
-	XPM_june=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/june.xpm"); printf("xpm at %x\n", XPM_june.pointer);
-	XPM_july=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/july.xpm"); printf("xpm at %x\n", XPM_july.pointer);
-	XPM_august=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/august.xpm"); printf("xpm at %x\n", XPM_august.pointer);
-	XPM_september=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/september.xpm"); printf("xpm at %x\n", XPM_september.pointer);
-	XPM_october=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/october.xpm"); printf("xpm at %x\n", XPM_october.pointer);
-	XPM_november=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/november.xpm"); printf("xpm at %x\n", XPM_november.pointer);
-	XPM_december=read_xpm_from_file("/home/lcom/Proj/Src/xpms/months/december.xpm"); printf("xpm at %x\n", XPM_december.pointer);
+	XPM_january=read_xpm_from_file("/pr/Src/xpms/months/january.xpm");			c++;
+	XPM_february=read_xpm_from_file("/pr/Src/xpms/months/february.xpm");		c++;
+	XPM_march=read_xpm_from_file("/pr/Src/xpms/months/march.xpm");				c++;
+	XPM_april=read_xpm_from_file("/pr/Src/xpms/months/april.xpm");				c++;
+	XPM_may=read_xpm_from_file("/pr/Src/xpms/months/may.xpm");					c++;
+	XPM_june=read_xpm_from_file("/pr/Src/xpms/months/june.xpm");				c++;
+	XPM_july=read_xpm_from_file("/pr/Src/xpms/months/july.xpm");				c++;
+	XPM_august=read_xpm_from_file("/pr/Src/xpms/months/august.xpm");			c++;
+	XPM_september=read_xpm_from_file("/pr/Src/xpms/months/september.xpm");		c++;
+	XPM_october=read_xpm_from_file("/pr/Src/xpms/months/october.xpm");			c++;
+	XPM_november=read_xpm_from_file("/pr/Src/xpms/months/november.xpm");		c++;
+	XPM_december=read_xpm_from_file("/pr/Src/xpms/months/december.xpm");		c++;
+	printf("%d xpms read.\n", c);
+	XPM_monday=read_xpm_from_file("/pr/Src/xpms/monthviews/monday.xpm");		c++;
+	XPM_tuesday=read_xpm_from_file("/pr/Src/xpms/monthviews/tuesday.xpm");		c++;
+	XPM_wednesday=read_xpm_from_file("/pr/Src/xpms/monthviews/wednesday.xpm");	c++;
+	XPM_thursday=read_xpm_from_file("/pr/Src/xpms/monthviews/thursday.xpm");	c++;
+	XPM_friday=read_xpm_from_file("/pr/Src/xpms/monthviews/friday.xpm");		c++;
+	XPM_saturday=read_xpm_from_file("/pr/Src/xpms/monthviews/saturday.xpm");	c++;
+	XPM_sunday=read_xpm_from_file("/pr/Src/xpms/monthviews/sunday.xpm");		c++;
 
-	XPM_monday=read_xpm_from_file("/home/lcom/Proj/Src/xpms/monthviews/monday.xpm"); printf("xpm monday\n");
-	XPM_tuesday=read_xpm_from_file("/home/lcom/Proj/Src/xpms/monthviews/tuesday.xpm"); printf("xpm tuesday\n");
-	XPM_wednesday=read_xpm_from_file("/home/lcom/Proj/Src/xpms/monthviews/wednesday.xpm"); printf("xpm wednesday\n");
-	XPM_thursday=read_xpm_from_file("/home/lcom/Proj/Src/xpms/monthviews/thursday.xpm"); printf("xpm thursday\n");
-	XPM_friday=read_xpm_from_file("/home/lcom/Proj/Src/xpms/monthviews/friday.xpm"); printf("xpm friday\n");
-	XPM_saturday=read_xpm_from_file("/home/lcom/Proj/Src/xpms/monthviews/saturday.xpm"); printf("xpm saturday\n");
-	XPM_sunday=read_xpm_from_file("/home/lcom/Proj/Src/xpms/monthviews/sunday.xpm"); printf("xpm sunday\n");
-*/
-	printf("xpms read.\n");
+	printf("%d xpms read.\n", c);
+	//init call
+
+	cal.year=2018;
+	cal.month=1;
+	cal.daysInTheMonth=31;
+	cal.xpm=&XPM_january;
 }
 
 void start_listening(){
-	puts("sl\n");
 	/* Subscribes to timer */
 	int timer0_ret = timer0_subscribe_int();
 	if(timer0_ret!=0){
@@ -77,7 +88,6 @@ void start_listening(){
 	int ipc_status;
 	int r;
 	message msg;
-	int stop=0;
 	printf("Entering the loop.\n");
 	while(!stop) { /*	You may want to use a different condition*/
 		/*Get a request message.*/
@@ -184,6 +194,7 @@ void start_listening(){
  * Make sure you clear the screen b4 calling this.
  */
 void draw_main_page(){
+	printf("drawing main page\n");
 	video_info_t vi;
 	vi = get_vi();
 	int i;
@@ -193,11 +204,9 @@ void draw_main_page(){
 			setP(i,j,white_c);
 		}
 	}
-
 	draw_xpm(lcom_nome, 0, 0);
 	draw_xpm(lcom_tcti, 724, 0);
 	draw_xpm_from_memory(XPM_exitCross, 650, 20);
-
 	drawMonthName(&cal, 300, 90);
 	draw_xpm(Weekdays, 300, 140);
 	drawMonth(&cal, 300, 190);
