@@ -21,6 +21,21 @@ void nextMonth(View *v) {
 		v->month = 1;
 		v->year += 1;
 	}
+
+	switch(v->month) {
+	case 1: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/january.xpm"; break;
+	case 2: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/february.xpm"; break;
+	case 3: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/march.xpm"; break;
+	case 4: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/april.xpm"; break;
+	case 5: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/may.xpm"; break;
+	case 6: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/june.xpm"; break;
+	case 7: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/july.xpm"; break;
+	case 8: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/august.xpm"; break;
+	case 9: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/september.xpm"; break;
+	case 10: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/october.xpm"; break;
+	case 11: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/november.xpm"; break;
+	case 12: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/december.xpm"; break;
+	}
 }
 
 void prevMonth(View *v) {
@@ -29,37 +44,74 @@ void prevMonth(View *v) {
 		v->month = 12;
 		v->year -= 1;
 	}
+
+	switch(v->month) {
+	case 1: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/january.xpm"; break;
+	case 2: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/february.xpm"; break;
+	case 3: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/march.xpm"; break;
+	case 4: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/april.xpm"; break;
+	case 5: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/may.xpm"; break;
+	case 6: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/june.xpm"; break;
+	case 7: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/july.xpm"; break;
+	case 8: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/august.xpm"; break;
+	case 9: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/september.xpm"; break;
+	case 10: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/october.xpm"; break;
+	case 11: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/november.xpm"; break;
+	case 12: v->monthFilename = "/home/lcom/Proj/Src/xpms/months/december.xpm"; break;
+	}
 }
 
 void drawMonthName(View *v, int x, int y) {
 	switch(v->month) {
-	case 1: v->daysInTheMonth = 31;
-		draw_xpm_from_memory(XPM_january, x, y); break;
-	case 2: v->daysInTheMonth = 28;
-		draw_xpm_from_memory(XPM_february, x, y); break;
-	case 3: v->daysInTheMonth = 31;
-		draw_xpm_from_memory(XPM_march, x, y); break;
-	/*	case 4: v->daysInTheMonth = 30;
-	 * draw_xpm_from_memory(XPM_april, x, y); break;
-		case 5: v->daysInTheMonth = 31;
-		draw_xpm_from_memory(XPM_may, x, y); break;
-		case 6: v->daysInTheMonth = 30;
-		draw_xpm_from_memory(XPM_june, x, y); break;
-		case 7: v->daysInTheMonth = 31;
-		draw_xpm_from_memory(XPM_july, x, y); break;
-		case 8: v->daysInTheMonth = 31;
-		draw_xpm_from_memory(XPM_august, x, y); break;
-		case 9: v->daysInTheMonth = 30;
-		draw_xpm_from_memory(XPM_september, x, y); break;
-		case 10: v->daysInTheMonth = 31;
-		draw_xpm_from_memory(XPM_october, x, y); break;
-		case 11: v->daysInTheMonth = 30;
-		draw_xpm_from_memory(XPM_november, x, y); break;
-		case 12: v->daysInTheMonth = 31;
-		draw_xpm_from_memory(XPM_december, x, y); break;
-	 */	}
-
-
+	case 1:
+		v->daysInTheMonth = 31;
+		XPM_month = read_xpm_from_file(v->monthFilename);
+		draw_xpm_from_memory(XPM_month, x, y); break;
+	case 2:
+		v->daysInTheMonth = 28;
+		XPM_month = read_xpm_from_file(v->monthFilename);
+		draw_xpm_from_memory(XPM_month, x, y); break;
+	case 3:
+		v->daysInTheMonth = 31;
+		XPM_month = read_xpm_from_file(v->monthFilename);
+		draw_xpm_from_memory(XPM_month, x, y); break;
+	case 4:
+		v->daysInTheMonth = 30;
+		XPM_month = read_xpm_from_file(v->monthFilename);
+		draw_xpm_from_memory(XPM_month, x, y); break;
+	case 5:
+		v->daysInTheMonth = 31;
+		XPM_month = read_xpm_from_file(v->monthFilename);
+		draw_xpm_from_memory(XPM_month, x, y); break;
+	case 6:
+		v->daysInTheMonth = 30;
+		XPM_month = read_xpm_from_file(v->monthFilename);
+		draw_xpm_from_memory(XPM_month, x, y); break;
+	case 7:
+		v->daysInTheMonth = 31;
+		XPM_month = read_xpm_from_file(v->monthFilename);
+		draw_xpm_from_memory(XPM_month, x, y); break;
+	case 8:
+		v->daysInTheMonth = 31;
+		XPM_month = read_xpm_from_file(v->monthFilename);
+		draw_xpm_from_memory(XPM_month, x, y); break;
+	case 9:
+		v->daysInTheMonth = 30;
+		XPM_month = read_xpm_from_file(v->monthFilename);
+		draw_xpm_from_memory(XPM_month, x, y); break;
+	case 10:
+		v->daysInTheMonth = 31;
+		XPM_month = read_xpm_from_file(v->monthFilename);
+		draw_xpm_from_memory(XPM_month, x, y); break;
+	case 11:
+		v->daysInTheMonth = 30;
+		XPM_month = read_xpm_from_file(v->monthFilename);
+		draw_xpm_from_memory(XPM_month, x, y); break;
+	case 12:
+		v->daysInTheMonth = 31;
+		XPM_month = read_xpm_from_file(v->monthFilename);
+		draw_xpm_from_memory(XPM_month, x, y); break;
+	}
 }
 
 int calculateFirstWeekDay(View *v) {
@@ -93,14 +145,35 @@ void drawMonth(View *v, int x, int y) {
 	w = calculateFirstWeekDay(v);
 
 	switch(w) {
-	case 0: draw_xpm_from_memory(XPM_monday, x, y);
-	/*	case 1: draw_xpm_from_memory(XPM_thursday, x, y);
-	case 2: draw_xpm_from_memory(XPM_wednesday, x, y);
-	case 3: draw_xpm_from_memory(XPM_thursday, x, y);
-	case 4: draw_xpm_from_memory(XPM_friday, x, y);
-	case 5: draw_xpm_from_memory(XPM_saturday, x, y);
-	case 6: draw_xpm_from_memory(XPM_sunday, x, y);
-	 */	}
+	case 0:
+		XPM_weekday = read_xpm_from_file("/home/lcom/Proj/Src/xpms/monthviews/monday.xpm");
+		draw_xpm_from_memory(XPM_weekday, x, y);
+		break;
+	case 1:
+		XPM_weekday = read_xpm_from_file("/home/lcom/Proj/Src/xpms/monthviews/tuesday.xpm");
+		draw_xpm_from_memory(XPM_weekday, x, y);
+		break;
+	case 2:
+		XPM_weekday = read_xpm_from_file("/home/lcom/Proj/Src/xpms/monthviews/wednesday.xpm");
+		draw_xpm_from_memory(XPM_weekday, x, y);
+		break;
+	case 3:
+		XPM_weekday = read_xpm_from_file("/home/lcom/Proj/Src/xpms/monthviews/thursday.xpm");
+		draw_xpm_from_memory(XPM_weekday, x, y);
+		break;
+	case 4:
+		XPM_weekday = read_xpm_from_file("/home/lcom/Proj/Src/xpms/monthviews/friday.xpm");
+		draw_xpm_from_memory(XPM_weekday, x, y);
+		break;
+	case 5:
+		XPM_weekday = read_xpm_from_file("/home/lcom/Proj/Src/xpms/monthviews/saturday.xpm");
+		draw_xpm_from_memory(XPM_weekday, x, y);
+		break;
+	case 6:
+		XPM_weekday = read_xpm_from_file("/home/lcom/Proj/Src/xpms/monthviews/sunday.xpm");
+		draw_xpm_from_memory(XPM_weekday, x, y);
+		break;
+	}
 }
 
 
