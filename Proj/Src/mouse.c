@@ -15,22 +15,19 @@ int mouseInBox(unsigned tlX, unsigned tlY, unsigned brX, unsigned brY){
 }
 
 void check_clicks(struct mouse_action_t* ma){
-	printf("checking box...\n");
-	if(mouseInBox(650, 20, 700, 70) && ma->lmb){
-		vg_exit();
-		exit(0);
+
+	if(mouseInBox(650, 20, 700, 70) && ma->lmb){ // exit box
+		stop=1;
 	}
 }
 
-void calc_new_mouse_coords(struct mouse_action_t* ma)
-{
-
+void calc_new_mouse_coords(struct mouse_action_t* ma){
 	video_info_t vi=get_vi();
 
 	if(cursorX+ma->x+5>vi.x){
 		return;
 	}
-	if(cursorY+ma->y+5>vi.y){
+	if(cursorY-ma->y+50>vi.y){
 		return;
 	}
 

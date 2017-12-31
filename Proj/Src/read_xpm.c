@@ -148,7 +148,7 @@ xpm_t read_xpm_from_file(char* filename){
 			continue;
 		}
 		buf[strlen(buf)-1]='\0';
-		printf("line read: %s\n", buf);
+		//printf("line read: %s\n", buf);
 		fa[cc]=malloc(sizeof(char)*(strlen(buf)+1));
 		memset(fa[cc], 0, strlen(buf)+1);
 		memcpy(fa[cc], buf, c);
