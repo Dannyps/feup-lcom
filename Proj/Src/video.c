@@ -156,13 +156,13 @@ void draw_character(char asciiCode, unsigned short x, unsigned short y, pixel_t 
 	 */
 
 	if(asciiCode<32 || asciiCode > 127){
-		fprintf(cerr, "could not write unprintable character ASCII: %d!\n", asciiCode);
+		fprintf(stderr, "could not write unprintable character ASCII: %d!\n", asciiCode);
 		return ;
 	}
 
 	video_info_t vi = get_vi();
 	if(x<0 || y-8<0 || x+13>vi.x || y>vi.y){
-		fprintf(cerr, "could not write character out of screen (on %dx%d)!\n", x, y);
+		fprintf(stderr, "could not write character out of screen (on %dx%d)!\n", x, y);
 		return;
 	}
 
