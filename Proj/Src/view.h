@@ -16,8 +16,10 @@ extern xpm_t XPM_monday, XPM_tuesday, XPM_wednesday, XPM_thursday, XPM_friday, X
 
 
 void nextMonth(View *v);
-
 void prevMonth(View *v);
+
+void nextYear(View *v);
+void prevYear(View *v);
 
 void drawMonthName(View *v, int x, int y);
 

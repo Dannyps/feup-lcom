@@ -36,6 +36,8 @@ struct key_press_t* kbd_int_handler() {
 		printf("Could not allocate memory\n");
 		exit(-6);
 	}
+	kp->bk=0;
+	kp->mk=0;
 	long unsigned int rd;
 	static char flag=0;
 
@@ -47,8 +49,10 @@ struct key_press_t* kbd_int_handler() {
 		return NULL;
 	}else if( ((rd>>7)&1) == 1){
 		printf("breakcode: 0x%02x\n", rd);
+		kp->bk=1;
 	}else{
 		printf(" makecode: 0x%02x\n", rd);
+		kp->mk=1;
 	}
 
 	kp->is2Byte = flag;

@@ -74,6 +74,14 @@ unsigned short getDaysInMonth(unsigned month, unsigned year){
 	return 0;
 }
 
+void nextYear(View *v){
+	v->year++;
+}
+
+void prevYear(View *v){
+	v->year--;
+}
+
 void nextMonth(View *v) {
 	if(v->month != 12) v->month += 1;
 	else {
@@ -143,9 +151,11 @@ void drawMonth(View *v, int x, int y) {
 	int w=0;
 	w = calculateFirstWeekDay(v);
 	xpm_t* xpm;
-
 	xpm = getXPMByWeekDay(w);
 	draw_xpm_from_memory(*xpm, x, y);
+	char yearStr[5];
+	sprintf(yearStr, "%d", v->year);
+	draw_string(yearStr, x+350, y-80, black_c);
 }
 
 

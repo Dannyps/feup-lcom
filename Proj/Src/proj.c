@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <minix/drivers.h>
+#include <dirent.h>
 
 #include "e_cal.h"
 
@@ -34,7 +35,20 @@ int main(int argc, char **argv)
 		print_usage(argv);
 		return 0;
 	}
-	else return proc_args(argc, argv);
+
+	DIR* dir = opendir("/pr");
+	if (dir)
+	{
+		closedir(dir);
+	}
+	else if (ENOENT == errno)
+	{
+		printf("Please run ln -s /path/to/Proj/working/copy /pr before running this app.\n");
+		/* ^ in order to load xpms successfully.*/
+		exit(127);
+	}
+
+	return proc_args(argc, argv);
 }
 
 // TODO: v PERSONALISE v

@@ -91,6 +91,9 @@ void start_listening(){
 	int ipc_status;
 	int r;
 	message msg;
+
+	char CTRL_status=0;
+
 	printf("Entering the loop.\n");
 	while(!stop) { /*	You may want to use a different condition*/
 		/*Get a request message.*/
@@ -121,16 +124,24 @@ void start_listening(){
 						stop=1; continue;
 					}
 					if(kp->code==0x4d){ //right
-						nextMonth(&cal);
-						rfill_screen();
-						draw_main_page();
-						continue;
+						if(CTRL_status)
+							nextYear(&cal);
+						else
+							nextMonth(&cal);
 					}
 					if(kp->code==0x4b){ //left
-						prevMonth(&cal);
-						rfill_screen();
-						draw_main_page();
-						continue;
+						if(CTRL_status)
+							prevYear(&cal);
+						else
+							prevMonth(&cal);
+					}
+					if(kp->code==0x1d || kp->code==0x9d){ //CTRL
+						if(kp->mk){
+							//makecode
+							CTRL_status=1;
+						}else{
+							CTRL_status=0;
+						}
 					}
 					free(kp);
 				}
