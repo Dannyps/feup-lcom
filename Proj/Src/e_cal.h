@@ -1,6 +1,12 @@
 #ifndef __TEST5_H
 #define __TEST5_H
 
-// TODO: declare functions here
+/**
+ * @mainpage eCal
+ */
+
+/**
+ * @brief begin program execution
+ */
 void *init();
 #endif
