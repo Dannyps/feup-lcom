@@ -51,7 +51,6 @@ int rfill_screen();
  * @param x
  * @param y
  * @param color
- * @return
  */
 void setP(unsigned long x, unsigned long y, pixel_t color);
 void video_start();
