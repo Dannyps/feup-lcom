@@ -209,6 +209,12 @@ void draw_string(char *str, short unsigned x, short unsigned y, pixel_t color){
 	}
 }
 
+unsigned short get_string_width(char* str){
+	int len;
+	len=strlen(str);
+	return len*9; // 9 as in above x+=9.
+}
+
 void draw_box(unsigned short x, unsigned short y, unsigned short width, unsigned short height, pixel_t color){
 	unsigned int i,j;
 	for(i = x;i<x+width;i++){
