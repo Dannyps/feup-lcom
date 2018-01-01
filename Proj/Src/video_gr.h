@@ -2,26 +2,10 @@
 #define __VIDEO_GR_H
 #include <stdint.h>
 
-/** @name VBE Video Info */
-/**@{
- *
- * A simplified version of the Packed VBE Mode Info Block
- */
- typedef struct {
-	  uint16_t x;      		/**< @brief horizontal resolution in pixels/characters */
-	  uint16_t y;      		/**< @brief vertical resolution in pixels/characters */
-	  uint8_t bpp; 			/**< @brief bits per pixel */
-	  unsigned char* vm;	/**< @brief video memory(buffer actually) */
-	  unsigned char* rvm;	/**< @brief real video memory */
-} video_info_t;
-
-/** @} end of video_info*/
-
-
 /** @defgroup video_gr video_gr
  * @{
  *
- * Functions for outputting data to screen in graphics mode
+ * @brief Functions for interfacing with the low video memory and with vbe
  */
 
 /**
@@ -44,7 +28,7 @@ void *vg_init(unsigned short mode);
 */
 int vg_exit(void);
 
-/** @} end of video_gr */
+
 
 /**
 * @brief Returns video_info_t, a simplified version of vbe_mode_info_t.
@@ -53,7 +37,6 @@ int vg_exit(void);
 */
 video_info_t get_vi();
 
-/** @} end of get_vi */
 
 /**
 * @brief copies buffer to real vm.
@@ -61,6 +44,24 @@ video_info_t get_vi();
 * @return void
 */
 void vg_flush();
-/** @} end of vg_flush */
+
+
+/** @name VBE Video Info */
+/**@{
+ *
+ * @brief A simplified version of the Packed VBE Mode Info Block
+ */
+ typedef struct {
+	  uint16_t x;      		/**< @brief horizontal resolution in pixels/characters */
+	  uint16_t y;      		/**< @brief vertical resolution in pixels/characters */
+	  uint8_t bpp; 			/**< @brief bits per pixel */
+	  unsigned char* vm;	/**< @brief video memory(buffer actually) */
+	  unsigned char* rvm;	/**< @brief real video memory */
+} video_info_t;
+
+/** @} end of video_info*/
+
+/** @} end of video_gr */
+
 
 #endif /* __VIDEO_GR_H */
