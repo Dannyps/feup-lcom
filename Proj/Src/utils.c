@@ -166,9 +166,8 @@ void start_listening(){
 				if (msg.NOTIFY_ARG & irq_rtcset) {
 					rtc_time_t* rtc;
 					rtc = rtc_int_handler();
-//					printf("got rtc time!\n%d:%d:%d", rtc->hour, rtc->min, rtc->sec);
 					sprintf(rtcStr, "%02d:%02d:%02d - %02d/%02d/20%02d", rtc->hour, rtc->min, rtc->sec, rtc->day, rtc->month, rtc->year);
-
+					free(rtc);
 					// Print date and time to the screen
 				}
 
