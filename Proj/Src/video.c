@@ -150,7 +150,7 @@ void draw_cursor(unsigned x, unsigned y){
 	}
 }
 
-void draw_character(char asciiCode, unsigned short x, unsigned short y){
+void draw_character(char asciiCode, unsigned short x, unsigned short y, pixel_t color){
 	/**
 	 * x and y mark the bottom left corner.
 	 */
@@ -161,11 +161,29 @@ void draw_character(char asciiCode, unsigned short x, unsigned short y){
 	}
 
 	video_info_t vi = get_vi();
-	if(x<0 || y<0 || x+13>vi.x || y+8>vi.y){
+	if(x<0 || y-8<0 || x+13>vi.x || y>vi.y){
 		fprintf(cerr, "could not write character out of screen (on %dx%d)!\n", x, y);
 		return;
 	}
 
-	// we've check our args, they look good to go.
+	// we've checked our args, they look good to go.
+
+	/**
+	 * A small crash course on our letters mini pixmaps is in order:
+	 *
+	 * - a bit set to 1 represents a pixel to be filled with the color passed in the args.
+	 * - a bit set to 0 should be left untouched. Another function must set the background before.
+	 * - every char is 13 pixels in height, and 8 pixels in width (monospace), thus occupying 104 pixels.
+	 * - that's all folks!
+	 */
+
+
+	unsigned short ax, ay; // actual x and actual y, because we start drawing from the top-left corner.
+	ax=x;
+	ay=y-8;
+
+	int i, j;
+	char* a=letters[asciiCode];
+
 
 }
