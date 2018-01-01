@@ -34,7 +34,9 @@ xpm_t* getXPMByMonth(unsigned month){
 }
 
 // https://github.com/FEUP-MIEEC/Prog1/blob/master/Aula_Pratica_03/Problema_8.c
-
+/**
+ * @brief If year if bissextile or not.
+ */
 int bissextile(int year) {
     if (year % 4 == 0) {
         if (year % 100 == 0) {
