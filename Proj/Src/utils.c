@@ -19,15 +19,19 @@ View cal;
 
 int stop=0;
 
+char rtcStr[64];
+
 xpm_t XPM_exitCross, XPM_january, XPM_february, XPM_march, XPM_april, XPM_may, XPM_june; // camelCase please!
 xpm_t XPM_july, XPM_august, XPM_september, XPM_october, XPM_november, XPM_december;
 xpm_t XPM_monday, XPM_tuesday, XPM_wednesday, XPM_thursday, XPM_friday, XPM_saturday, XPM_sunday;
 
 void load_xpms(){
 
+	strcpy(rtcStr, "waiting for RTC interrupt");
+
 	printf("reading xpms.\n");
 	int c=0;
-	printf("%d xpms read.\n", c);
+
 	XPM_exitCross=read_xpm_from_file("/pr/Src/xpms/exit_cross.xpm");			c++;
 
 	XPM_january=read_xpm_from_file("/pr/Src/xpms/months/january.xpm");			c++;
@@ -42,7 +46,6 @@ void load_xpms(){
 	XPM_october=read_xpm_from_file("/pr/Src/xpms/months/october.xpm");			c++;
 	XPM_november=read_xpm_from_file("/pr/Src/xpms/months/november.xpm");		c++;
 	XPM_december=read_xpm_from_file("/pr/Src/xpms/months/december.xpm");		c++;
-	printf("%d xpms read.\n", c);
 	XPM_monday=read_xpm_from_file("/pr/Src/xpms/monthviews/monday.xpm");		c++;
 	XPM_tuesday=read_xpm_from_file("/pr/Src/xpms/monthviews/tuesday.xpm");		c++;
 	XPM_wednesday=read_xpm_from_file("/pr/Src/xpms/monthviews/wednesday.xpm");	c++;
@@ -152,7 +155,8 @@ void start_listening(){
 				if (msg.NOTIFY_ARG & irq_rtcset) {
 					rtc_time_t* rtc;
 					rtc = rtc_int_handler();
-					printf("got rtc time!\n%d:%d:%d", rtc->hour, rtc->min, rtc->sec);
+//					printf("got rtc time!\n%d:%d:%d", rtc->hour, rtc->min, rtc->sec);
+					sprintf(rtcStr, "%02d:%02d:%02d - %02d/%02d/20%02d", rtc->hour, rtc->min, rtc->sec, rtc->day, rtc->month, rtc->year);
 
 					// Print date and time to the screen
 				}
@@ -213,7 +217,7 @@ void draw_main_page(){
 	draw_xpm(Weekdays, 300, 140);
 	drawMonth(&cal, 300, 190);
 	draw_box(737, 40, 274, 24, white_c);
-	draw_string("waiting for RTC", 797, 55, red_c);
+	draw_string(rtcStr, 797, 55, red_c);
 
 }
 

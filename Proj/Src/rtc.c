@@ -83,7 +83,7 @@ rtc_time_t* rtc_int_handler() {
 	/**
 	 * Make sure you call this function on the right instant!
 	 */
-
+	clear_regC();
 	long unsigned a, b, c, d, e, f, g;
 	rtc_time_t* ret = malloc(sizeof(rtc_time_t));
 	if(ret==NULL){

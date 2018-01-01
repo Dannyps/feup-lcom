@@ -205,7 +205,7 @@ void draw_string(char *str, short unsigned x, short unsigned y, pixel_t color){
 	//printf("drawing %d chars: %s\n", len, str);
 	for(i=0;i<len;i++){
 		draw_character(str[i], x, y, color);
-		x+=7;
+		x+=9;
 	}
 }
 
