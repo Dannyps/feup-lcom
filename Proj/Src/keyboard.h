@@ -2,9 +2,9 @@
 #define __KEYBOARD_H
 
 typedef struct key_press_t{
-	unsigned char code;
-	unsigned char is2Byte;
-	unsigned char mk, bk;
+	unsigned char code; /**< @brief the code generated, without 0xe0 prefix */
+	unsigned char is2Byte; /**< @brief wether the 0xe0 byte was present */
+	unsigned char mk, bk; /**< @brief is makecode/breakcode */
 } KEY_PRESS;
 
 int kbd_subscribe_int(void );
