@@ -6,8 +6,20 @@
 #include "vbe.h"
 #include "read_xpm.h"
 
+
+/** @defgroup video video
+ * @{
+ *
+ * @brief higher level functions for interfacing with the video buffer.
+ */
+/**
+ * @brief pointer to the video memory.
+ */
 char* video_m;
 
+/**
+ * @brief pixel containing r,g,b values (0-255 each)
+ */
 typedef struct{
 	unsigned char r,g,b;
 } pixel_t;
@@ -18,8 +30,29 @@ extern pixel_t green_c;
 extern pixel_t white_c;
 extern pixel_t black_c;
 
+/**
+ * @brief fill screen with the specified color
+ * @param color to be used
+ * @return 0 on success, non-zero otherwise.
+ */
 int fill_screen(pixel_t color);
+
+/**
+ * @brief fill screen with pseudo-random color
+ * @return 0 on success, non-zero otherwise.
+ */
 int rfill_screen();
+
+/**
+ * @brief set a certain pixel with the specified color
+ *
+ * the most important function in the project!!
+ * @note attempt to write out of the screen will result in the program exiting quasi-successfully. Use with caution.
+ * @param x
+ * @param y
+ * @param color
+ * @return
+ */
 void setP(unsigned long x, unsigned long y, pixel_t color);
 void video_start();
 int draw_xpm(char *xpm[], unsigned short xi, unsigned short yi);

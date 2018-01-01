@@ -2,7 +2,6 @@
 #define __VIEW_H
 #include "read_xpm.h"
 
-
 /** @defgroup view view
  * @{
  *
