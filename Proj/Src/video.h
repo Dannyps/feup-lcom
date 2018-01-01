@@ -53,8 +53,22 @@ int rfill_screen();
  * @param color
  */
 void setP(unsigned long x, unsigned long y, pixel_t color);
+
+/**
+ * @brief start video mode 0x118.
+ */
 void video_start();
+
+/**
+ * @brief draw the specified xpm on the video memory.
+ * @param the xpm to be drawn
+ * @return 0 on success, non-zero otherwise.
+ */
 int draw_xpm(char *xpm[], unsigned short xi, unsigned short yi);
+
+/**
+ * @brief draw the cursor on the specified variables.
+ */
 void draw_cursor(unsigned x, unsigned y);
 int draw_xpm_from_memory(xpm_t xpm, unsigned short xi, unsigned short yi);
 void draw_character(char asciiCode, unsigned short x, unsigned short y, pixel_t color);
