@@ -6,7 +6,7 @@
 /** @defgroup vbe vbe
  * @{
  *
- * Functions related to the VBE standard
+ * @brief Functions related to the VBE standard
  */
 
 /** @name VBE Mode Info Block */
