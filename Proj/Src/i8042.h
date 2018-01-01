@@ -4,7 +4,7 @@
 /** @defgroup i8042 i8042
  * @{
  *
- * Constants for programming the i8042 KBC. Needs to be completed.
+ * Constants for programming the i8042 KBC.
  */
 
 
