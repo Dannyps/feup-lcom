@@ -25,7 +25,7 @@ int rtc_test_conf(void) {
 		sys_inb(RTC_DATA_REG, &a);
 		printf("got 0x%x\n", a);
 	} while (!(BIT(7)&a));
-	enable_update_interrupts(); // ;)
+
 	sys_outb(RTC_ADDR_REG, RTC_REGISTER_A);
 	sys_inb(RTC_DATA_REG, &a);
 	printf("a: 0x%x\n", a);
@@ -171,16 +171,13 @@ int rtc_unsubscribe_int() {
 int rtc_int_handler(){
 	rtc_test_date();
 	unsigned long a;
-	/* read register C just because yolo */
-	sys_outb(RTC_ADDR_REG, RTC_REGISTER_C);
-	sys_inb(RTC_DATA_REG, &a);
+	clear_regC();
 
 	return 0;
 }
 
 void clear_regC(){
 	unsigned long a;
-	/* read register C just because yolo */
 	sys_outb(RTC_ADDR_REG, RTC_REGISTER_C);
 	sys_inb(RTC_DATA_REG, &a);
 }
@@ -197,7 +194,7 @@ int rtc_test_int() {
 	message msg;
 	printf("Entering the loop.\n");
 	int i=0;
-	while(i<10) { /*	You may want to use a different condition*/
+	while(i<5) { /*	You may want to use a different condition*/
 		/*Get a request message.*/
 		if( (r = driver_receive(ANY, &msg, &ipc_status)) != 0 ) {
 			printf("driver_receive failed with: %d", r);
