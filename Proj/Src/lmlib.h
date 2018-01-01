@@ -4,7 +4,7 @@
 /** @defgroup lmlib lmlib
  * @{
  *
- * Functions related to low memory (first 1 MB of physical memory), required for BIOS
+ * @brief Functions related to low memory (first 1 MB of physical memory), required for BIOS
  */
 
 /** @name  Memory Map Struct*/
