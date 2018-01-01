@@ -27,23 +27,51 @@ extern xpm_t XPM_july, XPM_august, XPM_september, XPM_october, XPM_november, XPM
 extern xpm_t XPM_monday, XPM_tuesday, XPM_wednesday, XPM_thursday, XPM_friday, XPM_saturday, XPM_sunday;
 
 /**
- * @brief advance 1 year
+ * @brief advance 1 month
  * @param pointer to the View
- * @return void
  */
 void nextMonth(View *v);
+
+/**
+ * @brief rewind 1 month
+ * @param pointer to the View
+ */
 void prevMonth(View *v);
 
+/**
+ * @brief advance 1 year
+ * @param pointer to the View
+ */
 void nextYear(View *v);
+
+/**
+ * @brief rewind 1 year
+ * @param pointer to the View
+ */
 void prevYear(View *v);
 
+/**
+ * @brief draw the associated xpm to the video buffer
+ * @param pointer to the View
+ * @param position x
+ * @param position y
+ */
 void drawMonthName(View *v, int x, int y);
 
 /**
- * Returns the day of the week where the first day of the month lands
+ * @brief Returns the day of the week where the first day of the month lands.
+ * @param pointer to the View
+ * @return value between 0-sunday and 6-saturday
  */
 int calculateFirstWeekDay(View *v);
+//TODO ^^ review doc
 
+/**
+ * @brief draw the relevant data to the video buffer
+ * @param pointer to the View
+ * @param position x
+ * @param position y
+ */
 void drawMonth(View *v, int x, int y);
 
 #endif
