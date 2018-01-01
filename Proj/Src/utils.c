@@ -217,7 +217,8 @@ void draw_main_page(){
 	draw_xpm(Weekdays, 300, 140);
 	drawMonth(&cal, 300, 190);
 	draw_box(737, 40, 274, 24, white_c);
-	draw_string(rtcStr, 797, 55, red_c);
+	unsigned short len=get_string_width(rtcStr);
+	draw_string(rtcStr, 737+274/2-len/2, 55, red_c);
 
 }
 

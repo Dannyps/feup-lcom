@@ -27,5 +27,6 @@ void draw_cursor(unsigned x, unsigned y);
 int draw_xpm_from_memory(xpm_t xpm, unsigned short xi, unsigned short yi);
 void draw_character(char asciiCode, unsigned short x, unsigned short y, pixel_t color);
 void draw_string(char *str, short unsigned x, short unsigned y, pixel_t color);
+unsigned short get_string_width(char* str);
 void draw_box(unsigned short x, unsigned short y, unsigned short width, unsigned short height, pixel_t color);
 #endif
