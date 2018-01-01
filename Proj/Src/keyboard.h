@@ -4,6 +4,7 @@
 typedef struct key_press_t{
 	unsigned char code;
 	unsigned char is2Byte;
+	unsigned char mk, bk;
 } KEY_PRESS;
 
 int kbd_subscribe_int(void );
