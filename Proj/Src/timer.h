@@ -25,7 +25,7 @@ int timer0_subscribe_int();
 int timer0_unsubscribe_int();
 
 /**
- * @brief handles the interrupt. Refreshes the video buffer and calls <vg_flush>.
+ * @brief handles the interrupt. Refreshes the video buffer and calls vg_flush().
  */
 void timer0_int_handler();
 
