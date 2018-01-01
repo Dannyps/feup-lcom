@@ -1,7 +1,7 @@
 #ifndef __RTC_H
 #define __RTC_H
 
-/** @defgroup i8042 i8042
+/** @defgroup rtc rtc
  * @{
  *
  * @brief Constants and macros for interfacing with the RTC.
