@@ -155,17 +155,17 @@ void draw_character(char asciiCode, unsigned short x, unsigned short y, pixel_t 
 	 * x and y mark the bottom left corner.
 	 */
 
-	if(asciiCode<32 || asciiCode > 127){
+	if(asciiCode<32){
 		fprintf(stderr, "could not write unprintable character ASCII: %d!\n", asciiCode);
 		return ;
 	}
 
 	video_info_t vi = get_vi();
-	if(x<0 || y-8<0 || x+13>vi.x || y>vi.y){
+	if(((short)y)-8<0 || x+13>vi.x || y>vi.y){
 		fprintf(stderr, "could not write character out of screen (on %dx%d)!\n", x, y);
 		return;
 	}
-
+	y-=8;
 	// we've checked our args, they look good to go.
 
 	/**
@@ -177,13 +177,34 @@ void draw_character(char asciiCode, unsigned short x, unsigned short y, pixel_t 
 	 * - that's all folks!
 	 */
 
-
-	unsigned short ax, ay; // actual x and actual y, because we start drawing from the top-left corner.
-	ax=x;
-	ay=y-8;
-
 	int i, j;
-	char* a=letters[asciiCode];
+	const unsigned char* a=letters[(int) asciiCode-32];
+	//printf("selecting index %d\n", (int) asciiCode-32);
+	for(i=y;i<y+13;i++){
+		for(j=x;j<x+8;j++){
+			const char bit = a[12-(i-y)] & BIT(7-(j-x));
+			//printf("selecting %d -> %d got 0x%x\n", i-y, j-x, bit);
+			if(bit!=0){
+				setP(j, i, color);
+			}
+		}
+	}
+}
+
+void draw_string(char *str, short unsigned x, short unsigned y, pixel_t color){
+	/**
+	 * foreach char in str, draw it!
+	 */
+
+	if(str==NULL)
+		return;
 
 
+	int i, len;
+	len=strlen(str);
+	//printf("drawing %d chars: %s\n", len, str);
+	for(i=0;i<len;i++){
+		draw_character(str[i], x, y, color);
+		x+=7;
+	}
 }

@@ -39,6 +39,7 @@ void timer0_int_handler() {
 		draw_cursor(cursorX,cursorY);
 		//printf("reprinting on %d\n", tick_elapsed);
 		vg_flush();
+		exit(-5);
 	}
 
 	return;

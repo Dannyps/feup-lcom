@@ -25,4 +25,6 @@ void video_start();
 int draw_xpm(char *xpm[], unsigned short xi, unsigned short yi);
 void draw_cursor(unsigned x, unsigned y);
 int draw_xpm_from_memory(xpm_t xpm, unsigned short xi, unsigned short yi);
+void draw_character(char asciiCode, unsigned short x, unsigned short y, pixel_t color);
+void draw_string(char *str, short unsigned x, short unsigned y, pixel_t color);
 #endif
