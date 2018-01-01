@@ -212,8 +212,12 @@ void draw_main_page(){
 	drawMonthName(&cal, 300, 90);
 	draw_xpm(Weekdays, 300, 140);
 	drawMonth(&cal, 300, 190);
-
-	int k=0;
+	for(i = 737;i<1011;i++){
+			for(j=40;j<64;j++){
+				setP(i,j,white_c);
+			}
+		}
+	draw_string("waiting for RTC", 797, 55, red_c);
 
 }
 
