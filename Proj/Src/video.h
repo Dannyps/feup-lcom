@@ -80,7 +80,15 @@ int draw_xpm_from_memory(xpm_t xpm, unsigned short xi, unsigned short yi);
  * @param asciiCode the character to be drawn. Must be printable!
  */
 void draw_character(char asciiCode, unsigned short x, unsigned short y, pixel_t color);
+
 void draw_string(char *str, short unsigned x, short unsigned y, pixel_t color);
+
+///
+/// \brief get the width, in pixels, of a string.
+/// \note /*Allows for a string to be printed in the middle of a box:
+/// use START+SIZE_OF_BOX/2-STR_WIDTH/2 */
+/// \return the width the string will occupy in pixels.
 unsigned short get_string_width(char* str);
+
 void draw_box(unsigned short x, unsigned short y, unsigned short width, unsigned short height, pixel_t color);
 #endif
