@@ -24,18 +24,19 @@
 
 #define RTC_UIP						BIT(7)
 
-typedef struct rtc_handler_t {
-	unsigned long hour;
-	unsigned long min;
-	unsigned long sec;
-	unsigned long day;
-	unsigned long month;
-	unsigned long year;
-} RTC_HANDLER;
+typedef struct {
+	unsigned char hour;
+	unsigned char min;
+	unsigned char sec;
+	unsigned char day;
+	unsigned char month;
+	unsigned char year;
+	unsigned char wd;
+} rtc_time_t;
 
 int rtc_subscribe_int();
 int rtc_unsubscribe_int();
 void wait_for_valid_rtc();
-struct rtc_handler_t* rtc_int_handler();
+rtc_time_t* rtc_int_handler();
 
 #endif

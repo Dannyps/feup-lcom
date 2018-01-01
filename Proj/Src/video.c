@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "read_xpm.h"
+#include "utils.h"
 
 pixel_t blue_c	=	{0x00, 0x00, 0xff};
 pixel_t red_c	=	{0xff, 0x00, 0x00};
@@ -139,11 +140,32 @@ int draw_xpm_from_memory(xpm_t xpm, unsigned short xi, unsigned short yi) {
 
 
 void draw_cursor(unsigned x, unsigned y){
-	printf("Drawing cursor on %dx%d.\n", x, y);
+
+	//printf("Drawing cursor on %dx%d.\n", x, y);
 	unsigned i, j;
 	for(i=x;i<x+5;i++){
 		for(j=y;j<y+5;j++){
 			setP(i, j, red_c);
 		}
 	}
+}
+
+void draw_character(char asciiCode, unsigned short x, unsigned short y){
+	/**
+	 * x and y mark the bottom left corner.
+	 */
+
+	if(asciiCode<32 || asciiCode > 127){
+		fprintf(cerr, "could not write unprintable character ASCII: %d!\n", asciiCode);
+		return ;
+	}
+
+	video_info_t vi = get_vi();
+	if(x<0 || y<0 || x+13>vi.x || y+8>vi.y){
+		fprintf(cerr, "could not write character out of screen (on %dx%d)!\n", x, y);
+		return;
+	}
+
+	// we've check our args, they look good to go.
+
 }
