@@ -200,7 +200,7 @@ void handleMouse(unsigned char* arr, struct mouse_action_t* ma){
 
 
 struct mouse_action_t* kbd_mouse_int_handler() {
-	printf("mouse handler... ");
+	//printf("mouse handler... ");
 	static unsigned char count=0;
 	static unsigned char arr[4];
 	static char synced=0;
