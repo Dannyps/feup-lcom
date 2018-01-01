@@ -15,7 +15,14 @@ void enable_update_interrupts();
 void disable_update_interrupts();
 void clear_regC();
 
+
 int rtc_hookIDs[2];
+
+// https://stackoverflow.com/a/42340213
+int bcd_to_decimal(unsigned char x) {
+    return x - 6 * (x >> 4);
+}
+
 
 int rtc_test_conf(void) {
 	long unsigned a, b, c, d;
@@ -78,6 +85,47 @@ int rtc_test_date(void) {
 	sys_inb(RTC_DATA_REG, &g);
 	printf("year	: 0x%x\n", g);
 	return 0;
+}
+
+rtc_time_t rtc_get_time(){
+	/**
+	 * Make sure you call this function on the right instant!
+	 */
+
+	long unsigned a, b, c, d, e, f, g;
+	rtc_time_t ret;
+	// will wait for an UIP
+
+	sys_outb(RTC_ADDR_REG, RTC_SECONDS);
+	sys_inb(RTC_DATA_REG, &a);
+	ret.sec=bcd_to_decimal((unsigned char)a);
+
+	sys_outb(RTC_ADDR_REG, RTC_MINUTES);
+	sys_inb(RTC_DATA_REG, &b);
+	ret.min=bcd_to_decimal((unsigned char)b);
+
+	sys_outb(RTC_ADDR_REG, RTC_HOURS);
+	sys_inb(RTC_DATA_REG, &c);
+	ret.hour=bcd_to_decimal((unsigned char)c);
+
+	sys_outb(RTC_ADDR_REG, RTC_DAYOFTHEWEEK);
+	sys_inb(RTC_DATA_REG, &d);
+	ret.wd=bcd_to_decimal((unsigned char)d);
+
+	sys_outb(RTC_ADDR_REG, RTC_DAYOFTHEMONTH);
+	sys_inb(RTC_DATA_REG, &e);
+	ret.day=bcd_to_decimal((unsigned char)e);
+
+	sys_outb(RTC_ADDR_REG, RTC_MONTH);
+	sys_inb(RTC_DATA_REG, &f);
+	ret.month=bcd_to_decimal((unsigned char)f);
+
+	sys_outb(RTC_ADDR_REG, RTC_YEAR);
+	sys_inb(RTC_DATA_REG, &g);
+	ret.year=bcd_to_decimal((unsigned char)g);
+
+	return ret;
+
 }
 
 int rtc_test_settime(char* s1, char* s2){
@@ -170,9 +218,7 @@ int rtc_unsubscribe_int() {
 
 int rtc_int_handler(){
 	rtc_test_date();
-	unsigned long a;
 	clear_regC();
-
 	return 0;
 }
 
@@ -207,7 +253,9 @@ int rtc_test_int() {
 			switch (_ENDPOINT_P(msg.m_source)) {
 			case HARDWARE:
 				if (msg.NOTIFY_ARG & irq_rtcset) {
-					rtc_int_handler();
+					rtc_time_t t=rtc_get_time();
+					printf("seconds is %d, minutes is %d, hours is %d\n", t.sec, t.min, t.hour);
+					clear_regC();
 					i++;
 					// Print date and time to the screen
 				}
