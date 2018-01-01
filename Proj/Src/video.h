@@ -48,9 +48,6 @@ int rfill_screen();
  *
  * the most important function in the project!!
  * @note attempt to write out of the screen will result in the program exiting quasi-successfully. Use with caution.
- * @param x
- * @param y
- * @param color
  */
 void setP(unsigned long x, unsigned long y, pixel_t color);
 
@@ -61,16 +58,27 @@ void video_start();
 
 /**
  * @brief draw the specified xpm on the video memory.
- * @param the xpm to be drawn
+ * @param xpm the xpm to be drawn
  * @return 0 on success, non-zero otherwise.
  */
 int draw_xpm(char *xpm[], unsigned short xi, unsigned short yi);
 
 /**
- * @brief draw the cursor on the specified variables.
+ * @brief draw the cursor on the specified coordinates.
  */
 void draw_cursor(unsigned x, unsigned y);
+
+/**
+ * @brief draw xpm that has been load to memory from a file.
+ * @param xpm pointer to memory address of the xpm
+ * @return 0 on success, non-zero otherwise.
+ */
 int draw_xpm_from_memory(xpm_t xpm, unsigned short xi, unsigned short yi);
+
+/**
+ * @brief draw character in screen. More info in the implementation
+ * @param asciiCode the character to be drawn. Must be printable!
+ */
 void draw_character(char asciiCode, unsigned short x, unsigned short y, pixel_t color);
 void draw_string(char *str, short unsigned x, short unsigned y, pixel_t color);
 unsigned short get_string_width(char* str);
