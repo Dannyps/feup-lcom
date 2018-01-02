@@ -1,5 +1,8 @@
 #ifndef __UTILS_H
 #define __UTILS_H
+
+#include "keyboard.h"
+
 #define BIT(n) (0x01<<(n))
 
 /*  GLOBAL VARIABLES  */
@@ -22,6 +25,7 @@ int mouse_hookIDs[2];
 int rtc_hookIDs[2];
 
 extern char rtcStr[64];
+extern char srchStr[64];
 extern int stop;
 extern int landing;
 extern int search;
@@ -52,8 +56,12 @@ void load_xpms();
  */
 void draw_landing_page();
 
+void textInput(KEY_PRESS* kp);
+
+void draw_search_box();
 /** @} */
 
 extern const unsigned char letters[95][13];
+extern const unsigned char kbCodes[13];
 
 #endif

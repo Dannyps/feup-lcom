@@ -37,7 +37,11 @@ void timer0_int_handler() {
 			draw_landing_page();
 		}else{
 			rfill_screen();
-			draw_main_page();
+			if(search){
+				draw_search_box();
+			}else{
+				draw_main_page();
+			}
 			draw_cursor(cursorX,cursorY);
 		}
 		vg_flush();
