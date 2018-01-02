@@ -12,12 +12,12 @@
  */
 typedef struct xpm{
 	int width, height;
-	char* pointer;  /**< @brief pointer to the memory region where the xpm is*/
+	char* pointer;  /**< @brief Pointer to the memory region where the xpm is*/
 	char success;  /**< @brief Whether the xpm was successfully read.*/
 } xpm_t;
 
 /**
- * @brief read xpm from char**
+ * @brief Read xpm from char**
  * @warning Returned memory should be freed asap!
  * @warning This function requires map to be defined in the object file, thus making the linked file too big to run. Please use read_xpm_from_file(char* filename)!
  * @param map pointer to array
@@ -28,7 +28,7 @@ typedef struct xpm{
 char* read_xpm(char *map[], int *wd, int *ht);
 
 /**
- * @brief read xpm from file filename
+ * @brief Read xpm from file filename
  * @warning Returned memory should be freed asap! And then again, probably shouldn't because you'll need this until the end.
  * @param filename absolute path to file
  * @return xpm_t with a pointer to the video data.
