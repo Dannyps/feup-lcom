@@ -29,7 +29,7 @@ int kbd_unsubscribe_int() {
 	return sys_irqrmpolicy(&kbc_hookIDs[1]);
 }
 
-struct key_press_t* kbd_int_handler() {
+KEY_PRESS* kbd_int_handler() {
 
 	struct key_press_t* kp = malloc(sizeof(struct key_press_t));
 	if(kp==NULL){
