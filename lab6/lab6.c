@@ -30,7 +30,6 @@ int main(int argc, char **argv)
 
 	fflush(stdout);
 
-
 	if (argc == 1) {					/* Prints usage of the program if no arguments are passed */
 		print_usage(argv);
 		return 0;
@@ -41,11 +40,11 @@ int main(int argc, char **argv)
 static void print_usage(char **argv)
 {
 	printf("Usage: one of the following:\n"
-			"\t service run %s -args \"conf\"\n"
-			"\t service run %s -args \"date\"\n"
-			"\t service run %s -args \"settime\"\n"
-			"\t service run %s -args \"int\"\n",
-			argv[0], argv[0], argv[0]);
+		"\t service run %s -args \"conf\"\n"
+		"\t service run %s -args \"date\"\n"
+		"\t service run %s -args \"settime\"\n"
+		"\t service run %s -args \"int\"\n",
+		argv[0], argv[0], argv[0], argv[0]);
 }
 
 
