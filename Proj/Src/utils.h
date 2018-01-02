@@ -56,9 +56,21 @@ void load_xpms();
  */
 void draw_landing_page();
 
+/**
+ * @brief Takes care of received text, adding characters, or deleting them when a backspace is received.
+ */
 void textInput(KEY_PRESS* kp);
 
+/**
+ * @brief Draws the searchbox on the video buffer.
+ */
 void draw_search_box();
+
+int min(int a, int b);
+
+int max(int a, int b);
+
+int interpretSrchStr();
 /** @} */
 
 extern const unsigned char letters[95][13];

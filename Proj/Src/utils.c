@@ -81,6 +81,12 @@ void start_listening(){
 		fprintf(stderr, "Couldn't subscribe to IRQ_0!\n");exit(-3);
 	}
 
+	/* Subscribes to rtc */
+	int rtc_ret = rtc_subscribe_int();
+	if(rtc_ret!=0){
+		fprintf(stderr, "Could not subscribe interruptions for the kbc!\n");exit(-1);
+	}
+
 	/* Subscribes to kbd */
 	int kbd_ret = kbd_subscribe_int();
 	if(kbd_ret!=0){
@@ -93,12 +99,6 @@ void start_listening(){
 		fprintf(stderr, "Could not subscribe interruptions for the kbc!\n");exit(-1);
 	}
 
-	/* Subscribes to rtc */
-	int rtc_ret = rtc_subscribe_int();
-	if(rtc_ret!=0){
-		fprintf(stderr, "Could not subscribe interruptions for the kbc!\n");exit(-1);
-	}
-
 	int ipc_status;
 	int r;
 	message msg;
@@ -106,7 +106,7 @@ void start_listening(){
 	char CTRL_status=0;
 
 	printf("Entering the loop.\n");
-	while(!stop) { /*	You may want to use a different condition*/
+	while(!stop) {
 		/*Get a request message.*/
 		if( (r = driver_receive(ANY, &msg, &ipc_status)) != 0 ) {
 			printf("driver_receive failed with: %d", r);
@@ -133,8 +133,10 @@ void start_listening(){
 					if(kp==NULL)
 						continue;
 					if(search){
-						if(kp->code==0x81){
+						if(kp->code==0x81){//s
 							search=0; continue;
+						}else if(kp->code==0x1c){//return/enter
+							search=interpretSrchStr();
 						}else{
 							textInput(kp);
 						}
@@ -167,8 +169,6 @@ void start_listening(){
 						}
 					}
 
-
-
 					free(kp);
 				}
 
@@ -193,11 +193,12 @@ void start_listening(){
 				}
 
 				if (msg.NOTIFY_ARG & irq_rtcset) {
+					printf("rtc interrupis here!!!! ");
 					rtc_time_t* rtc;
 					rtc = rtc_int_handler();
 					sprintf(rtcStr, "%02d:%02d:%02d - %02d/%02d/20%02d", rtc->hour, rtc->min, rtc->sec, rtc->day, rtc->month, rtc->year);
+					puts(rtcStr);
 					free(rtc);
-					// Print date and time to the screen
 				}
 
 				break;
@@ -222,9 +223,9 @@ void start_listening(){
 		fprintf(stderr, "Could not unsubscribe from IRQ_12.\n");exit(-7);
 	}
 
-	//clear mouse buffer
-	sys_outb(0x64, 0x20);
-	sys_outb(0x60, 0x47);
+//	//clear mouse buffer
+//	sys_outb(0x64, 0x20);
+//	sys_outb(0x60, 0x47);
 
 	if(rtc_unsubscribe_int()!=0){
 		fprintf(stderr, "Could not unsubscribe from IRQ_8.\n");	exit(-8);
@@ -239,7 +240,7 @@ void start_listening(){
 void textInput(KEY_PRESS* kp){
 	if(kp->bk)
 		return;
-	if(kp->code<=12){
+	if(kp->code>=2 && kp->code<=12){
 		unsigned len = strlen(srchStr);
 		srchStr[len]=kbCodes[(int) kp->code];
 		srchStr[len+1]='\0';
@@ -256,9 +257,18 @@ void textInput(KEY_PRESS* kp){
 	}
 }
 
+int min(int a, int b){
+	if(a<b){return a;}
+	return b;
+}
+
+int max(int a, int b){
+	if(a<b){return b;}
+	return a;
+}
 
 /**
- * Make sure you clear the screen b4 calling this.
+ * @note Make sure you clear the screen before calling this.
  */
 void draw_main_page(){
 	//printf("drawing main page\n");
@@ -285,6 +295,19 @@ void draw_main_page(){
 
 }
 
+int interpretSrchStr(){
+	int year, month;
+	if(sscanf(srchStr, "%d-%d", &month, &year)==2 && month>0 && month<=12 && year>0){
+		// success
+		cal.year=year-1;
+		cal.month=month;
+		nextYear(&cal);
+		return 0;
+	}else{
+		return -1;
+	}
+}
+
 void draw_landing_page(){
 	draw_xpm_from_memory(XPM_landingPage, 0, 0);
 	return;
@@ -294,6 +317,9 @@ void draw_search_box(){
 	draw_xpm_from_memory(XPM_searchBox, 120, 220);
 	draw_xpm_from_memory(XPM_exitCross, 812, 228);
 	draw_string(srchStr, 180, 308, red_c);
+	if(search==-1){
+		draw_string("The string could not be recognized!", 180, 408, red_c);
+	}
 	return;
 }
 

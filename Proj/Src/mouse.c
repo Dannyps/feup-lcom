@@ -22,6 +22,12 @@ void check_clicks(struct mouse_action_t* ma){
 		if(mouseInBox(812, 228, 862, 278) && ma->lmb){ // exit box
 			search=0;
 		}
+		if(mouseInBox(698, 427, 748, 463) && ma->lmb){ // ok box
+			search=interpretSrchStr();
+		}
+		if(mouseInBox(755, 427, 853, 463) && ma->lmb){ // reset field box
+			srchStr[0]='\0';
+		}
 	}else{
 		if(mouseInBox(650, 20, 700, 70) && ma->lmb){ // exit box
 			stop=1;
@@ -53,21 +59,26 @@ void check_clicks(struct mouse_action_t* ma){
 void calc_new_mouse_coords(struct mouse_action_t* ma){
 	video_info_t vi=get_vi();
 
-	if(cursorX+ma->x+5>vi.x){
-		return;
-	}
-	if(cursorY-ma->y+50>vi.y){
-		return;
-	}
-
-	if( (((int) cursorX) - (int) ma->x) < 0){
-		return;
-	}
-	if( (((int) cursorY) + (int) ma->y) < 0){
-		return;
-	}
+//	if(cursorX+ma->x+5>vi.x){
+//		return;
+//	}
+//	if(cursorY-(ma->y)>vi.y){
+//		return;
+//	}
+//
+//	if( (((int) cursorX) - (int) ma->x) < 0){
+//		return;
+//	}
+//	if( (((int) cursorY) + (int) ma->y) < 0){
+//		return;
+//	}
 	cursorX+=ma->x;
 	cursorY-=ma->y;
+	cursorX=max(cursorX, 0);
+	cursorX=min(cursorX, vi.x-5);
+
+	cursorY=max(cursorY, 0);
+	cursorY=min(cursorY, vi.y-5);
 
 //	if(cursorX<0)
 //		cursorX=0+1;
