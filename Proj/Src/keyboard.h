@@ -1,6 +1,13 @@
 #ifndef __KEYBOARD_H
 #define __KEYBOARD_H
 
+/** @defgroup keyboard keyboard
+ * @{
+ *
+ * @brief Functions for interfacing with the keyboard.
+ */
+
+
 /**
  * @brief Struct to manage a received interrupt from the keyboard.
  *
@@ -13,9 +20,29 @@ typedef struct key_press_t{
 	unsigned char bk; /**< @brief 1 if is breakcode, 0 otherwise */
 } KEY_PRESS;
 
-int kbd_subscribe_int(void );
+/**
+ * @brief subscribes KB interrupts from the IRQ.
+ * @return 0 on success, non-zero otherwise
+ */
+int kbd_subscribe_int();
+
+/**
+ * @brief unsubscribes KB interrupts from the IRQ.
+ * @return 0 on success, non-zero otherwise
+ */
 int kbd_unsubscribe_int();
-struct key_press_t* kbd_int_handler();
+
+/**
+ * @brief keyboard driver interrupt handler.
+ * @return pointer to KEY_PRESS.
+ *
+ * @warning Returned structure should be freed asap!
+ */
+KEY_PRESS* kbd_int_handler();
 int kbd_test_scan();
+
+
+/**@}*/
+
 
 #endif
