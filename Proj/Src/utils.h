@@ -7,23 +7,6 @@
 
 /*  GLOBAL VARIABLES  */
 
-/*
- *  Hook IDs structure
- *
- * int[2];
- *  _____________________________________________
- * |          0           |           1          |
- * |----------------------|----------------------|
- * | lhid (local hook id) | khid (kernel hook id)|
- * |______________________|______________________|
- *
- * */
-
-int timer0_hookIDs[2];
-int kbc_hookIDs[2];
-int mouse_hookIDs[2];
-int rtc_hookIDs[2];
-
 extern char rtcStr[64];
 extern char srchStr[64];
 extern int stop;
@@ -33,6 +16,47 @@ extern int search;
 /** @defgroup init init
  * @{
 */
+
+/**
+ *  Hook IDs structure
+ *  _____________________________________________
+ * |          0           |           1          |
+ * |----------------------|----------------------|
+ * | lhid (local hook id) | khid (kernel hook id)|
+ *
+ */
+int timer0_hookIDs[2];
+
+/**
+ *  Hook IDs structure
+ *  _____________________________________________
+ * |          0           |           1          |
+ * |----------------------|----------------------|
+ * | lhid (local hook id) | khid (kernel hook id)|
+ *
+ */
+int kbc_hookIDs[2];
+
+/**
+ *  Hook IDs structure
+ *  _____________________________________________
+ * |          0           |           1          |
+ * |----------------------|----------------------|
+ * | lhid (local hook id) | khid (kernel hook id)|
+ *
+ */
+int mouse_hookIDs[2];
+
+/**
+ *  Hook IDs structure
+ *  _____________________________________________
+ * |          0           |           1          |
+ * |----------------------|----------------------|
+ * | lhid (local hook id) | khid (kernel hook id)|
+ *
+ */
+int rtc_hookIDs[2];
+
 
 /**
  * @brief The function that calls the subscribers and runs the so-called <i>not polling</i> loop.
