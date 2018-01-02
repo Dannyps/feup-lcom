@@ -1,0 +1,8 @@
+<map id="drawMonthName" name="drawMonthName">
+<area shape="rect" id="node2" href="$view_8c.html#a74ad2113cdc7203b02e494187ad4da95" title="getDaysInMonth" alt="" coords="200,5,319,32"/>
+<area shape="rect" id="node4" href="$group__video.html#ga53615a7693c3f8966a5874ca394e1fa5" title="draw xpm that has been load to memory from a file. " alt="" coords="175,56,344,83"/>
+<area shape="rect" id="node3" href="$view_8c.html#ae97d599b01f957a7aae5cd4ef4365989" title="If year if bissextile or not. " alt="" coords="392,5,469,32"/>
+<area shape="rect" id="node5" href="$group__video__gr.html#ga42f593e6656f1a978315aff02b1bcebf" title="Returns to default Minix 3 text mode (0x03: 25 x 80, 16 colors) " alt="" coords="399,56,463,83"/>
+<area shape="rect" id="node7" href="$group__video.html#gac75028fc51d5c217a0467f05b073b7aa" title="set a certain pixel with the specified color " alt="" coords="406,107,455,133"/>
+<area shape="rect" id="node6" href="$group__video__gr.html#ga1c67d2dca28fc88a7ac2377bcf2bb5ec" title="Returns video_info_t, a simplified version of vbe_mode_info_t. " alt="" coords="517,81,575,108"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="draw_character" name="draw_character">
+<area shape="rect" id="node2" href="$group__video.html#gaee9d6c0538b4349db9cadf374e6215e2" title="draw_string" alt="" coords="164,21,253,48"/>
+<area shape="rect" id="node3" href="$group__init.html#ga67bdc27b1bed7a494599c91dbfb3ea7c" title="The function that prints the main page. " alt="" coords="438,21,558,48"/>
+<area shape="rect" id="node9" href="$group__init.html#ga61775607dba8e84890a37fa9db13c28b" title="Draws the searchbox on the video buffer. " alt="" coords="436,72,560,98"/>
+<area shape="rect" id="node10" href="$group__view.html#ga78c75567a04d7bba1d03f0783c5d7429" title="draw the relevant data to the video buffer " alt="" coords="301,21,388,48"/>
+<area shape="rect" id="node4" href="$group__init.html#ga63728bf662b4409be9c0a1430c27e80d" title="begin program execution " alt="" coords="935,46,973,73"/>
+<area shape="rect" id="node7" href="$group__timer.html#ga64962794ad44ba890b8b12dc1fac6d2e" title="Handles the interrupt. Refreshes the video buffer and calls vg_flush(). " alt="" coords="608,72,736,98"/>
+<area shape="rect" id="node5" href="$proj_8c.html#a97b25d50dc55b5c8c2315fd010bc2957" title="proc_args" alt="" coords="1021,46,1100,73"/>
+<area shape="rect" id="node6" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1148,46,1199,73"/>
+<area shape="rect" id="node8" href="$group__init.html#ga9cc1938afb0447727d7242cf37028fcb" title="The function that calls the subscribers and runs the so&#45;called not polling loop. " alt="" coords="784,72,887,98"/>
+</map>

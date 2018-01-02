@@ -1,0 +1,4 @@
+<map id="rtc_int_handler" name="rtc_int_handler">
+<area shape="rect" id="node2" href="$group__rtc.html#ga035ad9251d249ab64e063d03d26689f4" title="clear the C register of the RTC ir order to allow other interrupts to come " alt="" coords="174,5,259,32"/>
+<area shape="rect" id="node3" href="$rtc_8c.html#a9c04acf7295e9324abe1b9d93a396577" title="bcd_to_decimal" alt="" coords="160,56,273,83"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="draw_character" name="draw_character">
+<area shape="rect" id="node2" href="$group__video__gr.html#ga1c67d2dca28fc88a7ac2377bcf2bb5ec" title="Returns video_info_t, a simplified version of vbe_mode_info_t. " alt="" coords="261,5,319,32"/>
+<area shape="rect" id="node3" href="$group__video.html#gac75028fc51d5c217a0467f05b073b7aa" title="set a certain pixel with the specified color " alt="" coords="164,31,213,57"/>
+</map>

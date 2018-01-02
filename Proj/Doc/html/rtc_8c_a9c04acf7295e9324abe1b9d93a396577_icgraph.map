@@ -1,0 +1,7 @@
+<map id="bcd_to_decimal" name="bcd_to_decimal">
+<area shape="rect" id="node2" href="$group__rtc.html#ga84b51ecdcafd408cba1b1f942f1eb960" title="reads time from the RTC registers. " alt="" coords="167,5,273,32"/>
+<area shape="rect" id="node3" href="$group__init.html#ga9cc1938afb0447727d7242cf37028fcb" title="The function that calls the subscribers and runs the so&#45;called not polling loop. " alt="" coords="321,5,424,32"/>
+<area shape="rect" id="node4" href="$group__init.html#ga63728bf662b4409be9c0a1430c27e80d" title="begin program execution " alt="" coords="472,5,511,32"/>
+<area shape="rect" id="node5" href="$proj_8c.html#a97b25d50dc55b5c8c2315fd010bc2957" title="proc_args" alt="" coords="559,5,637,32"/>
+<area shape="rect" id="node6" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="685,5,736,32"/>
+</map>

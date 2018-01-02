@@ -1,0 +1,8 @@
+<map id="calc_new_mouse_coords" name="calc_new_mouse_coords">
+<area shape="rect" id="node2" href="$mouse_8c.html#a5f51dce2d19477bfc72556905f6a6aae" title="handleMouse" alt="" coords="223,5,321,32"/>
+<area shape="rect" id="node3" href="$group__mouse.html#gac8a125640554c00c39094b35c6fd7d30" title="mouse driver interrupt handler. " alt="" coords="369,5,528,32"/>
+<area shape="rect" id="node4" href="$group__init.html#ga9cc1938afb0447727d7242cf37028fcb" title="The function that calls the subscribers and runs the so&#45;called not polling loop. " alt="" coords="576,5,679,32"/>
+<area shape="rect" id="node5" href="$group__init.html#ga63728bf662b4409be9c0a1430c27e80d" title="begin program execution " alt="" coords="727,5,765,32"/>
+<area shape="rect" id="node6" href="$proj_8c.html#a97b25d50dc55b5c8c2315fd010bc2957" title="proc_args" alt="" coords="813,5,892,32"/>
+<area shape="rect" id="node7" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="940,5,991,32"/>
+</map>

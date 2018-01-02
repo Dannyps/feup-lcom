@@ -1,0 +1,6 @@
+<map id="cover_surplus_days" name="cover_surplus_days">
+<area shape="rect" id="node2" href="$group__view.html#gaba310da451fbbb267f6cbcbaf0748f70" title="Returns the day of the week where the first day of the month lands. " alt="" coords="192,5,351,32"/>
+<area shape="rect" id="node3" href="$group__video.html#gae9d65dcaed6137c1ad1a2388db7836c0" title="fills the region of the screen delimited by the specified coordinates with the specified color..." alt="" coords="232,56,311,83"/>
+<area shape="rect" id="node4" href="$group__video.html#gac75028fc51d5c217a0467f05b073b7aa" title="set a certain pixel with the specified color " alt="" coords="399,56,448,83"/>
+<area shape="rect" id="node5" href="$group__video__gr.html#ga1c67d2dca28fc88a7ac2377bcf2bb5ec" title="Returns video_info_t, a simplified version of vbe_mode_info_t. " alt="" coords="496,56,553,83"/>
+</map>

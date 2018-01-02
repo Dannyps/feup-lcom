@@ -1,0 +1,7 @@
+<map id="draw_cursor" name="draw_cursor">
+<area shape="rect" id="node2" href="$group__timer.html#ga64962794ad44ba890b8b12dc1fac6d2e" title="Handles the interrupt. Refreshes the video buffer and calls vg_flush(). " alt="" coords="147,5,275,32"/>
+<area shape="rect" id="node3" href="$group__init.html#ga9cc1938afb0447727d7242cf37028fcb" title="The function that calls the subscribers and runs the so&#45;called not polling loop. " alt="" coords="323,5,425,32"/>
+<area shape="rect" id="node4" href="$group__init.html#ga63728bf662b4409be9c0a1430c27e80d" title="begin program execution " alt="" coords="473,5,512,32"/>
+<area shape="rect" id="node5" href="$proj_8c.html#a97b25d50dc55b5c8c2315fd010bc2957" title="proc_args" alt="" coords="560,5,639,32"/>
+<area shape="rect" id="node6" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="687,5,737,32"/>
+</map>

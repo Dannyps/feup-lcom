@@ -1,0 +1,54 @@
+<map id="start_listening" name="start_listening">
+<area shape="rect" id="node2" href="$group__timer.html#ga5884bfdb80c7ff1ce88460774c6a55ba" title="Subscribes RTC interrupts from the timer. " alt="" coords="178,444,321,471"/>
+<area shape="rect" id="node3" href="$group__rtc.html#gabd8de825e876e8ef94c64ac616f68a11" title="subscribes RTC interrupts from the IRQ. " alt="" coords="189,647,310,674"/>
+<area shape="rect" id="node6" href="$group__keyboard.html#ga77e2ed8f53e0fae3f4005fa26c6d2692" title="Subscribes KB interrupts from the IRQ. " alt="" coords="186,1103,313,1130"/>
+<area shape="rect" id="node7" href="$group__mouse.html#gafffe8b7e47bfbb747bd2188fb24bcac8" title="subscribes mouse interrupts from the IRQ. " alt="" coords="163,1154,336,1180"/>
+<area shape="rect" id="node10" href="$group__timer.html#ga64962794ad44ba890b8b12dc1fac6d2e" title="Handles the interrupt. Refreshes the video buffer and calls vg_flush(). " alt="" coords="185,495,313,522"/>
+<area shape="rect" id="node32" href="$group__keyboard.html#ga37539fc5abc698b41559d1f4c3bce0d4" title="Keyboard driver interrupt handler. " alt="" coords="193,1255,306,1282"/>
+<area shape="rect" id="node33" href="$group__init.html#gad7f95e509c9e71da55a46b3e0b9ad4c3" title="interpretSrchStr" alt="" coords="855,748,968,775"/>
+<area shape="rect" id="node34" href="$group__view.html#ga2f06ccd0bf2b8ac66ef73d9b5f63a936" title="advance 1 year " alt="" coords="1086,852,1161,879"/>
+<area shape="rect" id="node36" href="$group__init.html#gaa3fa4b9d70edead7703f6cc6b1a62806" title="Takes care of received text, adding characters, or deleting them when a backspace is received..." alt="" coords="213,1306,286,1332"/>
+<area shape="rect" id="node37" href="$group__view.html#ga90feb94c44a57030ad5e44fb9b360852" title="advance 1 month " alt="" coords="870,900,953,927"/>
+<area shape="rect" id="node38" href="$group__view.html#ga740515963d2ae421f2b8b50f0e23148d" title="rewind 1 year " alt="" coords="874,1002,949,1028"/>
+<area shape="rect" id="node39" href="$group__view.html#gad1c34e104ebbe0633670eca605bad0c8" title="rewind 1 month " alt="" coords="870,1052,953,1079"/>
+<area shape="rect" id="node40" href="$group__mouse.html#gac8a125640554c00c39094b35c6fd7d30" title="mouse driver interrupt handler. " alt="" coords="170,799,329,826"/>
+<area shape="rect" id="node47" href="$group__rtc.html#ga84b51ecdcafd408cba1b1f942f1eb960" title="reads time from the RTC registers. " alt="" coords="196,698,303,724"/>
+<area shape="rect" id="node49" href="$group__timer.html#ga7b15990f508a89c4af040f384e132716" title="Unsubscribes RTC interrupts from the timer. " alt="" coords="171,1356,327,1383"/>
+<area shape="rect" id="node50" href="$group__keyboard.html#ga5bdf6cfb570c375192b0d87913b65c57" title="Unsubscribes KB interrupts from the IRQ. " alt="" coords="179,1407,320,1434"/>
+<area shape="rect" id="node51" href="$group__mouse.html#ga58f4ba88500293c6d1adf7fa4e022311" title="unsubscribes mouse interrupts from the IRQ. " alt="" coords="156,1204,343,1231"/>
+<area shape="rect" id="node52" href="$group__rtc.html#gab8f17bf5280c908c8b199a90fefcc758" title="unsubscribes RTC interrupts from the IRQ. " alt="" coords="182,748,317,775"/>
+<area shape="rect" id="node4" href="$group__rtc.html#ga035ad9251d249ab64e063d03d26689f4" title="clear the C register of the RTC ir order to allow other interrupts to come " alt="" coords="433,647,519,674"/>
+<area shape="rect" id="node5" href="$group__rtc.html#ga8f5f3884bbb0a0bbe695e6a6a55b41a9" title="enables update interrupts in the control register of the RTC. " alt="" coords="393,596,559,623"/>
+<area shape="rect" id="node8" href="$group__mouse.html#gadfe2499d569e89069e2ff819f34f88ed" title="Verifies if the mouse is ready to receive a command. " alt="" coords="437,1130,515,1156"/>
+<area shape="rect" id="node9" href="$group__mouse.html#ga0061bf38112471c5fd6ec585f5cf47c3" title="writes to mouse, and retries on failure " alt="" coords="433,1204,519,1231"/>
+<area shape="rect" id="node11" href="$group__init.html#ga37d9e82447febe88f2e231035fe59b7d" title="draws landing page until a key is pressed. " alt="" coords="627,191,761,218"/>
+<area shape="rect" id="node16" href="$group__video.html#ga0fda6a95b5e5b196d14a94e4ab7ff886" title="fill screen with pseudo&#45;random color " alt="" coords="1269,495,1354,522"/>
+<area shape="rect" id="node17" href="$group__init.html#ga61775607dba8e84890a37fa9db13c28b" title="Draws the searchbox on the video buffer. " alt="" coords="632,90,756,116"/>
+<area shape="rect" id="node20" href="$group__init.html#ga67bdc27b1bed7a494599c91dbfb3ea7c" title="The function that prints the main page. " alt="" coords="416,318,536,344"/>
+<area shape="rect" id="node30" href="$group__video.html#ga9f3ab2bb729630bf131f71393b88effe" title="draw the cursor on the specified coordinates. " alt="" coords="1077,14,1170,40"/>
+<area shape="rect" id="node31" href="$group__video__gr.html#ga62f95b17b346fed68825b85ea478df98" title="Copies video buffer to real video memory. " alt="" coords="1276,546,1347,572"/>
+<area shape="rect" id="node12" href="$group__video.html#ga53615a7693c3f8966a5874ca394e1fa5" title="draw xpm that has been load to memory from a file. " alt="" coords="827,242,996,268"/>
+<area shape="rect" id="node13" href="$group__video__gr.html#ga42f593e6656f1a978315aff02b1bcebf" title="Returns to default Minix 3 text mode (0x03: 25 x 80, 16 colors) " alt="" coords="1279,318,1343,344"/>
+<area shape="rect" id="node15" href="$group__video.html#gac75028fc51d5c217a0467f05b073b7aa" title="set a certain pixel with the specified color " alt="" coords="1287,216,1336,243"/>
+<area shape="rect" id="node14" href="$group__video__gr.html#ga1c67d2dca28fc88a7ac2377bcf2bb5ec" title="Returns video_info_t, a simplified version of vbe_mode_info_t. " alt="" coords="1420,444,1477,471"/>
+<area shape="rect" id="node18" href="$group__video.html#gaee9d6c0538b4349db9cadf374e6215e2" title="draw_string" alt="" coords="867,39,956,66"/>
+<area shape="rect" id="node19" href="$group__video.html#gacc6dd2e02a8b5fc4b60d5e5c58a9c7da" title="draw character in screen. More info in the implementation " alt="" coords="1068,90,1179,116"/>
+<area shape="rect" id="node21" href="$group__view.html#ga44fac2fdc35d38347d62970b3b548634" title="draw the associated xpm to the video buffer " alt="" coords="633,343,755,370"/>
+<area shape="rect" id="node24" href="$group__view.html#ga78c75567a04d7bba1d03f0783c5d7429" title="draw the relevant data to the video buffer " alt="" coords="651,140,737,167"/>
+<area shape="rect" id="node29" href="$group__video.html#ga3077b8c21002e8b3d2e96c62cc5efea8" title="get the width, in pixels, of a string. " alt="" coords="635,292,753,319"/>
+<area shape="rect" id="node22" href="$view_8c.html#a74ad2113cdc7203b02e494187ad4da95" title="getDaysInMonth" alt="" coords="852,343,971,370"/>
+<area shape="rect" id="node23" href="$view_8c.html#ae97d599b01f957a7aae5cd4ef4365989" title="If year if bissextile or not. " alt="" coords="1085,343,1162,370"/>
+<area shape="rect" id="node25" href="$group__view.html#gaba310da451fbbb267f6cbcbaf0748f70" title="Returns the day of the week where the first day of the month lands. " alt="" coords="1044,140,1203,167"/>
+<area shape="rect" id="node26" href="$view_8c.html#a18ef4928ac4b3f3129ee53dc79cc6126" title="getXPMByWeekDay" alt="" coords="840,140,983,167"/>
+<area shape="rect" id="node27" href="$group__view.html#ga0085e997666f994ee4c7560d5a100ba6" title="covers days that don&#39;t exist " alt="" coords="842,191,981,218"/>
+<area shape="rect" id="node28" href="$group__video.html#gae9d65dcaed6137c1ad1a2388db7836c0" title="fills the region of the screen delimited by the specified coordinates with the specified color..." alt="" coords="1084,191,1163,218"/>
+<area shape="rect" id="node35" href="$view_8c.html#a43b2998484331f5a287fbc8470a6d774" title="getXPMByMonth" alt="" coords="1251,954,1372,980"/>
+<area shape="rect" id="node41" href="$mouse_8c.html#a5f51dce2d19477bfc72556905f6a6aae" title="handleMouse" alt="" coords="427,799,525,826"/>
+<area shape="rect" id="node42" href="$group__mouse.html#gae5b7314705fcb64f7d3344bb36352b0f" title="Updates global variable with new mouse coordinates upon mouse movement. " alt="" coords="609,672,779,699"/>
+<area shape="rect" id="node45" href="$group__mouse.html#gad9279decfa221696b7ea7751b4bbda07" title="verifies if the mouse has been clicked inside one of the current boxes on the screen, and takes appropriate action. " alt="" coords="645,850,743,876"/>
+<area shape="rect" id="node43" href="$group__init.html#gaf082905f7eac6d03e92015146bbc1925" title="max" alt="" coords="888,647,935,674"/>
+<area shape="rect" id="node44" href="$group__init.html#gabd8bbcfabb3ddef2ccaafb9928a37b95" title="min" alt="" coords="890,698,933,724"/>
+<area shape="rect" id="node46" href="$group__mouse.html#gac4e4136a60c22551828397ee1bff51d2" title="determines if mouse is in the passed box " alt="" coords="864,799,959,826"/>
+<area shape="rect" id="node48" href="$rtc_8c.html#a9c04acf7295e9324abe1b9d93a396577" title="bcd_to_decimal" alt="" coords="419,698,533,724"/>
+<area shape="rect" id="node53" href="$group__rtc.html#gad6c2abc4a581c3239c3a8ea3b2ed49ce" title="disables update interrupts in the control register of the RTC. " alt="" coords="391,748,561,775"/>
+</map>

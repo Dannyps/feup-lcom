@@ -1,0 +1,4 @@
+<map id="kbd_mouse_subscribe_int" name="kbd_mouse_subscribe_int">
+<area shape="rect" id="node2" href="$group__mouse.html#gadfe2499d569e89069e2ff819f34f88ed" title="Verifies if the mouse is ready to receive a command. " alt="" coords="231,5,309,32"/>
+<area shape="rect" id="node3" href="$group__mouse.html#ga0061bf38112471c5fd6ec585f5cf47c3" title="writes to mouse, and retries on failure " alt="" coords="227,80,313,107"/>
+</map>

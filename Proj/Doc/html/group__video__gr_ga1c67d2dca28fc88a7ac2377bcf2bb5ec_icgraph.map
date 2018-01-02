@@ -1,0 +1,30 @@
+<map id="get_vi" name="get_vi">
+<area shape="rect" id="node2" href="$group__mouse.html#gae5b7314705fcb64f7d3344bb36352b0f" title="Updates global variable with new mouse coordinates upon mouse movement. " alt="" coords="111,56,280,83"/>
+<area shape="rect" id="node9" href="$group__read__xpm.html#ga05b2c5e4dbcaffa701703b50a2111783" title="Read xpm from char**. " alt="" coords="344,563,423,589"/>
+<area shape="rect" id="node13" href="$group__init.html#ga67bdc27b1bed7a494599c91dbfb3ea7c" title="The function that prints the main page. " alt="" coords="884,399,1004,425"/>
+<area shape="rect" id="node15" href="$group__video.html#gabba8711666fc6bf38ee054354e7593c9" title="fill screen with the specified color " alt="" coords="155,715,236,741"/>
+<area shape="rect" id="node16" href="$group__video.html#ga0fda6a95b5e5b196d14a94e4ab7ff886" title="fill screen with pseudo&#45;random color " alt="" coords="901,500,987,527"/>
+<area shape="rect" id="node17" href="$group__video.html#gac75028fc51d5c217a0467f05b073b7aa" title="set a certain pixel with the specified color " alt="" coords="171,411,220,437"/>
+<area shape="rect" id="node24" href="$group__video.html#gacc6dd2e02a8b5fc4b60d5e5c58a9c7da" title="draw character in screen. More info in the implementation " alt="" coords="328,461,439,488"/>
+<area shape="rect" id="node28" href="$group__video__gr.html#ga42f593e6656f1a978315aff02b1bcebf" title="Returns to default Minix 3 text mode (0x03: 25 x 80, 16 colors) " alt="" coords="351,259,415,285"/>
+<area shape="rect" id="node29" href="$group__video__gr.html#ga62f95b17b346fed68825b85ea478df98" title="Copies video buffer to real video memory. " alt="" coords="160,157,231,184"/>
+<area shape="rect" id="node3" href="$mouse_8c.html#a5f51dce2d19477bfc72556905f6a6aae" title="handleMouse" alt="" coords="334,5,433,32"/>
+<area shape="rect" id="node4" href="$group__mouse.html#gac8a125640554c00c39094b35c6fd7d30" title="mouse driver interrupt handler. " alt="" coords="1060,31,1219,57"/>
+<area shape="rect" id="node5" href="$group__init.html#ga9cc1938afb0447727d7242cf37028fcb" title="The function that calls the subscribers and runs the so&#45;called not polling loop. " alt="" coords="1267,296,1369,323"/>
+<area shape="rect" id="node6" href="$group__init.html#ga63728bf662b4409be9c0a1430c27e80d" title="begin program execution " alt="" coords="1417,399,1456,425"/>
+<area shape="rect" id="node7" href="$proj_8c.html#a97b25d50dc55b5c8c2315fd010bc2957" title="proc_args" alt="" coords="1504,399,1583,425"/>
+<area shape="rect" id="node8" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1631,399,1681,425"/>
+<area shape="rect" id="node10" href="$group__read__xpm.html#ga68efc5d415172591d9ca84d751954e3e" title="Read xpm from file filename. " alt="" coords="876,449,1012,476"/>
+<area shape="rect" id="node12" href="$group__video.html#gaf3a90bd287faa872a54877a7eeb99c36" title="draw the specified xpm on the video memory. " alt="" coords="530,411,613,437"/>
+<area shape="rect" id="node11" href="$group__init.html#gac595dd399a9fda22b1099fa6e4dae7ac" title="The function that reads the xpms to memory. " alt="" coords="1275,449,1361,476"/>
+<area shape="rect" id="node14" href="$group__timer.html#ga64962794ad44ba890b8b12dc1fac6d2e" title="Handles the interrupt. Refreshes the video buffer and calls vg_flush(). " alt="" coords="1075,296,1203,323"/>
+<area shape="rect" id="node18" href="$group__video.html#ga53615a7693c3f8966a5874ca394e1fa5" title="draw xpm that has been load to memory from a file. " alt="" coords="487,309,656,336"/>
+<area shape="rect" id="node23" href="$group__video.html#ga9f3ab2bb729630bf131f71393b88effe" title="draw the cursor on the specified coordinates. " alt="" coords="719,157,813,184"/>
+<area shape="rect" id="node26" href="$group__video.html#gae9d65dcaed6137c1ad1a2388db7836c0" title="fills the region of the screen delimited by the specified coordinates with the specified color..." alt="" coords="344,360,423,387"/>
+<area shape="rect" id="node19" href="$group__init.html#ga37d9e82447febe88f2e231035fe59b7d" title="draws landing page until a key is pressed. " alt="" coords="877,259,1011,285"/>
+<area shape="rect" id="node20" href="$group__init.html#ga61775607dba8e84890a37fa9db13c28b" title="Draws the searchbox on the video buffer. " alt="" coords="704,360,828,387"/>
+<area shape="rect" id="node21" href="$group__view.html#ga44fac2fdc35d38347d62970b3b548634" title="draw the associated xpm to the video buffer " alt="" coords="705,309,827,336"/>
+<area shape="rect" id="node22" href="$group__view.html#ga78c75567a04d7bba1d03f0783c5d7429" title="draw the relevant data to the video buffer " alt="" coords="723,411,809,437"/>
+<area shape="rect" id="node25" href="$group__video.html#gaee9d6c0538b4349db9cadf374e6215e2" title="draw_string" alt="" coords="527,461,616,488"/>
+<area shape="rect" id="node27" href="$group__view.html#ga0085e997666f994ee4c7560d5a100ba6" title="covers days that don&#39;t exist " alt="" coords="502,360,641,387"/>
+</map>

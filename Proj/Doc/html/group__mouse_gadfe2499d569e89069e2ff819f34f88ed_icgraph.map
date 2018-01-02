@@ -1,0 +1,9 @@
+<map id="canIWrite" name="canIWrite">
+<area shape="rect" id="node2" href="$mouse_8c.html#a86694f92da50b391fbf38d928a50f7ea" title="disableMouseInterrupts" alt="" coords="140,5,297,32"/>
+<area shape="rect" id="node3" href="$mouse_8c.html#a7dc105ce94e0299056660152ea0d0fd1" title="enableMouseInterrupts" alt="" coords="141,56,296,83"/>
+<area shape="rect" id="node4" href="$group__mouse.html#gafffe8b7e47bfbb747bd2188fb24bcac8" title="subscribes mouse interrupts from the IRQ. " alt="" coords="132,107,305,133"/>
+<area shape="rect" id="node5" href="$group__init.html#ga9cc1938afb0447727d7242cf37028fcb" title="The function that calls the subscribers and runs the so&#45;called not polling loop. " alt="" coords="353,107,456,133"/>
+<area shape="rect" id="node6" href="$group__init.html#ga63728bf662b4409be9c0a1430c27e80d" title="begin program execution " alt="" coords="504,107,543,133"/>
+<area shape="rect" id="node7" href="$proj_8c.html#a97b25d50dc55b5c8c2315fd010bc2957" title="proc_args" alt="" coords="591,107,669,133"/>
+<area shape="rect" id="node8" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="717,107,768,133"/>
+</map>

@@ -1,0 +1,12 @@
+<map id="drawMonth" name="drawMonth">
+<area shape="rect" id="node2" href="$group__view.html#gaba310da451fbbb267f6cbcbaf0748f70" title="Returns the day of the week where the first day of the month lands. " alt="" coords="336,56,495,83"/>
+<area shape="rect" id="node3" href="$view_8c.html#a18ef4928ac4b3f3129ee53dc79cc6126" title="getXPMByWeekDay" alt="" coords="140,208,283,235"/>
+<area shape="rect" id="node4" href="$group__video.html#ga53615a7693c3f8966a5874ca394e1fa5" title="draw xpm that has been load to memory from a file. " alt="" coords="331,5,500,32"/>
+<area shape="rect" id="node8" href="$group__video.html#gaee9d6c0538b4349db9cadf374e6215e2" title="draw_string" alt="" coords="167,157,256,184"/>
+<area shape="rect" id="node10" href="$group__view.html#ga0085e997666f994ee4c7560d5a100ba6" title="covers days that don&#39;t exist " alt="" coords="142,107,281,133"/>
+<area shape="rect" id="node5" href="$group__video__gr.html#ga42f593e6656f1a978315aff02b1bcebf" title="Returns to default Minix 3 text mode (0x03: 25 x 80, 16 colors) " alt="" coords="548,31,612,57"/>
+<area shape="rect" id="node7" href="$group__video.html#gac75028fc51d5c217a0467f05b073b7aa" title="set a certain pixel with the specified color " alt="" coords="555,107,605,133"/>
+<area shape="rect" id="node6" href="$group__video__gr.html#ga1c67d2dca28fc88a7ac2377bcf2bb5ec" title="Returns video_info_t, a simplified version of vbe_mode_info_t. " alt="" coords="660,107,717,133"/>
+<area shape="rect" id="node9" href="$group__video.html#gacc6dd2e02a8b5fc4b60d5e5c58a9c7da" title="draw character in screen. More info in the implementation " alt="" coords="360,157,471,184"/>
+<area shape="rect" id="node11" href="$group__video.html#gae9d65dcaed6137c1ad1a2388db7836c0" title="fills the region of the screen delimited by the specified coordinates with the specified color..." alt="" coords="376,107,455,133"/>
+</map>
