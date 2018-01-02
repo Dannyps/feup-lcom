@@ -72,5 +72,5 @@ int calculateFirstWeekDay(View *v);
  * @param position y
  */
 void drawMonth(View *v, int x, int y);
-
+/**@}*/
 #endif
