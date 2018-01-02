@@ -45,7 +45,7 @@ void draw_main_page();
  */
 void load_xpms();
 
-/**}*/
+/** @} */
 
 extern const unsigned char letters[95][13];
 
