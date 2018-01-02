@@ -78,10 +78,12 @@ unsigned short getDaysInMonth(unsigned month, unsigned year){
 
 void nextYear(View *v){
 	v->year++;
+	v->xpm = getXPMByMonth(v->month);
 }
 
 void prevYear(View *v){
 	v->year--;
+	v->xpm = getXPMByMonth(v->month);
 }
 
 void nextMonth(View *v) {

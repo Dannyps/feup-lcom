@@ -7,6 +7,7 @@
 #include "i8254.h"
 #include "video.h"
 #include "utils.h"
+#include "rtc.h"
 
 
 extern unsigned cursorX, cursorY;
@@ -45,6 +46,9 @@ void timer0_int_handler() {
 			draw_cursor(cursorX,cursorY);
 		}
 		vg_flush();
+	}
+	if(tick_elapsed%60==0){
+		clear_regC(); // for some reason, our RTC would get stuck. Something related to the mouse syncing, we believe. This "solves" the issue.
 	}
 
 	return;

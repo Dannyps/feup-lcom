@@ -65,6 +65,7 @@ int bcd_to_decimal(unsigned char x) {
 }
 
 int rtc_unsubscribe_int() {
+	clear_regC();
 	disable_update_interrupts();
 	return sys_irqrmpolicy(&rtc_hookIDs[1]);
 }

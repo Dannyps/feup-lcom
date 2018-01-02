@@ -83,6 +83,11 @@ void disable_update_interrupts();
  */
 rtc_time_t* rtc_int_handler();
 
+/**
+ * @brief clear the C register of the RTC ir order to allow other interrupts to come
+ */
+void clear_regC();
+
 /**@}*/
 
 #endif
