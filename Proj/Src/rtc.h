@@ -63,7 +63,15 @@ int rtc_subscribe_int();
  */
 int rtc_unsubscribe_int();
 
-void wait_for_valid_rtc();
+/**
+ * @brief enables update interrupts in the control register of the RTC.
+ */
+void enable_update_interrupts();
+
+/**
+ * @brief disables update interrupts in the control register of the RTC.
+ */
+void disable_update_interrupts();
 
 /**
  * @brief reads time from the RTC registers.
