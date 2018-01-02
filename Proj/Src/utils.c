@@ -19,9 +19,10 @@ View cal;
 
 int stop=0;
 int landing = 1;
+int search=0;
 char rtcStr[64];
 
-xpm_t XPM_landingPage, XPM_exitCross, XPM_weekdays, XPM_controlBar;
+xpm_t XPM_landingPage, XPM_exitCross, XPM_weekdays, XPM_controlBar, XPM_searchButton;
 xpm_t XPM_january, XPM_february, XPM_march, XPM_april, XPM_may, XPM_june; // camelCase please!
 xpm_t XPM_july, XPM_august, XPM_september, XPM_october, XPM_november, XPM_december;
 xpm_t XPM_monday, XPM_tuesday, XPM_wednesday, XPM_thursday, XPM_friday, XPM_saturday, XPM_sunday;
@@ -33,6 +34,7 @@ void load_xpms(){
 	printf("reading xpms.\n");
 	int c=0;
 
+	XPM_searchButton=read_xpm_from_file("/pr/Src/xpms/search_button.xpm");		c++;
 	XPM_controlBar=read_xpm_from_file("/pr/Src/xpms/control_bar.xpm");			c++;
 	XPM_exitCross=read_xpm_from_file("/pr/Src/xpms/exit_cross.xpm");			c++;
 	XPM_landingPage=read_xpm_from_file("/pr/Src/xpms/landing_page.xpm");		c++;
@@ -220,7 +222,7 @@ void start_listening(){
  * Make sure you clear the screen b4 calling this.
  */
 void draw_main_page(){
-	printf("drawing main page\n");
+	//printf("drawing main page\n");
 	video_info_t vi;
 	vi = get_vi();
 	int i;
@@ -236,6 +238,7 @@ void draw_main_page(){
 	drawMonthName(&cal, 300, 90);
 	draw_xpm_from_memory(XPM_weekdays, 300, 140);
 	draw_xpm_from_memory(XPM_controlBar, 300, 480);
+	draw_xpm_from_memory(XPM_searchButton, 425, 570);
 	drawMonth(&cal, 300, 190);
 	draw_box(737, 40, 274, 24, white_c); // cover old RTC text
 	unsigned short len=get_string_width(rtcStr);
@@ -245,7 +248,6 @@ void draw_main_page(){
 
 void draw_landing_page(){
 	draw_xpm_from_memory(XPM_landingPage, 0, 0);
-	draw_string("Press any key to continue.", 350, 520, black_c);
 	return;
 }
 

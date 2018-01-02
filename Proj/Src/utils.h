@@ -24,6 +24,7 @@ int rtc_hookIDs[2];
 extern char rtcStr[64];
 extern int stop;
 extern int landing;
+extern int search;
 
 /** @defgroup init init
  * @{

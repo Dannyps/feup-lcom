@@ -38,6 +38,9 @@ void check_clicks(struct mouse_action_t* ma){
 	if(mouseInBox(574, 625, 654, 655) && ma->lmb){ // arrow right year
 		nextYear(&cal);
 	}
+	if(mouseInBox(425, 570, 574, 620) && ma->lmb){ // search box
+		search=1;
+	}
 }
 
 void calc_new_mouse_coords(struct mouse_action_t* ma){
