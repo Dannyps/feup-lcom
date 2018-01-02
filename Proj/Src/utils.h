@@ -29,18 +29,19 @@ extern int stop;
 */
 
 /**
- * @brief the function that calls the subscribers and runs the so-called <i>not polling</i> loop.
+ * @brief The function that calls the subscribers and runs the so-called <i>not polling</i> loop.
  */
 void start_listening();
 
 /**
+ *
+ * @brief The function that prints the main page.
  * @pre load_xpms()
- * @brief the function that prints the main page.
  */
 void draw_main_page();
 
 /**
- * @brief the function that reads the xpms to memory.
+ * @brief The function that reads the xpms to memory.
  */
 void load_xpms();
 

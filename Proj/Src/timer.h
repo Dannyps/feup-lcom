@@ -11,21 +11,21 @@
 int timer0_hookIDs[2];
 
 /**
- * @brief subscribes RTC interrupts from the timer.
+ * @brief Subscribes RTC interrupts from the timer.
  *
  * @return 0 on success, non-zero otherwise
  */
 int timer0_subscribe_int();
 
 /**
- * @brief unsubscribes RTC interrupts from the timer.
+ * @brief Unsubscribes RTC interrupts from the timer.
  *
  * @return 0 on success, non-zero otherwise
  */
 int timer0_unsubscribe_int();
 
 /**
- * @brief handles the interrupt. Refreshes the video buffer and calls vg_flush().
+ * @brief Handles the interrupt. Refreshes the video buffer and calls vg_flush().
  */
 void timer0_int_handler();
 

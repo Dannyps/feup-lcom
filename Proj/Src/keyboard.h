@@ -21,20 +21,20 @@ typedef struct key_press_t{
 } KEY_PRESS;
 
 /**
- * @brief subscribes KB interrupts from the IRQ.
+ * @brief Subscribes KB interrupts from the IRQ.
  * @return 0 on success, non-zero otherwise
  */
 int kbd_subscribe_int();
 
 /**
- * @brief unsubscribes KB interrupts from the IRQ.
+ * @brief Unsubscribes KB interrupts from the IRQ.
  * @return 0 on success, non-zero otherwise
  */
 int kbd_unsubscribe_int();
 
 /**
- * @brief keyboard driver interrupt handler.
- * @return pointer to KEY_PRESS.
+ * @brief Keyboard driver interrupt handler.
+ * @return Pointer to KEY_PRESS.
  *
  * @warning Returned structure should be freed asap!
  */
