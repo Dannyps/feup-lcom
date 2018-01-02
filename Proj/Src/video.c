@@ -16,8 +16,6 @@ pixel_t green_c =	{0x00, 0xff, 0x00};
 pixel_t white_c	=	{0xff, 0xff, 0xff};
 pixel_t black_c	=	{0x00, 0x00, 0x00};
 
-pixel_t colours[] = {{0x00, 0x00, 0x00}, {0xff, 0x00, 0x00}, {0xff, 0xff, 0x00}, {0x00, 0x00, 0xff}, {0xff, 0xff, 0xff}};
-
 int fill_screen(pixel_t color){
 
 	//printf("filling screen with color %2x%2x%2x.\n", color.r, color.g, color.b);
@@ -35,14 +33,22 @@ int fill_screen(pixel_t color){
 }
 
 int rfill_screen(){
+	static unsigned long a=0;
 	static video_info_t vi;
+	static unsigned char r,g,b;
+	if(a++==0){
+		r=rand()%255;
+		g=rand()%255;
+		b=rand()%255;
+	}
+
 	vi = get_vi();
 	//TODO add check if video mode is on
 	int i;
 	for(i=0; i<vi.x*vi.y*vi.bpp/8 ; i+=3){
-		vi.vm[i+0]=rand()%150+20;
-		vi.vm[i+1]=rand()%150;
-		vi.vm[i+2]=rand()%50;
+		vi.vm[i+0]=b;
+		vi.vm[i+1]=r;
+		vi.vm[i+2]=g;
 	}
 	//printf("filled screen\n");
 	return 0;
@@ -60,8 +66,8 @@ void setP(unsigned long x, unsigned long y, pixel_t color){
 		exit(-8);
 	}
 	unsigned pos=(y*vi.x+x)*vi.bpp/8;
-	vi.vm[pos+0]=color.g;
-	vi.vm[pos+1]=color.b;
+	vi.vm[pos+0]=color.b;
+	vi.vm[pos+1]=color.g;
 	vi.vm[pos+2]=color.r;
 	return;
 }
@@ -90,7 +96,6 @@ int draw_xpm(char *xpm[], unsigned short xi, unsigned short yi) {
         while(yi < height) {
 			xi = initial_x;
 			while(xi < width) {
-				// colours[pix[xpm_counter]]
 				pixel_t tempColor;
 				memcpy(&tempColor, tPix, 3);
 				setP(xi, yi, tempColor);
@@ -114,6 +119,7 @@ int draw_xpm_from_memory(xpm_t xpm, unsigned short xi, unsigned short yi) {
         char* tPix=pix;
         if(pix==NULL){
         	//failed
+        	printf("empty pixmap passed!\n");
         	vg_exit();
         	exit(-3);
         }
@@ -125,7 +131,6 @@ int draw_xpm_from_memory(xpm_t xpm, unsigned short xi, unsigned short yi) {
         while(yi < height) {
 			xi = initial_x;
 			while(xi < width) {
-				// colours[pix[xpm_counter]]
 				pixel_t tempColor;
 				memcpy(&tempColor, tPix, 3);
 				setP(xi, yi, tempColor);

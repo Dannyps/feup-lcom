@@ -18,10 +18,10 @@ unsigned cursorX=50, cursorY=50;
 View cal;
 
 int stop=0;
-
+int landing = 1;
 char rtcStr[64];
 
-xpm_t XPM_exitCross, XPM_weekdays;
+xpm_t XPM_landingPage, XPM_exitCross, XPM_weekdays, XPM_controlBar;
 xpm_t XPM_january, XPM_february, XPM_march, XPM_april, XPM_may, XPM_june; // camelCase please!
 xpm_t XPM_july, XPM_august, XPM_september, XPM_october, XPM_november, XPM_december;
 xpm_t XPM_monday, XPM_tuesday, XPM_wednesday, XPM_thursday, XPM_friday, XPM_saturday, XPM_sunday;
@@ -33,7 +33,9 @@ void load_xpms(){
 	printf("reading xpms.\n");
 	int c=0;
 
+	XPM_controlBar=read_xpm_from_file("/pr/Src/xpms/control_bar.xpm");			c++;
 	XPM_exitCross=read_xpm_from_file("/pr/Src/xpms/exit_cross.xpm");			c++;
+	XPM_landingPage=read_xpm_from_file("/pr/Src/xpms/landing_page.xpm");		c++;
 	XPM_weekdays=read_xpm_from_file("/pr/Src/xpms/weekdays.xpm");				c++;
 
 	XPM_january=read_xpm_from_file("/pr/Src/xpms/months/january.xpm");			c++;
@@ -63,9 +65,11 @@ void load_xpms(){
 	cal.month=1;
 	cal.daysInTheMonth=31;
 	cal.xpm=&XPM_january;
+	printf("returned 0x%x\n", XPM_controlBar.pointer);
 }
 
 void start_listening(){
+	printf("a");
 	/* Subscribes to timer */
 	int timer0_ret = timer0_subscribe_int();
 	if(timer0_ret!=0){
@@ -118,6 +122,7 @@ void start_listening(){
 
 				if (msg.NOTIFY_ARG & irq_kbdset) {
 					//printf("handling keyboard\n");
+					landing=0;
 					KEY_PRESS* kp;
 					kp=kbd_int_handler();
 					if(kp==NULL)
@@ -155,12 +160,15 @@ void start_listening(){
 					if(ma==NULL){ //device is not synced or this wasn't the final byte.
 						continue;
 					}
-					if(ma->lmb == 1 || ma->z > 0) {
-						nextMonth(&cal);
-						rfill_screen();
-						draw_main_page();
+					if(ma->lmb == 1) {
+						landing=0;
 						free(ma);
 						continue;
+					}
+					if(ma->z > 0){
+						nextMonth(&cal);
+					}else if(ma->z < 0){
+						prevMonth(&cal);
 					}
 					free(ma);
 				}
@@ -212,7 +220,7 @@ void start_listening(){
  * Make sure you clear the screen b4 calling this.
  */
 void draw_main_page(){
-	//printf("drawing main page\n");
+	printf("drawing main page\n");
 	video_info_t vi;
 	vi = get_vi();
 	int i;
@@ -227,11 +235,18 @@ void draw_main_page(){
 	draw_xpm_from_memory(XPM_exitCross, 650, 20);
 	drawMonthName(&cal, 300, 90);
 	draw_xpm_from_memory(XPM_weekdays, 300, 140);
+	draw_xpm_from_memory(XPM_controlBar, 300, 480);
 	drawMonth(&cal, 300, 190);
-	draw_box(737, 40, 274, 24, white_c);
+	draw_box(737, 40, 274, 24, white_c); // cover old RTC text
 	unsigned short len=get_string_width(rtcStr);
 	draw_string(rtcStr, 737+274/2-len/2, 55, red_c);
 
+}
+
+void draw_landing_page(){
+	draw_xpm_from_memory(XPM_landingPage, 0, 0);
+	draw_string("Press any key to continue.", 350, 520, black_c);
+	return;
 }
 
 

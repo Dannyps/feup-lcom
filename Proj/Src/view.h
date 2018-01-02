@@ -72,5 +72,9 @@ int calculateFirstWeekDay(View *v);
  * @param position y
  */
 void drawMonth(View *v, int x, int y);
+/**
+ * @brief covers days that don't exist
+ */
+void cover_surplus_days(View *v, unsigned short x, unsigned short y);
 /**@}*/
 #endif
