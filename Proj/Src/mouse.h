@@ -62,7 +62,7 @@ unsigned char wrt2Mouse(unsigned char cmd, char retransmit);
  * @param tlX top-left x value
  * @param tlY top-left y value
  * @param brX bottom-right x value
- * @param bottom-right y value
+ * @param brY bottom-right y value
  * @return 0 on success, non-zero otherwise
  */
 int mouseInBox(unsigned tlX, unsigned tlY, unsigned brX, unsigned brY);

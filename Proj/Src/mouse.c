@@ -113,6 +113,10 @@ int kbd_mouse_subscribe_int(void ) {
 	unsigned long rd;
 	sys_inb(OUT_BUF, &rd);
 
+	if(!canIWrite()){
+		printf("ERROR: KBC IN_BUF was full when attempting to request Command Byte.");
+		exit(-6);
+	}
 
 	mouse_hookIDs[0]=2;
 	int temp=mouse_hookIDs[0];  // use the temp variable for input/output from sys_irqsetpolicy
