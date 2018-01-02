@@ -131,7 +131,6 @@ int calculateFirstWeekDay(View *v) {
 
 	w = w % 7;
 
-	w=0;
 	return w;
 }
 
@@ -152,12 +151,17 @@ xpm_t* getXPMByWeekDay(unsigned wd){
 void drawMonth(View *v, int x, int y) {
 	int w=0;
 	w = calculateFirstWeekDay(v);
+	char debug[50];
+	sprintf(debug, "%d", w);
+	draw_string(debug, x-290, y+180, black_c);
 	xpm_t* xpm;
 	xpm = getXPMByWeekDay(w);
 	draw_xpm_from_memory(*xpm, x, y);
 	char yearStr[5];
 	sprintf(yearStr, "%d", v->year);
 	draw_string(yearStr, x+350, y-80, black_c);
+
+	// gotta blank extra days
 }
 
 

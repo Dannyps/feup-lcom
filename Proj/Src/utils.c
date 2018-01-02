@@ -21,7 +21,8 @@ int stop=0;
 
 char rtcStr[64];
 
-xpm_t XPM_exitCross, XPM_january, XPM_february, XPM_march, XPM_april, XPM_may, XPM_june; // camelCase please!
+xpm_t XPM_exitCross, XPM_weekdays;
+xpm_t XPM_january, XPM_february, XPM_march, XPM_april, XPM_may, XPM_june; // camelCase please!
 xpm_t XPM_july, XPM_august, XPM_september, XPM_october, XPM_november, XPM_december;
 xpm_t XPM_monday, XPM_tuesday, XPM_wednesday, XPM_thursday, XPM_friday, XPM_saturday, XPM_sunday;
 
@@ -33,6 +34,7 @@ void load_xpms(){
 	int c=0;
 
 	XPM_exitCross=read_xpm_from_file("/pr/Src/xpms/exit_cross.xpm");			c++;
+	XPM_weekdays=read_xpm_from_file("/pr/Src/xpms/weekdays.xpm");				c++;
 
 	XPM_january=read_xpm_from_file("/pr/Src/xpms/months/january.xpm");			c++;
 	XPM_february=read_xpm_from_file("/pr/Src/xpms/months/february.xpm");		c++;
@@ -224,7 +226,7 @@ void draw_main_page(){
 	draw_xpm(lcom_tcti, 724, 0);
 	draw_xpm_from_memory(XPM_exitCross, 650, 20);
 	drawMonthName(&cal, 300, 90);
-	draw_xpm(Weekdays, 300, 140);
+	draw_xpm_from_memory(XPM_weekdays, 300, 140);
 	drawMonth(&cal, 300, 190);
 	draw_box(737, 40, 274, 24, white_c);
 	unsigned short len=get_string_width(rtcStr);
