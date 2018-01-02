@@ -21,8 +21,9 @@ int stop=0;
 int landing = 1;
 int search=0;
 char rtcStr[64];
+char srchStr[64];
 
-xpm_t XPM_landingPage, XPM_exitCross, XPM_weekdays, XPM_controlBar, XPM_searchButton;
+xpm_t XPM_landingPage, XPM_exitCross, XPM_weekdays, XPM_controlBar, XPM_searchButton, XPM_searchBox;
 xpm_t XPM_january, XPM_february, XPM_march, XPM_april, XPM_may, XPM_june; // camelCase please!
 xpm_t XPM_july, XPM_august, XPM_september, XPM_october, XPM_november, XPM_december;
 xpm_t XPM_monday, XPM_tuesday, XPM_wednesday, XPM_thursday, XPM_friday, XPM_saturday, XPM_sunday;
@@ -30,10 +31,12 @@ xpm_t XPM_monday, XPM_tuesday, XPM_wednesday, XPM_thursday, XPM_friday, XPM_satu
 void load_xpms(){
 
 	strcpy(rtcStr, "waiting for RTC interrupt");
+	strcpy(srchStr, "please press the RESET FIELD button");
 
 	printf("reading xpms.\n");
 	int c=0;
 
+	XPM_searchBox=read_xpm_from_file("/pr/Src/xpms/search_box.xpm");			c++;
 	XPM_searchButton=read_xpm_from_file("/pr/Src/xpms/search_button.xpm");		c++;
 	XPM_controlBar=read_xpm_from_file("/pr/Src/xpms/control_bar.xpm");			c++;
 	XPM_exitCross=read_xpm_from_file("/pr/Src/xpms/exit_cross.xpm");			c++;
@@ -129,29 +132,43 @@ void start_listening(){
 					kp=kbd_int_handler();
 					if(kp==NULL)
 						continue;
-					if(kp->code==0x81){
-						stop=1; continue;
-					}
-					if(kp->code==0x4d){ //right
-						if(CTRL_status)
-							nextYear(&cal);
-						else
-							nextMonth(&cal);
-					}
-					if(kp->code==0x4b){ //left
-						if(CTRL_status)
-							prevYear(&cal);
-						else
-							prevMonth(&cal);
-					}
-					if(kp->code==0x1d || kp->code==0x9d){ //CTRL
-						if(kp->mk){
-							//makecode
-							CTRL_status=1;
+					if(search){
+						if(kp->code==0x81){
+							search=0; continue;
 						}else{
-							CTRL_status=0;
+							textInput(kp);
+						}
+					}else{
+						if(kp->code==0x81){
+							stop=1; continue;
+						}
+						if(kp->code==0x4d){ //right
+							if(CTRL_status)
+								nextYear(&cal);
+							else
+								nextMonth(&cal);
+						}
+						if(kp->code==0x4b){ //left
+							if(CTRL_status)
+								prevYear(&cal);
+							else
+								prevMonth(&cal);
+						}
+						if(kp->code==0x1f){ //s
+							search=1;
+						}
+						if(kp->code==0x1d || kp->code==0x9d){ //CTRL
+							if(kp->mk){
+								//makecode
+								CTRL_status=1;
+							}else{
+								CTRL_status=0;
+							}
 						}
 					}
+
+
+
 					free(kp);
 				}
 
@@ -218,6 +235,28 @@ void start_listening(){
 	return;
 }
 
+
+void textInput(KEY_PRESS* kp){
+	if(kp->bk)
+		return;
+	if(kp->code<=12){
+		unsigned len = strlen(srchStr);
+		srchStr[len]=kbCodes[(int) kp->code];
+		srchStr[len+1]='\0';
+	}else if(kp->code==0x0e){ // backspace
+		unsigned len = strlen(srchStr);
+		if(len!=0)
+			srchStr[len-1]='\0';
+	}else if(kp->code==0x35){ // slash. quick fix because of pt keyboard.
+		unsigned len = strlen(srchStr);
+		srchStr[len]='-';
+		srchStr[len+1]='\0';
+	}else{
+		//ignore
+	}
+}
+
+
 /**
  * Make sure you clear the screen b4 calling this.
  */
@@ -251,6 +290,14 @@ void draw_landing_page(){
 	return;
 }
 
+void draw_search_box(){
+	draw_xpm_from_memory(XPM_searchBox, 120, 220);
+	draw_xpm_from_memory(XPM_exitCross, 812, 228);
+	draw_string(srchStr, 180, 308, red_c);
+	return;
+}
+
+const unsigned char kbCodes[13]={'.', '.', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-'};
 
 const unsigned char letters[95][13] = {
 		{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,

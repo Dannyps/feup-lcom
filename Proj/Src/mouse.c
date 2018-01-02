@@ -18,29 +18,36 @@ int mouseInBox(unsigned tlX, unsigned tlY, unsigned brX, unsigned brY){
 }
 
 void check_clicks(struct mouse_action_t* ma){
+	if(search){
+		if(mouseInBox(812, 228, 862, 278) && ma->lmb){ // exit box
+			search=0;
+		}
+	}else{
+		if(mouseInBox(650, 20, 700, 70) && ma->lmb){ // exit box
+			stop=1;
+		}
 
-	if(mouseInBox(650, 20, 700, 70) && ma->lmb){ // exit box
-		stop=1;
+		if(mouseInBox(335, 516, 393, 574) && ma->lmb){ // arrow left month
+			prevMonth(&cal);
+		}
+
+		if(mouseInBox(600, 516, 658, 574) && ma->lmb){ // arrow right month
+			nextMonth(&cal);
+		}
+
+		if(mouseInBox(335, 625, 412, 655) && ma->lmb){ // arrow left year
+			prevYear(&cal);
+		}
+
+		if(mouseInBox(574, 625, 654, 655) && ma->lmb){ // arrow right year
+			nextYear(&cal);
+		}
+		if(mouseInBox(425, 570, 574, 620) && ma->lmb){ // search box
+			search=1;
+		}
 	}
 
-	if(mouseInBox(335, 516, 393, 574) && ma->lmb){ // arrow left month
-		prevMonth(&cal);
-	}
 
-	if(mouseInBox(600, 516, 658, 574) && ma->lmb){ // arrow right month
-		nextMonth(&cal);
-	}
-
-	if(mouseInBox(335, 625, 412, 655) && ma->lmb){ // arrow left year
-		prevYear(&cal);
-	}
-
-	if(mouseInBox(574, 625, 654, 655) && ma->lmb){ // arrow right year
-		nextYear(&cal);
-	}
-	if(mouseInBox(425, 570, 574, 620) && ma->lmb){ // search box
-		search=1;
-	}
 }
 
 void calc_new_mouse_coords(struct mouse_action_t* ma){
