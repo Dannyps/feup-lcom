@@ -4,7 +4,7 @@
 /**
  * @mainpage MinCAL
  * @section intro_sec Introduction
- * eCal is an application developed in the context of <a href="https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=399888">LCOM</a>.
+ * MinCAL is an application developed in the context of <a href="https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=399888">LCOM</a>.
  * It depends heavily on device drivers developed specifically for this use.
  *
  * Authors:

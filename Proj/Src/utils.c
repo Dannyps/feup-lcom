@@ -208,9 +208,15 @@ void start_listening(){
 						continue;
 					}
 					if(ma->z > 0){
-						nextMonth(&cal);
+						if(CTRL_status)
+							nextYear(&cal);
+						else
+							nextMonth(&cal);
 					}else if(ma->z < 0){
-						prevMonth(&cal);
+						if(CTRL_status)
+							prevYear(&cal);
+						else
+							prevMonth(&cal);
 					}
 					free(ma);
 				}
