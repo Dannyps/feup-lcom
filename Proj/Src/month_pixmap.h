@@ -23,13 +23,6 @@
  * "..............xxx...............", // next row has three GREEN pixels
  *                                     // at the center
  * </pre>
- * Colors names/colors number equivalence are at c:/djgpp/include/conio.h
- *
- * Any real xpm picture can be read, as long as there are only 16
- * colors on it, and the colors are the ones available in conio.h.
- *
- *  To use other/more colors than the basic ones, the graphic card
- *  pallete must be programmed.
  *
  */
 
