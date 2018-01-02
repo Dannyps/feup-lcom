@@ -1,0 +1,8 @@
+<map id="draw_search_box" name="draw_search_box">
+<area shape="rect" id="node2" href="$group__video.html#ga53615a7693c3f8966a5874ca394e1fa5" title="draw xpm that has been load to memory from a file. " alt="" coords="315,31,484,57"/>
+<area shape="rect" id="node6" href="$group__video.html#gaee9d6c0538b4349db9cadf374e6215e2" title="draw_string" alt="" coords="177,81,267,108"/>
+<area shape="rect" id="node3" href="$group__video__gr.html#ga42f593e6656f1a978315aff02b1bcebf" title="Returns to default Minix 3 text mode (0x03: 25 x 80, 16 colors) " alt="" coords="532,5,596,32"/>
+<area shape="rect" id="node5" href="$group__video.html#gac75028fc51d5c217a0467f05b073b7aa" title="set a certain pixel with the specified color " alt="" coords="539,56,589,83"/>
+<area shape="rect" id="node4" href="$group__video__gr.html#ga1c67d2dca28fc88a7ac2377bcf2bb5ec" title="Returns video_info_t, a simplified version of vbe_mode_info_t. " alt="" coords="644,56,701,83"/>
+<area shape="rect" id="node7" href="$group__video.html#gacc6dd2e02a8b5fc4b60d5e5c58a9c7da" title="draw character in screen. More info in the implementation " alt="" coords="344,81,455,108"/>
+</map>

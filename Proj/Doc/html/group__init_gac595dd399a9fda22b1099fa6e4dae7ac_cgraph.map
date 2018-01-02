@@ -1,0 +1,6 @@
+<map id="load_xpms" name="load_xpms">
+<area shape="rect" id="node2" href="$utils_8c.html#a967e4a6cef9ba94ac49bbfa04a8b082c" title="buildPath" alt="" coords="169,5,245,32"/>
+<area shape="rect" id="node3" href="$group__read__xpm.html#ga68efc5d415172591d9ca84d751954e3e" title="Read xpm from file filename. " alt="" coords="139,56,275,83"/>
+<area shape="rect" id="node4" href="$group__read__xpm.html#ga05b2c5e4dbcaffa701703b50a2111783" title="Read xpm from char**. " alt="" coords="323,56,401,83"/>
+<area shape="rect" id="node5" href="$group__video__gr.html#ga1c67d2dca28fc88a7ac2377bcf2bb5ec" title="Returns video_info_t, a simplified version of vbe_mode_info_t. " alt="" coords="449,56,507,83"/>
+</map>

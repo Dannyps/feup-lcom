@@ -1,0 +1,9 @@
+<map id="check_clicks" name="check_clicks">
+<area shape="rect" id="node2" href="$group__mouse.html#gac4e4136a60c22551828397ee1bff51d2" title="determines if mouse is in the passed box " alt="" coords="161,5,256,32"/>
+<area shape="rect" id="node3" href="$group__init.html#gad7f95e509c9e71da55a46b3e0b9ad4c3" title="interpretSrchStr" alt="" coords="152,56,265,83"/>
+<area shape="rect" id="node4" href="$group__view.html#ga2f06ccd0bf2b8ac66ef73d9b5f63a936" title="advance 1 year " alt="" coords="317,107,392,133"/>
+<area shape="rect" id="node6" href="$group__view.html#gad1c34e104ebbe0633670eca605bad0c8" title="rewind 1 month " alt="" coords="313,157,396,184"/>
+<area shape="rect" id="node7" href="$group__view.html#ga90feb94c44a57030ad5e44fb9b360852" title="advance 1 month " alt="" coords="313,208,396,235"/>
+<area shape="rect" id="node8" href="$group__view.html#ga740515963d2ae421f2b8b50f0e23148d" title="rewind 1 year " alt="" coords="171,259,246,285"/>
+<area shape="rect" id="node5" href="$view_8c.html#a43b2998484331f5a287fbc8470a6d774" title="getXPMByMonth" alt="" coords="444,183,565,209"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="rtc_unsubscribe_int" name="rtc_unsubscribe_int">
+<area shape="rect" id="node2" href="$group__rtc.html#ga035ad9251d249ab64e063d03d26689f4" title="clear the C register of the RTC ir order to allow other interrupts to come " alt="" coords="231,5,316,32"/>
+<area shape="rect" id="node3" href="$group__rtc.html#gad6c2abc4a581c3239c3a8ea3b2ed49ce" title="disables update interrupts in the control register of the RTC. " alt="" coords="188,56,359,83"/>
+</map>

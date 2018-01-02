@@ -1,0 +1,10 @@
+<map id="Src/i8042.h" name="Src/i8042.h">
+<area shape="rect" id="node2" href="$e__cal_8c.html" title="Src/e_cal.c" alt="" coords="5,80,93,107"/>
+<area shape="rect" id="node3" href="$keyboard_8c.html" title="Src/keyboard.c" alt="" coords="118,80,229,107"/>
+<area shape="rect" id="node4" href="$mouse_8c.html" title="Src/mouse.c" alt="" coords="253,80,349,107"/>
+<area shape="rect" id="node5" href="$read__xpm_8c.html" title="Src/read_xpm.c" alt="" coords="373,80,488,107"/>
+<area shape="rect" id="node6" href="$rtc_8c.html" title="Src/rtc.c" alt="" coords="512,80,584,107"/>
+<area shape="rect" id="node7" href="$timer_8c.html" title="Src/timer.c" alt="" coords="609,80,695,107"/>
+<area shape="rect" id="node8" href="$video_8c.html" title="Src/video.c" alt="" coords="720,80,808,107"/>
+<area shape="rect" id="node9" href="$view_8c.html" title="Src/view.c" alt="" coords="833,80,917,107"/>
+</map>

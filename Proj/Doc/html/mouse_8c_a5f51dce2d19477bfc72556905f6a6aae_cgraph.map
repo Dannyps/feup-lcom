@@ -1,0 +1,14 @@
+<map id="handleMouse" name="handleMouse">
+<area shape="rect" id="node2" href="$group__mouse.html#gae5b7314705fcb64f7d3344bb36352b0f" title="Updates global variable with new mouse coordinates upon mouse movement. " alt="" coords="152,81,321,108"/>
+<area shape="rect" id="node6" href="$group__mouse.html#gad9279decfa221696b7ea7751b4bbda07" title="verifies if the mouse has been clicked inside one of the current boxes on the screen, and takes appropriate action. " alt="" coords="187,259,286,285"/>
+<area shape="rect" id="node3" href="$group__video__gr.html#ga1c67d2dca28fc88a7ac2377bcf2bb5ec" title="Returns video_info_t, a simplified version of vbe_mode_info_t. " alt="" coords="397,5,455,32"/>
+<area shape="rect" id="node4" href="$group__init.html#gaf082905f7eac6d03e92015146bbc1925" title="max" alt="" coords="403,56,449,83"/>
+<area shape="rect" id="node5" href="$group__init.html#gabd8bbcfabb3ddef2ccaafb9928a37b95" title="min" alt="" coords="405,107,447,133"/>
+<area shape="rect" id="node7" href="$group__mouse.html#gac4e4136a60c22551828397ee1bff51d2" title="determines if mouse is in the passed box " alt="" coords="379,157,473,184"/>
+<area shape="rect" id="node8" href="$group__init.html#gad7f95e509c9e71da55a46b3e0b9ad4c3" title="interpretSrchStr" alt="" coords="369,208,483,235"/>
+<area shape="rect" id="node9" href="$group__view.html#ga2f06ccd0bf2b8ac66ef73d9b5f63a936" title="advance 1 year " alt="" coords="535,259,609,285"/>
+<area shape="rect" id="node11" href="$group__view.html#gad1c34e104ebbe0633670eca605bad0c8" title="rewind 1 month " alt="" coords="531,309,613,336"/>
+<area shape="rect" id="node12" href="$group__view.html#ga90feb94c44a57030ad5e44fb9b360852" title="advance 1 month " alt="" coords="531,360,613,387"/>
+<area shape="rect" id="node13" href="$group__view.html#ga740515963d2ae421f2b8b50f0e23148d" title="rewind 1 year " alt="" coords="535,411,609,437"/>
+<area shape="rect" id="node10" href="$view_8c.html#a43b2998484331f5a287fbc8470a6d774" title="getXPMByMonth" alt="" coords="661,335,783,361"/>
+</map>

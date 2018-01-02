@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['day',['day',['../structrtc__time__t.html#af22e6e2b9759580a55b5b93ed65000be',1,'rtc_time_t']]],
+  ['daysinthemonth',['daysInTheMonth',['../structview.html#aa097dd7a9366e3eceba7f2e5ffef2cbf',1,'view']]],
+  ['delay_5fus',['DELAY_US',['../group__mouse.html#ga1a522aa19bcb695a9df30032a893bee3',1,'mouse.h']]],
+  ['directcolormodeinfo',['DirectColorModeInfo',['../struct____attribute____.html#a35fb3e1fc0dc9924bc52977b3a234f9f',1,'__attribute__']]],
+  ['disable_5fstream_5fmode',['DISABLE_STREAM_MODE',['../group__i8042.html#gab62b9158ace1fbd8643b627816220a45',1,'i8042.h']]],
+  ['disable_5fupdate_5finterrupts',['disable_update_interrupts',['../group__rtc.html#gad6c2abc4a581c3239c3a8ea3b2ed49ce',1,'disable_update_interrupts():&#160;rtc.c'],['../group__rtc.html#gad6c2abc4a581c3239c3a8ea3b2ed49ce',1,'disable_update_interrupts():&#160;rtc.c']]],
+  ['disablemouseinterrupts',['disableMouseInterrupts',['../mouse_8c.html#a86694f92da50b391fbf38d928a50f7ea',1,'mouse.c']]],
+  ['draw_5fbox',['draw_box',['../group__video.html#gae9d65dcaed6137c1ad1a2388db7836c0',1,'draw_box(unsigned short x, unsigned short y, unsigned short width, unsigned short height, pixel_t color):&#160;video.c'],['../group__video.html#gae9d65dcaed6137c1ad1a2388db7836c0',1,'draw_box(unsigned short x, unsigned short y, unsigned short width, unsigned short height, pixel_t color):&#160;video.c']]],
+  ['draw_5fcharacter',['draw_character',['../group__video.html#gacc6dd2e02a8b5fc4b60d5e5c58a9c7da',1,'draw_character(char asciiCode, unsigned short x, unsigned short y, pixel_t color):&#160;video.c'],['../group__video.html#gacc6dd2e02a8b5fc4b60d5e5c58a9c7da',1,'draw_character(char asciiCode, unsigned short x, unsigned short y, pixel_t color):&#160;video.c']]],
+  ['draw_5fcursor',['draw_cursor',['../group__video.html#ga9f3ab2bb729630bf131f71393b88effe',1,'draw_cursor(unsigned x, unsigned y):&#160;video.c'],['../group__video.html#ga9f3ab2bb729630bf131f71393b88effe',1,'draw_cursor(unsigned x, unsigned y):&#160;video.c']]],
+  ['draw_5flanding_5fpage',['draw_landing_page',['../group__init.html#ga37d9e82447febe88f2e231035fe59b7d',1,'draw_landing_page():&#160;utils.c'],['../group__init.html#ga37d9e82447febe88f2e231035fe59b7d',1,'draw_landing_page():&#160;utils.c']]],
+  ['draw_5fmain_5fpage',['draw_main_page',['../group__init.html#ga67bdc27b1bed7a494599c91dbfb3ea7c',1,'draw_main_page():&#160;utils.c'],['../group__init.html#ga67bdc27b1bed7a494599c91dbfb3ea7c',1,'draw_main_page():&#160;utils.c']]],
+  ['draw_5fsearch_5fbox',['draw_search_box',['../group__init.html#ga61775607dba8e84890a37fa9db13c28b',1,'draw_search_box():&#160;utils.c'],['../group__init.html#ga61775607dba8e84890a37fa9db13c28b',1,'draw_search_box():&#160;utils.c']]],
+  ['draw_5fstring',['draw_string',['../group__video.html#gaee9d6c0538b4349db9cadf374e6215e2',1,'draw_string(char *str, short unsigned x, short unsigned y, pixel_t color):&#160;video.c'],['../group__video.html#gaee9d6c0538b4349db9cadf374e6215e2',1,'draw_string(char *str, short unsigned x, short unsigned y, pixel_t color):&#160;video.c']]],
+  ['draw_5fxpm',['draw_xpm',['../group__video.html#gaf3a90bd287faa872a54877a7eeb99c36',1,'draw_xpm(char *xpm[], unsigned short xi, unsigned short yi):&#160;video.c'],['../group__video.html#gaf3a90bd287faa872a54877a7eeb99c36',1,'draw_xpm(char *xpm[], unsigned short xi, unsigned short yi):&#160;video.c']]],
+  ['draw_5fxpm_5ffrom_5fmemory',['draw_xpm_from_memory',['../group__video.html#ga53615a7693c3f8966a5874ca394e1fa5',1,'draw_xpm_from_memory(xpm_t xpm, unsigned short xi, unsigned short yi):&#160;video.c'],['../group__video.html#ga53615a7693c3f8966a5874ca394e1fa5',1,'draw_xpm_from_memory(xpm_t xpm, unsigned short xi, unsigned short yi):&#160;video.c']]],
+  ['drawmonth',['drawMonth',['../group__view.html#ga78c75567a04d7bba1d03f0783c5d7429',1,'drawMonth(View *v, int x, int y):&#160;view.c'],['../group__view.html#ga78c75567a04d7bba1d03f0783c5d7429',1,'drawMonth(View *v, int x, int y):&#160;view.c']]],
+  ['drawmonthname',['drawMonthName',['../group__view.html#ga44fac2fdc35d38347d62970b3b548634',1,'drawMonthName(View *v, int x, int y):&#160;view.c'],['../group__view.html#ga44fac2fdc35d38347d62970b3b548634',1,'drawMonthName(View *v, int x, int y):&#160;view.c']]]
+];

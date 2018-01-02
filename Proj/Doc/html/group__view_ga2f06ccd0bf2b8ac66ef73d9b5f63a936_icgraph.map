@@ -1,0 +1,10 @@
+<map id="nextYear" name="nextYear">
+<area shape="rect" id="node2" href="$group__mouse.html#gad9279decfa221696b7ea7751b4bbda07" title="verifies if the mouse has been clicked inside one of the current boxes on the screen, and takes appropriate action. " alt="" coords="289,43,388,69"/>
+<area shape="rect" id="node5" href="$group__init.html#ga9cc1938afb0447727d7242cf37028fcb" title="The function that calls the subscribers and runs the so&#45;called not polling loop. " alt="" coords="789,43,892,69"/>
+<area shape="rect" id="node9" href="$group__init.html#gad7f95e509c9e71da55a46b3e0b9ad4c3" title="interpretSrchStr" alt="" coords="128,93,241,120"/>
+<area shape="rect" id="node3" href="$mouse_8c.html#a5f51dce2d19477bfc72556905f6a6aae" title="handleMouse" alt="" coords="436,43,535,69"/>
+<area shape="rect" id="node4" href="$group__mouse.html#gac8a125640554c00c39094b35c6fd7d30" title="mouse driver interrupt handler. " alt="" coords="583,43,741,69"/>
+<area shape="rect" id="node6" href="$group__init.html#ga63728bf662b4409be9c0a1430c27e80d" title="begin program execution " alt="" coords="940,43,979,69"/>
+<area shape="rect" id="node7" href="$proj_8c.html#a97b25d50dc55b5c8c2315fd010bc2957" title="proc_args" alt="" coords="1027,43,1105,69"/>
+<area shape="rect" id="node8" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1153,43,1204,69"/>
+</map>

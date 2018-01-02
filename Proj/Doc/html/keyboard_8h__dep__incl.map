@@ -1,0 +1,13 @@
+<map id="Src/keyboard.h" name="Src/keyboard.h">
+<area shape="rect" id="node2" href="$e__cal_8c.html" title="Src/e_cal.c" alt="" coords="251,155,339,181"/>
+<area shape="rect" id="node3" href="$video_8h.html" title="Src/video.h" alt="" coords="355,80,443,107"/>
+<area shape="rect" id="node6" href="$utils_8c.html" title="Src/utils.c" alt="" coords="145,155,226,181"/>
+<area shape="rect" id="node8" href="$view_8c.html" title="Src/view.c" alt="" coords="803,155,887,181"/>
+<area shape="rect" id="node9" href="$utils_8h.html" title="Src/utils.h" alt="" coords="467,80,549,107"/>
+<area shape="rect" id="node12" href="$keyboard_8c.html" title="Src/keyboard.c" alt="" coords="625,80,735,107"/>
+<area shape="rect" id="node4" href="$read__xpm_8c.html" title="Src/read_xpm.c" alt="" coords="5,155,120,181"/>
+<area shape="rect" id="node5" href="$timer_8c.html" title="Src/timer.c" alt="" coords="363,155,450,181"/>
+<area shape="rect" id="node7" href="$video_8c.html" title="Src/video.c" alt="" coords="475,155,563,181"/>
+<area shape="rect" id="node10" href="$mouse_8c.html" title="Src/mouse.c" alt="" coords="683,155,779,181"/>
+<area shape="rect" id="node11" href="$rtc_8c.html" title="Src/rtc.c" alt="" coords="587,155,659,181"/>
+</map>

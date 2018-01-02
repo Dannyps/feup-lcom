@@ -1,0 +1,8 @@
+<map id="read_xpm" name="read_xpm">
+<area shape="rect" id="node2" href="$group__read__xpm.html#ga68efc5d415172591d9ca84d751954e3e" title="Read xpm from file filename. " alt="" coords="132,5,268,32"/>
+<area shape="rect" id="node7" href="$group__video.html#gaf3a90bd287faa872a54877a7eeb99c36" title="draw the specified xpm on the video memory. " alt="" coords="159,56,241,83"/>
+<area shape="rect" id="node3" href="$group__init.html#gac595dd399a9fda22b1099fa6e4dae7ac" title="The function that reads the xpms to memory. " alt="" coords="316,5,401,32"/>
+<area shape="rect" id="node4" href="$group__init.html#ga63728bf662b4409be9c0a1430c27e80d" title="begin program execution " alt="" coords="449,5,488,32"/>
+<area shape="rect" id="node5" href="$proj_8c.html#a97b25d50dc55b5c8c2315fd010bc2957" title="proc_args" alt="" coords="536,5,615,32"/>
+<area shape="rect" id="node6" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="663,5,713,32"/>
+</map>

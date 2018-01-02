@@ -1,0 +1,7 @@
+<map id="enable_update_interrupts" name="enable_update_interrupts">
+<area shape="rect" id="node2" href="$group__rtc.html#gabd8de825e876e8ef94c64ac616f68a11" title="subscribes RTC interrupts from the IRQ. " alt="" coords="220,5,341,32"/>
+<area shape="rect" id="node3" href="$group__init.html#ga9cc1938afb0447727d7242cf37028fcb" title="The function that calls the subscribers and runs the so&#45;called not polling loop. " alt="" coords="389,5,492,32"/>
+<area shape="rect" id="node4" href="$group__init.html#ga63728bf662b4409be9c0a1430c27e80d" title="begin program execution " alt="" coords="540,5,579,32"/>
+<area shape="rect" id="node5" href="$proj_8c.html#a97b25d50dc55b5c8c2315fd010bc2957" title="proc_args" alt="" coords="627,5,705,32"/>
+<area shape="rect" id="node6" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="753,5,804,32"/>
+</map>
