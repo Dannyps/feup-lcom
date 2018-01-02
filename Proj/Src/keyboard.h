@@ -11,7 +11,7 @@
 /**
  * @brief Struct to manage a received interrupt from the keyboard.
  *
- * @note mk is always the compliment of bk.
+ * @note mk is always the complement of bk.
  */
 typedef struct key_press_t{
 	unsigned char code; /**< @brief the code generated, without the 0xe0 prefix */
