@@ -46,6 +46,7 @@ char *read_xpm(char *map[], int *wd, int *ht)
   for (i=0; i<ncolors; i++) {
 	  if (sscanf(map[i+1], "%c %2x %2x %2x", &symbol, &R, &G, &B) != 4) {
 		  printf("read_xpm: incorrect symbol, color at line %d: %s\n", i+1, map[i+1]);
+		  exit(-4);
 		  return NULL;
 	  }
 	  //printf("symbol: %d - %c\n", symbol, symbol);

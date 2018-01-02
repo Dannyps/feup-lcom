@@ -23,6 +23,7 @@ int rtc_hookIDs[2];
 
 extern char rtcStr[64];
 extern int stop;
+extern int landing;
 
 /** @defgroup init init
  * @{
@@ -44,6 +45,11 @@ void draw_main_page();
  * @brief The function that reads the xpms to memory.
  */
 void load_xpms();
+
+/**
+ * @brief draws landing page until a key is pressed.
+ */
+void draw_landing_page();
 
 /** @} */
 

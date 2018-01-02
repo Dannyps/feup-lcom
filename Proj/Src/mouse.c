@@ -8,6 +8,9 @@
 #include "mouse.h"
 #include "utils.h"
 #include "video_gr.h"
+#include "view.h"
+
+extern View cal;
 
 int mouseInBox(unsigned tlX, unsigned tlY, unsigned brX, unsigned brY){
 
@@ -18,6 +21,22 @@ void check_clicks(struct mouse_action_t* ma){
 
 	if(mouseInBox(650, 20, 700, 70) && ma->lmb){ // exit box
 		stop=1;
+	}
+
+	if(mouseInBox(335, 516, 393, 574) && ma->lmb){ // arrow left month
+		prevMonth(&cal);
+	}
+
+	if(mouseInBox(600, 516, 658, 574) && ma->lmb){ // arrow right month
+		nextMonth(&cal);
+	}
+
+	if(mouseInBox(335, 625, 412, 655) && ma->lmb){ // arrow left year
+		prevYear(&cal);
+	}
+
+	if(mouseInBox(574, 625, 654, 655) && ma->lmb){ // arrow right year
+		nextYear(&cal);
 	}
 }
 

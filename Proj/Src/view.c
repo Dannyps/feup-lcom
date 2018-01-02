@@ -138,7 +138,6 @@ struct marker{
 };
 
 void cover_surplus_days(View *v, unsigned short x, unsigned short y){
-
 	struct marker d27, d28, d29, d30, d31;
 	switch(calculateFirstWeekDay(v)) {
 		case 0:
