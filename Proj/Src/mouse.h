@@ -1,7 +1,7 @@
 #ifndef __MOUSE_H
 #define __MOUSE_H
 
-/** @defgroup timer timer
+/** @defgroup mouse mouse
  * @{
  *
  * @brief Functions for interfacing with the mouse.
