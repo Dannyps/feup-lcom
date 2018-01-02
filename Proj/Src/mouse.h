@@ -57,5 +57,27 @@ MOUSE_ACTION* kbd_mouse_int_handler();
  */
 unsigned char wrt2Mouse(unsigned char cmd, char retransmit);
 
+/**
+ * @brief determines if mouse is in the passed box
+ * @param tlX top-left x value
+ * @param tlY top-left y value
+ * @param brX bottom-right x value
+ * @param bottom-right y value
+ * @return 0 on success, non-zero otherwise
+ */
+int mouseInBox(unsigned tlX, unsigned tlY, unsigned brX, unsigned brY);
+
+/**
+ * @brief verifies if the mouse has been clicked inside one of the current boxes on the screen, and takes appropriate action.
+ * @param ma mouse action struct
+ */
+void check_clicks(struct mouse_action_t* ma);
+
+/**
+ * @brief Updates global variable with new mouse coordinates upon mouse movement.
+ * @param ma mouse action struct
+ */
+void calc_new_mouse_coords(struct mouse_action_t* ma);
+
 /**}*/
 #endif
