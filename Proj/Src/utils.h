@@ -48,8 +48,9 @@ void draw_main_page();
 
 /**
  * @brief The function that reads the xpms to memory.
+ * @param folder the absolute path to the project folder.
  */
-void load_xpms();
+void load_xpms(char* folder);
 
 /**
  * @brief draws landing page until a key is pressed.
