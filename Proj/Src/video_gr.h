@@ -54,8 +54,6 @@ video_info_t get_vi();
 
 /**
 * @brief copies buffer to real vm.
-*
-* @return void
 */
 void vg_flush();
 
