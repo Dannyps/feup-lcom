@@ -6,7 +6,6 @@
 #include "i8254.h"
 #include <minix/sysutil.h>
 #include "lmlib.h"
-#include "month_pixmap.h"
 #include "keyboard.h"
 #include "timer.h"
 #include "video.h"

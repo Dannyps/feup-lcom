@@ -19,7 +19,6 @@
 #include "mouse.h"
 #include "utils.h"
 #include "view.h"
-#include "month_pixmap.h"
 #include "utils.h"
 
 #define PB2BASE(x) (((x) >> 4) & 0x0F000)

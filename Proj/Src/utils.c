@@ -3,7 +3,6 @@
 #include "keyboard.h"
 #include "timer.h"
 #include "mouse.h"
-#include "month_pixmap.h"
 #include "read_xpm.h"
 #include "video.h"
 #include "view.h"
@@ -23,7 +22,7 @@ int search=0;
 char rtcStr[64];
 char srchStr[64];
 
-xpm_t XPM_landingPage, XPM_exitCross, XPM_weekdays, XPM_controlBar, XPM_searchButton, XPM_searchBox;
+xpm_t XPM_landingPage, XPM_exitCross, XPM_weekdays, XPM_controlBar, XPM_searchButton, XPM_searchBox, XPM_name, XPM_time;
 xpm_t XPM_january, XPM_february, XPM_march, XPM_april, XPM_may, XPM_june; // camelCase please!
 xpm_t XPM_july, XPM_august, XPM_september, XPM_october, XPM_november, XPM_december;
 xpm_t XPM_monday, XPM_tuesday, XPM_wednesday, XPM_thursday, XPM_friday, XPM_saturday, XPM_sunday;
@@ -36,6 +35,8 @@ void load_xpms(){
 	printf("reading xpms.\n");
 	int c=0;
 
+	XPM_name=read_xpm_from_file("/pr/Src/xpms/minCAL.xpm");						c++;
+	XPM_time=read_xpm_from_file("/pr/Src/xpms/tempo.xpm");						c++;
 	XPM_searchBox=read_xpm_from_file("/pr/Src/xpms/search_box.xpm");			c++;
 	XPM_searchButton=read_xpm_from_file("/pr/Src/xpms/search_button.xpm");		c++;
 	XPM_controlBar=read_xpm_from_file("/pr/Src/xpms/control_bar.xpm");			c++;
@@ -193,11 +194,9 @@ void start_listening(){
 				}
 
 				if (msg.NOTIFY_ARG & irq_rtcset) {
-					printf("rtc interrupis here!!!! ");
 					rtc_time_t* rtc;
 					rtc = rtc_int_handler();
 					sprintf(rtcStr, "%02d:%02d:%02d - %02d/%02d/20%02d", rtc->hour, rtc->min, rtc->sec, rtc->day, rtc->month, rtc->year);
-					puts(rtcStr);
 					free(rtc);
 				}
 
@@ -281,17 +280,16 @@ void draw_main_page(){
 			setP(i,j,white_c);
 		}
 	}
-	draw_xpm(lcom_nome, 0, 0);
-	draw_xpm(lcom_tcti, 724, 0);
+	draw_xpm_from_memory(XPM_name, 0, 0);
+	draw_xpm_from_memory(XPM_time, 724, 0);
 	draw_xpm_from_memory(XPM_exitCross, 650, 20);
 	drawMonthName(&cal, 300, 90);
 	draw_xpm_from_memory(XPM_weekdays, 300, 140);
 	draw_xpm_from_memory(XPM_controlBar, 300, 480);
 	draw_xpm_from_memory(XPM_searchButton, 425, 570);
 	drawMonth(&cal, 300, 190);
-	draw_box(737, 40, 274, 24, white_c); // cover old RTC text
 	unsigned short len=get_string_width(rtcStr);
-	draw_string(rtcStr, 737+274/2-len/2, 55, red_c);
+	draw_string(rtcStr, 737+274/2-len/2, 58, red_c);
 
 }
 

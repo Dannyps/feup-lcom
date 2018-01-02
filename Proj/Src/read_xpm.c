@@ -12,10 +12,8 @@
 char *read_xpm(char *map[], int *wd, int *ht)
 {
   int width, height, ncolors;
-  char sym[256];
-  int  col;
   int i, j;
-  char *pix, *pixtmp, *tmp, *line;
+  char *pix, *pixtmp, *line;
   char symbol=6;
 
   static video_info_t vi;
