@@ -111,27 +111,12 @@ void drawMonthName(View *v, int x, int y) {
 
 int calculateFirstWeekDay(View *v) {
 	// Formula: (year-2000 + day of the month + month code) mod 7
+	unsigned a, y, m;
+	a = (14 - v->month) / 12;
+	y = v->year - a;
+	m = v->month + (12 * a) - 2;
 
-	int w = v->year - 2000 + 1;
-
-	switch(v->month) {
-	case 1: w += 6; break;
-	case 2: w += 2; break;
-	case 3: w += 2; break;
-	case 4: w += 5; break;
-	case 5: w += 0; break;
-	case 6: w += 3; break;
-	case 7: w += 5; break;
-	case 8: w += 1; break;
-	case 9: w += 4; break;
-	case 10: w += 6; break;
-	case 11: w += 2; break;
-	case 12: w += 4; break;
-	}
-
-	w = w % 7;
-
-	return w;
+	return ((y + (y / 4) - (y / 100) + (y / 400) + ((31 * m) / 12)) % 7);
 }
 
 
@@ -148,12 +133,83 @@ xpm_t* getXPMByWeekDay(unsigned wd){
 	return NULL;
 }
 
+struct marker{
+	unsigned x, y;
+};
+
+void cover_surplus_days(View *v, unsigned short x, unsigned short y){
+
+	struct marker d27, d28, d29, d30, d31;
+	switch(calculateFirstWeekDay(v)) {
+		case 0:
+			d27.x=400/7*5; 	d27.y=150;
+			d28.x=400/7*6;	d28.y=150;
+			d29.x=400/7*0;	d29.y=200;
+			d30.x=400/7*1;	d30.y=200;
+			d31.x=400/7*2;	d31.y=200;
+			break;
+		case 1:
+			d27.x=400/7*6; 	d27.y=150;
+			d28.x=400/7*0;	d28.y=200;
+			d29.x=400/7*1;	d29.y=200;
+			d30.x=400/7*2;	d30.y=200;
+			d31.x=400/7*3;	d31.y=200;
+			break;
+		case 2:
+			d27.x=400/7*0;	d27.y=200;
+			d28.x=400/7*1;	d28.y=200;
+			d29.x=400/7*2;	d29.y=200;
+			d30.x=400/7*3;	d30.y=200;
+			d31.x=400/7*4;	d31.y=200;
+			break;
+		case 3:
+			d27.x=400/7*1;	d27.y=200;
+			d28.x=400/7*2;	d28.y=200;
+			d29.x=400/7*3;	d29.y=200;
+			d30.x=400/7*4;	d30.y=200;
+			d31.x=400/7*5;	d31.y=200;
+			break;
+		case 4:
+			d27.x=400/7*2;	d27.y=200;
+			d28.x=400/7*3;	d28.y=200;
+			d29.x=400/7*4;	d29.y=200;
+			d30.x=400/7*5;	d30.y=200;
+			d31.x=400/7*6;	d31.y=200;
+			break;
+		case 5:
+			d27.x=400/7*3;	d27.y=200;
+			d28.x=400/7*4;	d28.y=200;
+			d29.x=400/7*5;	d29.y=200;
+			d30.x=400/7*6;	d30.y=200;
+			d31.x=400/7*0;	d31.y=250;
+			break;
+		case 6:
+			d27.x=400/7*4;	d27.y=200;
+			d28.x=400/7*5;	d28.y=200;
+			d29.x=400/7*6;	d29.y=200;
+			d30.x=400/7*0;	d30.y=250;
+			d31.x=400/7*1;	d31.y=250;
+			break;
+	}
+
+	if(v->daysInTheMonth<28){
+		draw_box(x+d28.x, y+d28.y, 400/7, 50, white_c);
+	}
+	if(v->daysInTheMonth<29){
+		draw_box(x+d29.x, y+d29.y, 400/7, 50, white_c);
+	}
+	if(v->daysInTheMonth<30){
+		draw_box(x+d30.x, y+d30.y, 400/7, 50, white_c);
+	}
+	if(v->daysInTheMonth<31){
+		draw_box(x+d31.x, y+d31.y, 400/7, 50, white_c);
+	}
+}
+
+
 void drawMonth(View *v, int x, int y) {
 	int w=0;
 	w = calculateFirstWeekDay(v);
-	char debug[50];
-	sprintf(debug, "%d", w);
-	draw_string(debug, x-290, y+180, black_c);
 	xpm_t* xpm;
 	xpm = getXPMByWeekDay(w);
 	draw_xpm_from_memory(*xpm, x, y);
@@ -162,6 +218,7 @@ void drawMonth(View *v, int x, int y) {
 	draw_string(yearStr, x+350, y-80, black_c);
 
 	// gotta blank extra days
+	cover_surplus_days(v, x, y);
 }
 
 
