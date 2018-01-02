@@ -24,9 +24,27 @@ int rtc_hookIDs[2];
 extern char rtcStr[64];
 extern int stop;
 
+/** @defgroup init init
+ * @{
+*/
+
+/**
+ * @brief the function that calls the subscribers and runs the so-called <i>not polling</i> loop.
+ */
 void start_listening();
+
+/**
+ * @pre load_xpms()
+ * @brief the function that prints the main page.
+ */
 void draw_main_page();
+
+/**
+ * @brief the function that reads the xpms to memory.
+ */
 void load_xpms();
+
+/**}*/
 
 extern const unsigned char letters[95][13];
 

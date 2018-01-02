@@ -24,8 +24,18 @@
  * Run the command <code>service run /pr/Src/proj -args init</code>, as root, in order to initialize the service.
  */
 
+/** @defgroup init init
+ * @{
+ *
+ * @brief The beginning of all.
+ */
+
+
 /**
  * @brief begin program execution
  */
 void *init();
+
+/**}*/
+
 #endif
