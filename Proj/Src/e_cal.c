@@ -26,11 +26,11 @@
 
 extern xpm_t XPM_landingPage;
 
-void *init() {
+void *init(char* argv0) {
 	video_m=vg_init(0x118);
 	srand(time(NULL)); // randomize seed
 	rfill_screen();
-	load_xpms();
+	load_xpms(argv0);
 	draw_main_page();
 	start_listening();
 

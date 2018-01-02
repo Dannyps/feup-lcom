@@ -27,42 +27,64 @@ xpm_t XPM_january, XPM_february, XPM_march, XPM_april, XPM_may, XPM_june; // cam
 xpm_t XPM_july, XPM_august, XPM_september, XPM_october, XPM_november, XPM_december;
 xpm_t XPM_monday, XPM_tuesday, XPM_wednesday, XPM_thursday, XPM_friday, XPM_saturday, XPM_sunday;
 
-void load_xpms(){
-
+void buildPath(char* tpath, char* cat){
+	strcat(tpath, cat);
+}
+void load_xpms(char* folder){
 	strcpy(rtcStr, "waiting for RTC interrupt");
 	strcpy(srchStr, "please press the RESET FIELD button");
+
+	unsigned int i;
+	int pos=-1;
+	char path[512];
+	char tPath[512];
+	strcpy(path, folder);
+
+	for(i=0;i<strlen(path);i++){
+		if(path[i]=='/')
+			pos=i;
+	}
+
+	if(pos==-1){
+		puts("the impossible happened!\n"); exit(-59);
+	}else{
+		path[pos]='\0';
+	}
+	strcat(path, "/xpms");
 
 	printf("reading xpms.\n");
 	int c=0;
 
-	XPM_name=read_xpm_from_file("/pr/Src/xpms/minCAL.xpm");						c++;
-	XPM_time=read_xpm_from_file("/pr/Src/xpms/tempo.xpm");						c++;
-	XPM_searchBox=read_xpm_from_file("/pr/Src/xpms/search_box.xpm");			c++;
-	XPM_searchButton=read_xpm_from_file("/pr/Src/xpms/search_button.xpm");		c++;
-	XPM_controlBar=read_xpm_from_file("/pr/Src/xpms/control_bar.xpm");			c++;
-	XPM_exitCross=read_xpm_from_file("/pr/Src/xpms/exit_cross.xpm");			c++;
-	XPM_landingPage=read_xpm_from_file("/pr/Src/xpms/landing_page.xpm");		c++;
-	XPM_weekdays=read_xpm_from_file("/pr/Src/xpms/weekdays.xpm");				c++;
+	strcpy(tPath, path); buildPath(tPath, "/minCAL.xpm");	 				XPM_name=read_xpm_from_file(tPath);			c++;
+	strcpy(tPath, path); buildPath(tPath, "/tempo.xpm"); 					XPM_time=read_xpm_from_file(tPath);			c++;
+	strcpy(tPath, path); buildPath(tPath, "/search_box.xpm"); 				XPM_searchBox=read_xpm_from_file(tPath);	c++;
+	strcpy(tPath, path); buildPath(tPath, "/search_button.xpm");			XPM_searchButton=read_xpm_from_file(tPath);	c++;
+	strcpy(tPath, path); buildPath(tPath, "/control_bar.xpm"); 				XPM_controlBar=read_xpm_from_file(tPath);	c++;
+	strcpy(tPath, path); buildPath(tPath, "/exit_cross.xpm"); 				XPM_exitCross=read_xpm_from_file(tPath);	c++;
+	strcpy(tPath, path); buildPath(tPath, "/landing_page.xpm"); 			XPM_landingPage=read_xpm_from_file(tPath);	c++;
+	strcpy(tPath, path); buildPath(tPath, "/weekdays.xpm"); 				XPM_weekdays=read_xpm_from_file(tPath);		c++;
 
-	XPM_january=read_xpm_from_file("/pr/Src/xpms/months/january.xpm");			c++;
-	XPM_february=read_xpm_from_file("/pr/Src/xpms/months/february.xpm");		c++;
-	XPM_march=read_xpm_from_file("/pr/Src/xpms/months/march.xpm");				c++;
-	XPM_april=read_xpm_from_file("/pr/Src/xpms/months/april.xpm");				c++;
-	XPM_may=read_xpm_from_file("/pr/Src/xpms/months/may.xpm");					c++;
-	XPM_june=read_xpm_from_file("/pr/Src/xpms/months/june.xpm");				c++;
-	XPM_july=read_xpm_from_file("/pr/Src/xpms/months/july.xpm");				c++;
-	XPM_august=read_xpm_from_file("/pr/Src/xpms/months/august.xpm");			c++;
-	XPM_september=read_xpm_from_file("/pr/Src/xpms/months/september.xpm");		c++;
-	XPM_october=read_xpm_from_file("/pr/Src/xpms/months/october.xpm");			c++;
-	XPM_november=read_xpm_from_file("/pr/Src/xpms/months/november.xpm");		c++;
-	XPM_december=read_xpm_from_file("/pr/Src/xpms/months/december.xpm");		c++;
-	XPM_monday=read_xpm_from_file("/pr/Src/xpms/monthviews/monday.xpm");		c++;
-	XPM_tuesday=read_xpm_from_file("/pr/Src/xpms/monthviews/tuesday.xpm");		c++;
-	XPM_wednesday=read_xpm_from_file("/pr/Src/xpms/monthviews/wednesday.xpm");	c++;
-	XPM_thursday=read_xpm_from_file("/pr/Src/xpms/monthviews/thursday.xpm");	c++;
-	XPM_friday=read_xpm_from_file("/pr/Src/xpms/monthviews/friday.xpm");		c++;
-	XPM_saturday=read_xpm_from_file("/pr/Src/xpms/monthviews/saturday.xpm");	c++;
-	XPM_sunday=read_xpm_from_file("/pr/Src/xpms/monthviews/sunday.xpm");		c++;
+	strcpy(tPath, path); buildPath(tPath, "/months/january.xpm"); 			XPM_january=read_xpm_from_file(tPath);		c++;
+	strcpy(tPath, path); buildPath(tPath, "/months/february.xpm"); 			XPM_february=read_xpm_from_file(tPath);		c++;
+	strcpy(tPath, path); buildPath(tPath, "/months/march.xpm"); 			XPM_march=read_xpm_from_file(tPath);		c++;
+	strcpy(tPath, path); buildPath(tPath, "/months/april.xpm"); 			XPM_april=read_xpm_from_file(tPath);		c++;
+	strcpy(tPath, path); buildPath(tPath, "/months/may.xpm"); 				XPM_may=read_xpm_from_file(tPath);			c++;
+	strcpy(tPath, path); buildPath(tPath, "/months/june.xpm"); 				XPM_june=read_xpm_from_file(tPath);			c++;
+	strcpy(tPath, path); buildPath(tPath, "/months/july.xpm");	 			XPM_july=read_xpm_from_file(tPath);			c++;
+	strcpy(tPath, path); buildPath(tPath, "/months/august.xpm"); 			XPM_august=read_xpm_from_file(tPath);		c++;
+	strcpy(tPath, path); buildPath(tPath, "/months/september.xpm"); 		XPM_september=read_xpm_from_file(tPath);	c++;
+	strcpy(tPath, path); buildPath(tPath, "/months/october.xpm"); 			XPM_october=read_xpm_from_file(tPath);		c++;
+	strcpy(tPath, path); buildPath(tPath, "/months/november.xpm"); 			XPM_november=read_xpm_from_file(tPath);		c++;
+	strcpy(tPath, path); buildPath(tPath, "/months/december.xpm"); 			XPM_december=read_xpm_from_file(tPath);		c++;
+
+	strcpy(tPath, path); buildPath(tPath, "/monthviews/monday.xpm"); 		XPM_monday=read_xpm_from_file(tPath);		c++;
+	strcpy(tPath, path); buildPath(tPath, "/monthviews/tuesday.xpm"); 		XPM_tuesday=read_xpm_from_file(tPath);		c++;
+	strcpy(tPath, path); buildPath(tPath, "/monthviews/wednesday.xpm"); 	XPM_wednesday=read_xpm_from_file(tPath);	c++;
+	strcpy(tPath, path); buildPath(tPath, "/monthviews/thursday.xpm"); 		XPM_thursday=read_xpm_from_file(tPath);		c++;
+	strcpy(tPath, path); buildPath(tPath, "/monthviews/friday.xpm"); 		XPM_friday=read_xpm_from_file(tPath);		c++;
+	strcpy(tPath, path); buildPath(tPath, "/monthviews/saturday.xpm"); 		XPM_saturday=read_xpm_from_file(tPath);		c++;
+	strcpy(tPath, path); buildPath(tPath, "/monthviews/sunday.xpm"); 		XPM_sunday=read_xpm_from_file(tPath);		c++;
+
 
 	printf("%d xpms read.\n", c);
 	//init call
