@@ -11,7 +11,7 @@
 #define RTC_ADDR_REG 0x70 /**< @brief RTC Address Register */
 #define RTC_DATA_REG 0x71 /**< @brief RTC Data Register*/
 
-#define RTC_IRQ_LINE /**< @brief RTC IRQ Line*/
+#define RTC_IRQ_LINE 8 /**< @brief RTC IRQ Line*/
 
 // RTC Internal Address Space
 #define RTC_ADDRESS_SECONDS 		0

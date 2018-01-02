@@ -8,6 +8,22 @@
  * @brief Functions for interfacing with the low video memory and with vbe
  */
 
+
+/** @name VBE Video Info */
+/**@{
+ *
+ * @brief A simplified version of the Packed VBE Mode Info Block
+ */
+ typedef struct {
+	  uint16_t x;      		/**< @brief horizontal resolution in pixels/characters */
+	  uint16_t y;      		/**< @brief vertical resolution in pixels/characters */
+	  uint8_t bpp; 			/**< @brief bits per pixel */
+	  unsigned char* vm;	/**< @brief video memory(buffer actually) */
+	  unsigned char* rvm;	/**< @brief real video memory */
+} video_info_t;
+
+/** @} end of video_info*/
+
 /**
  * @brief Initializes the video module in graphics mode
  * 
@@ -28,8 +44,6 @@ void *vg_init(unsigned short mode);
 */
 int vg_exit(void);
 
-
-
 /**
 * @brief Returns video_info_t, a simplified version of vbe_mode_info_t.
 *
@@ -45,21 +59,6 @@ video_info_t get_vi();
 */
 void vg_flush();
 
-
-/** @name VBE Video Info */
-/**@{
- *
- * @brief A simplified version of the Packed VBE Mode Info Block
- */
- typedef struct {
-	  uint16_t x;      		/**< @brief horizontal resolution in pixels/characters */
-	  uint16_t y;      		/**< @brief vertical resolution in pixels/characters */
-	  uint8_t bpp; 			/**< @brief bits per pixel */
-	  unsigned char* vm;	/**< @brief video memory(buffer actually) */
-	  unsigned char* rvm;	/**< @brief real video memory */
-} video_info_t;
-
-/** @} end of video_info*/
 
 /** @} end of video_gr */
 

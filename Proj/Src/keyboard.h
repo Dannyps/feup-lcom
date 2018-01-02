@@ -39,8 +39,6 @@ int kbd_unsubscribe_int();
  * @warning Returned structure should be freed asap!
  */
 KEY_PRESS* kbd_int_handler();
-int kbd_test_scan();
-
 
 /**@}*/
 
